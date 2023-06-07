@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
             index: index,
             children: [
               // HomeScreen(),
-Container(),
+Container(color: Colors.red,),
               Container()
 
               // LoveScreen(),
