@@ -16,15 +16,46 @@ class Const {
 
   static const image_host = '';
 
-  static const api_host = 'https://khohangnhat.vn/api';
+  static const api_host = 'https://cs-global.sotavn.com/api';
 
   static const domain = "";
 
   static const key = '';
 
   static const int debug = 1;
+  static Size  size(BuildContext context){
+    return MediaQuery.of(context).size;
+  }
 
+  static double  sizeHeight(BuildContext context,double size){
 
+    return MediaQuery.of(context).size.height*size/844;
+  }
+  static double  sizeWidth(BuildContext context,double size){
+
+    return MediaQuery.of(context).size.width*size/390;
+  }
+
+ static showScreen(Widget widget, BuildContext context, ) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return widget;
+      },
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+      ),
+      backgroundColor: Colors.pinkAccent.shade100,
+    );
+  }
+  static convertTime(String time){
+    var dateTime = DateFormat("yyyy-MM-ddTHH:mm:ss.SSSSSSZ").parse(time, true);
+    var dateLocal = dateTime.toLocal();
+    String date=formatTime(dateLocal.millisecondsSinceEpoch,format: 'dd-MM-yyyy HH:mm');
+    return date;
+  }
   static checkLogin(BuildContext context, {required Function nextPage}) async {
     bool isLogin = await SharedPrefs.readBool(SharePrefsKeys.login);
     if (isLogin) {
@@ -67,21 +98,7 @@ class Const {
     return "${twoDigits(duration.inHours)} giờ $twoDigitMinutes phút";
   }
 
-  static checkStatusOrder(int index) {
-    List status = [
-      "Tạo mới",
-      "Hủy",
-      "Đã lấy hàng",
-      "Đang vận chuyển",
-      "Đang giao hàng",
-      "Đang chuyển hoàn",
-      "Đã giao hàng",
-      "Đã trả hàng",
-      "Kiện vấn đề",
-    ];
 
-    return status[index > 0 ? index - 1 : 0];
-  }
 
   static convertPrice(
     dynamic price,

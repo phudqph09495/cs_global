@@ -1,8 +1,8 @@
 class ApiPath {
-  static const login="/user/login";
+  static const login="/customer/login";
   static const getOTP="/user/submitphone?phone=";
   static const vertifyOTP="/user/verifyotp";
-  static const profile="/user/info";
+  static const profile="/customer/profile-user";
   static const lichSu='/order?per_page=10&page=';
   static const tinh="/location/region";
   static const huyen="/location/district";

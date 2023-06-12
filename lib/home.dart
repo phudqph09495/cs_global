@@ -1,5 +1,8 @@
+import 'package:cs_global/screen/account/account_screen.dart';
+import 'package:cs_global/screen/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -32,44 +35,45 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int index = 0;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    context.read<BlocCheckLogin>().add(GetData());
-    // context.read<BlocFireBaseMS>().add(firebase());
 
-  }
+
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: BlocBuilder<BlocCheckLogin, StateBloc>(
-        builder: (context, StateBloc state) {
-          final check = state is LoadSuccess ? state.data as bool : false;
-          return IndexedStack(
-            index: index,
-            children: [
-              // HomeScreen(),
-Container(color: Colors.red,),
-              Container()
+      body: IndexedStack(
+        index: index,
+        children: [
+          // HomeScreen(),
+          HomeScreen(),
+          Container(color: Colors.blue,),
+          Container(color: Colors.green,),
+          AccountScreen(),
 
-              // LoveScreen(),
-              // check ? LoggedScreen() : NoLogScreen()
-              // AccountScreen()
-            ],
-          );
-        },
+          // LoveScreen(),
+          // check ? LoggedScreen() : NoLogScreen()
+          // AccountScreen()
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 23,
-        items: [
+        items: const [
           BottomNavigationBarItem(
               icon: Padding(
-                padding: const EdgeInsets.only(top: 3),
+                padding: EdgeInsets.only(top: 3),
                 child: Icon(Icons.home_outlined),
-              ), label: "HOME"),
+              ), label: "TRANG CHỦ"),
+          BottomNavigationBarItem(
+              icon: Padding(
+                padding: EdgeInsets.only(top: 3),
+                child: FaIcon(FontAwesomeIcons.boxArchive),
+              ), label: "SẢN PHẨM"),
+          BottomNavigationBarItem(
+              icon: Padding(
+                padding: EdgeInsets.only(top: 3),
+                child: FaIcon(FontAwesomeIcons.clipboardList),
+              ), label: "ĐƠN HÀNG"),
 
 
           BottomNavigationBarItem(

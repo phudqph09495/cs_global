@@ -1,6 +1,7 @@
 
 
 
+import '../../model/model_login.dart';
 import '../share_pref.dart';
 
 class SharePrefsKeys {
@@ -15,14 +16,13 @@ class SharePrefsKeys {
 static String expired_at="expired_at";
 
 
-//   static saveUserKey(ModelLogin model) async {
-//
-// SharedPrefs.saveBool(SharePrefsKeys.login, true);
-//     SharedPrefs.saveString(SharePrefsKeys.user_token,model.accessToken);
-// SharedPrefs.saveString(SharePrefsKeys.expired_at,model.expiredAt);
-//
-//
-//   }
+  static saveUserKey(ModelLogin model) async {
+
+SharedPrefs.saveBool(SharePrefsKeys.login, true);
+    SharedPrefs.saveString(SharePrefsKeys.user_token,model.token!.data!.token);
+
+
+  }
 
   static removeAllKey() async {
     SharedPrefs.remove(SharePrefsKeys.login);

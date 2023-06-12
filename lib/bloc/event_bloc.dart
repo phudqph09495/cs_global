@@ -58,11 +58,11 @@ class PhiVC extends EventBloc {
 }
 
 class LoginApp extends EventBloc {
-  String id;
+  String userName;
   String password;
 
   LoginApp({
-    required this.id,
+    required this.userName,
     required this.password,
   });
 }

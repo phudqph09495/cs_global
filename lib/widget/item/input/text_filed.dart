@@ -24,10 +24,11 @@ Widget? iconPreFix;
   Color borderColor;
   Function()? search;
   bool readOnly;
-  double colorLabel;
+
   String? initVal;
 Color suffixColor;
   Function()? onComplete;
+  Color colorLabel;
   List<TextInputFormatter>? inputformater;
 
   InputText1(
@@ -46,7 +47,7 @@ Color suffixColor;
       this.width = double.infinity,
       this.borderColor = ColorApp.orangeF8,
       this.colorBg = Colors.white,
-      this.colorLabel = 0.5,
+      this.colorLabel = Colors.black,
       this.height = 50,
         this.initVal,
       this.readOnly = false,
@@ -118,7 +119,7 @@ class _InputText1State extends State<InputText1> {
               : null,
           hintText: widget.label,
           hintStyle: StyleApp.textStyle400(
-              fontSize: 16, color: Colors.black.withOpacity(widget.colorLabel)),
+              fontSize: 16, color: widget.colorLabel),
           suffixIcon: widget.hasSuffix
               ? InkWell(
                   onTap: widget.search,
