@@ -1,12 +1,10 @@
 import 'dart:ui';
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:time_elapsed/time_elapsed.dart';
-
 
 import 'path/share_pref_path.dart';
 import 'share_pref.dart';
@@ -14,7 +12,7 @@ import 'share_pref.dart';
 class Const {
   static final ConvertPrice = NumberFormat("#,##0.##", "vi");
 
-  static const image_host = '';
+  static const image_host = 'https://cs-global.sotavn.com/storage/';
 
   static const api_host = 'https://cs-global.sotavn.com/api';
 
@@ -23,25 +21,31 @@ class Const {
   static const key = '';
 
   static const int debug = 1;
-  static Size  size(BuildContext context){
+  static Size size(BuildContext context) {
     return MediaQuery.of(context).size;
   }
 
-  static double  sizeHeight(BuildContext context,double size){
-
-    return MediaQuery.of(context).size.height*size/844;
-  }
-  static double  sizeWidth(BuildContext context,double size){
-
-    return MediaQuery.of(context).size.width*size/390;
+  static double sizeHeight(BuildContext context, double size) {
+    return MediaQuery.of(context).size.height * size / 844;
   }
 
- static showScreen(Widget widget, BuildContext context, ) {
+  static double sizeWidth(BuildContext context, double size) {
+    return MediaQuery.of(context).size.width * size / 390;
+  }
+
+  static showScreen(
+    Widget widget,
+    BuildContext context,
+  ) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        return widget;
+        return Padding(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: widget,
+        );
       },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -50,12 +54,36 @@ class Const {
       backgroundColor: Colors.pinkAccent.shade100,
     );
   }
-  static convertTime(String time){
+
+  // BlocBuilder(bloc: ,builder: (_, StateBloc state) {
+  // if (state is Loading) {
+  // return Center(
+  // child: CircularProgressIndicator(
+  // color: ColorApp.main,
+  // ),
+  // );
+  // }
+  // if (state is LoadFail) {
+  // return ItemLoadFaild(
+  // error: state.error,
+  // onTap: () {
+  //
+  // },
+  // );
+  // }
+  // if (state is LoadSuccess) {
+  //
+  // }
+  // return Container();
+  // }),
+  static convertTime(String time) {
     var dateTime = DateFormat("yyyy-MM-ddTHH:mm:ss.SSSSSSZ").parse(time, true);
     var dateLocal = dateTime.toLocal();
-    String date=formatTime(dateLocal.millisecondsSinceEpoch,format: 'dd-MM-yyyy HH:mm');
+    String date = formatTime(dateLocal.millisecondsSinceEpoch,
+        format: 'dd-MM-yyyy HH:mm');
     return date;
   }
+
   static checkLogin(BuildContext context, {required Function nextPage}) async {
     bool isLogin = await SharedPrefs.readBool(SharePrefsKeys.login);
     if (isLogin) {
@@ -86,19 +114,16 @@ class Const {
         .format(DateTime.parse(time));
   }
 
- static Duration parseDurationFromDouble(double hours) {
+  static Duration parseDurationFromDouble(double hours) {
     return Duration(
-        microseconds: (hours * Duration.microsecondsPerHour*8).toInt()
-    );
+        microseconds: (hours * Duration.microsecondsPerHour * 8).toInt());
   }
- static String printDuration(Duration duration) {
 
+  static String printDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
     return "${twoDigits(duration.inHours)} giờ $twoDigitMinutes phút";
   }
-
-
 
   static convertPrice(
     dynamic price,
@@ -232,7 +257,7 @@ class Const {
     if (timestamp == 0) {
       return "";
     }
-    DateTime _timeDate = DateTime.fromMillisecondsSinceEpoch(timestamp );
+    DateTime _timeDate = DateTime.fromMillisecondsSinceEpoch(timestamp);
 
     String timestr = "";
     final customDate = CustomTimeElapsed(
@@ -273,8 +298,6 @@ class Const {
         return "vừa xong";
     }
   }
-
-
 }
 
 extension HexColor on Color {
@@ -293,6 +316,7 @@ extension HexColor on Color {
       '${green.toRadixString(16).padLeft(2, '0')}'
       '${blue.toRadixString(16).padLeft(2, '0')}';
 }
+
 class ThousandsSeparatorInputFormatter extends TextInputFormatter {
   static const separator = '.'; // Change this to '.' for other locales
 

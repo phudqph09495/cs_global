@@ -78,6 +78,7 @@ class Api {
       headers['Content-Type'] = "application/json";
       if (isToken) {
         var token = await SharedPrefs.readString(SharePrefsKeys.user_token);
+
         headers['Authorization'] = 'Bearer ${token}';
       }
       FormData formData = FormData.fromMap(req);
@@ -112,6 +113,7 @@ class Api {
       headers['Content-Type'] = "application/json";
       if (isToken) {
         var token = await SharedPrefs.readString(SharePrefsKeys.user_token);
+        print(token);
 
         headers['Authorization'] = 'Bearer ${token}';
       }

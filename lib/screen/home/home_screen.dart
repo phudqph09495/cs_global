@@ -1,11 +1,23 @@
 import 'package:cs_global/widget/item/input/text_filed.dart';
 import 'package:cs_global/widget/item/input/text_filed2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:group_button/group_button.dart';
 
+import '../../bloc/auth/bloc_profile.dart';
+import '../../bloc/event_bloc.dart';
+import '../../bloc/product/bloc_listCate.dart';
+import '../../bloc/state_bloc.dart';
+import '../../config/const.dart';
+import '../../config/path/share_pref_path.dart';
+import '../../model/model_listCate.dart';
+import '../../start.dart';
 import '../../styles/init_style.dart';
+import '../../widget/item/load_image.dart';
+import '../../widget/loadPage/item_loadfaild.dart';
 import 'item/product_item.dart';
+import 'listPro_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -16,8 +28,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final controller = GroupButtonController();
+  BlocListCate blocListCate = BlocListCate()..add(GetData());
   List<String> listButton = ['Sản phẩm', 'Dịch vụ', 'Đào Tạo', 'HT Land'];
   int tab = 0;
+  BlocProfile blocProfile = BlocProfile();
+
   List<IconData> listIcon = [
     FontAwesomeIcons.boxArchive,
     FontAwesomeIcons.screwdriverWrench,
@@ -29,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     controller.selectIndex(0);
+    blocProfile.add(GetData());
   }
 
   @override
@@ -125,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   buttonIndexedBuilder: (selected, index, context) {
                     return Container(
                       height: 50,
-                      width: (MediaQuery.of(context).size.width - 10) * 0.235,
+                      width: (MediaQuery.of(context).size.width - 10) * 0.245,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         color: selected ? ColorApp.redText : Colors.white,
@@ -133,8 +149,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Icon(listIcon[index],
-                              size: 14,
+                          FaIcon(listIcon[index],
+                              size: 12,
                               color: selected ? Colors.white : ColorApp.green),
                           Text(
                             listButton[index],
@@ -155,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           StyleApp.textStyle500(color: ColorApp.green),
                       buttonHeight: 50,
                       borderRadius: BorderRadius.circular(12),
-                      spacing: (MediaQuery.of(context).size.width - 10) * 0.02,
+                      spacing: (MediaQuery.of(context).size.width - 10) * 0.01,
                       buttonWidth:
                           (MediaQuery.of(context).size.width - 10) * 0.235),
                   isRadio: true,
@@ -168,6 +184,54 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ]),
+          BlocBuilder(
+            builder: (_, StateBloc state) {
+              if (state is LoadFail) {
+                Future.delayed(Duration(seconds: 1), () async {
+                  showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text(state.error,style: StyleApp.textStyle500(),),
+                          actions: [
+                            InkWell(
+                              onTap: () async{
+                                await SharePrefsKeys.removeAllKey();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => StartScreen()));
+                              },
+                              child: Container(
+                                  width: double.infinity,
+                                  decoration:
+                                  BoxDecoration(color: Colors.green),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'Quay lại trang đăng nhập',
+                                      textAlign: TextAlign.center,
+                                      style: StyleApp.textStyle500(
+                                          color: Colors.white),
+                                    ),
+                                  )),
+                            )
+                          ],
+                        );
+                      });
+                  // await SharePrefsKeys.removeAllKey();
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => StartScreen()));
+                });
+                return SizedBox();
+              }
+              return SizedBox();
+            },
+            bloc: blocProfile,
+          ),
           tab == 0
               ? Expanded(
                   child: SingleChildScrollView(
@@ -184,189 +248,78 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: StyleApp.textStyle700(
                               color: ColorApp.darkGreen, fontSize: 18),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.2,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        shape: BoxShape.circle),
-                                  ),
-                                  Text(
-                                    'Thời trang công sở',
-                                    style: StyleApp.textStyle500(),
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.2,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        shape: BoxShape.circle),
-                                  ),
-                                  Text(
-                                    'Thời trang công sở',
-                                    style: StyleApp.textStyle500(),
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.2,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        shape: BoxShape.circle),
-                                  ),
-                                  Text(
-                                    'Thời trang công sở',
-                                    style: StyleApp.textStyle500(),
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.2,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        shape: BoxShape.circle),
-                                  ),
-                                  Text(
-                                    'Thời trang công sở',
-                                    style: StyleApp.textStyle500(),
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
                         SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.2,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        shape: BoxShape.circle),
+                        BlocBuilder(
+                            bloc: blocListCate,
+                            builder: (_, StateBloc state) {
+                              if (state is Loading) {
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: ColorApp.main,
                                   ),
-                                  Text(
-                                    'Thời trang công sở',
-                                    style: StyleApp.textStyle500(),
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.2,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        shape: BoxShape.circle),
-                                  ),
-                                  Text(
-                                    'Thời trang công sở',
-                                    style: StyleApp.textStyle500(),
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.2,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        shape: BoxShape.circle),
-                                  ),
-                                  Text(
-                                    'Thời trang công sở',
-                                    style: StyleApp.textStyle500(),
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.2,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        shape: BoxShape.circle),
-                                  ),
-                                  Text(
-                                    'Thời trang công sở',
-                                    style: StyleApp.textStyle500(),
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                                );
+                              }
+                              if (state is LoadFail) {
+                                return ItemLoadFaild(
+                                  error: state.error,
+                                  onTap: () {},
+                                );
+                              }
+                              if (state is LoadSuccess) {
+                                ModelListCate model = state.data;
+                                return GridView.builder(
+                                  padding: EdgeInsets.zero,
+                                  itemCount: model.categories!.length,
+                                  shrinkWrap: true,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 4,
+                                          mainAxisSpacing: 10,
+                                          crossAxisSpacing: 10.0,
+                                          mainAxisExtent: 160),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return InkWell(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ListProScreen(id: model.categories![index].id!,title:model.categories![index].name! ,)));
+                                      },
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.2,
+                                            height: 100,
+                                            child: LoadImage(
+                                              fit: BoxFit.cover,
+                                              url: model.categories![index]
+                                                          .image !=
+                                                      null
+                                                  ? '${Const.image_host}${model.categories![index].image}'
+                                                  : '',
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Text(
+                                              model.categories![index].name??'',
+                                              style: StyleApp.textStyle500(),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
+                              return Container();
+                            }),
                         SizedBox(
                           height: 20,
                         ),
@@ -398,14 +351,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: StyleApp.textStyle700(
                               color: ColorApp.darkGreen, fontSize: 18),
                         ),
-
                         GridView.builder(
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 10,
-                              crossAxisSpacing: 10,
-                              mainAxisExtent:
-                              MediaQuery.of(context).size.height * 0.33),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 10,
+                                  mainAxisExtent:
+                                      MediaQuery.of(context).size.height *
+                                          0.33),
                           itemBuilder: (context, index) {
                             return ProductItem();
                           },
@@ -422,12 +376,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: ColorApp.darkGreen, fontSize: 18),
                         ),
                         GridView.builder(
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 10,
-                              crossAxisSpacing: 10,
-                              mainAxisExtent:
-                              MediaQuery.of(context).size.height * 0.33),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10,
+                                  mainAxisExtent:
+                                      MediaQuery.of(context).size.height *
+                                          0.33),
                           itemBuilder: (context, index) {
                             return ProductItem();
                           },

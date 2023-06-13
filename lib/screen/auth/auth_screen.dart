@@ -28,6 +28,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -68,9 +69,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   flex: 1,
                                 ),
                                 Expanded(
-                                  child: Container(
-                                    child: Text('đây là logo'),
-                                  ),
+                                  child: Image.asset('assets/images/splash.png'),
                                   flex: 2,
                                 ),
                                 Expanded(

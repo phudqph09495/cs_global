@@ -1,5 +1,6 @@
 import 'package:cs_global/screen/account/account_screen.dart';
 import 'package:cs_global/screen/home/home_screen.dart';
+import 'package:cs_global/widget/loadPage/item_loadfaild.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -14,6 +15,7 @@ import '../bloc/state_bloc.dart';
 import '../styles/init_style.dart';
 import '../widget/app_bar.dart';
 import 'bloc/auth/bloc_checkLogin.dart';
+import 'bloc/auth/bloc_profile.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -37,11 +39,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
+
       body: IndexedStack(
         index: index,
         children: [

@@ -8,17 +8,17 @@ class ApiPath {
   static const huyen="/location/district";
   static const updatePro="/user/update";
   static const deleteAcc="/user/remove";
-  static const dangky="/user/forgotpass";
+  static const dangky="/customer/register?refercode=";
 static const firebase="/notification/fcmToken";
 
 
   /// product
 static const flash='/product/flashsale?flash_sale_id=';
 static const config='/config';
-static const productAll='/categories/products';
+static const listPro='/product/category/';
 static const infoPro='/product/detail?product_id=';
 static const relatePrd='/product/related?id=';
-static const category='/categories';
+static const category='/category';
 static const phiVanCHuyen='/order/shipFee';
 static const order="/order/create";
 static const search="/product/search?keyword=";

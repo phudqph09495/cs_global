@@ -26,7 +26,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   BlocLogin blocLogin = BlocLogin();
-  final keyForm = GlobalKey<FormState>();
+  final keyForm1 = GlobalKey<FormState>();
   TextEditingController phone = TextEditingController();
   TextEditingController pass = TextEditingController();
 
@@ -37,7 +37,7 @@ class _LoginState extends State<Login> {
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Form(
-          key: keyForm,
+          key: keyForm1,
           child: Column(
             children: [
               Expanded(
@@ -60,7 +60,7 @@ class _LoginState extends State<Login> {
                           hasLeading: true,
                           iconPreFix: Icon(Icons.person),
                           validator: (val) {
-                            return ValidatorApp.checkPhone(text: val);
+                            return ValidatorApp.checkPhone(text: val,);
                           },
                         ),
                         SizedBox(
@@ -122,7 +122,7 @@ class _LoginState extends State<Login> {
                               bloc: blocLogin,
                               child: InkWell(
                                 onTap: () {
-                                  if (keyForm.currentState!.validate()) {
+                                  if (keyForm1.currentState!.validate()) {
                                     blocLogin.add(LoginApp(
                                         userName: phone.text,
                                         password: pass.text));
@@ -235,10 +235,7 @@ class _LoginState extends State<Login> {
                                                     flex: 1,
                                                   ),
                                                   Expanded(
-                                                    child: Container(
-                                                      child:
-                                                          Text('đây là logo'),
-                                                    ),
+                                                    child: Image.asset('assets/images/splash.png'),
                                                     flex: 2,
                                                   ),
                                                   Expanded(

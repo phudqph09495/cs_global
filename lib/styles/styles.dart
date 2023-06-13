@@ -7,7 +7,7 @@ class StyleApp {
       double fontSize = 14,
         FontStyle fontStyle=FontStyle.normal,
       TextDecoration decoration = TextDecoration.none}) {
-    return GoogleFonts.roboto(
+    return GoogleFonts.montserrat(
       color: color,
       fontSize: fontSize,
       fontStyle: fontStyle,
@@ -20,7 +20,7 @@ class StyleApp {
       {Color color = Colors.black,
       double fontSize = 14,
       TextDecoration decoration = TextDecoration.none}) {
-    return GoogleFonts.roboto(
+    return GoogleFonts.montserrat(
       color: color,
       fontSize: fontSize,
       fontWeight: FontWeight.w500,
@@ -32,7 +32,7 @@ class StyleApp {
       {Color color = Colors.black,
       double fontSize = 14,
       TextDecoration decoration = TextDecoration.none}) {
-    return GoogleFonts.roboto(
+    return GoogleFonts.montserrat(
       color: color,
       fontSize: fontSize,
       fontWeight: FontWeight.w600,
@@ -44,7 +44,7 @@ class StyleApp {
       {Color color = Colors.black,
       double fontSize = 14,
       TextDecoration decoration = TextDecoration.none}) {
-    return GoogleFonts.roboto(
+    return GoogleFonts.montserrat(
       color: color,
       fontSize: fontSize,
       fontWeight: FontWeight.w700,
@@ -56,7 +56,7 @@ class StyleApp {
       {Color color = Colors.black,
       double fontSize = 14,
       TextDecoration decoration = TextDecoration.none}) {
-    return GoogleFonts.roboto(
+    return GoogleFonts.montserrat(
       color: color,
       fontSize: fontSize,
       fontWeight: FontWeight.w900,

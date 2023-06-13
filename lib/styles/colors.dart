@@ -8,7 +8,7 @@ class ColorApp {
   static const Color black00 = Color(0xff003C3D);
   static const Color blue1F = Color(0xff1FCCCF);
   static const Color blue8F = Color(0xff554E8F);
-  static const Color grey8B = Color(0xff8B8B8B);
+  static const Color greyE6 = Color(0xffE6E6E6);
   static const Color green=Color(0xffABCA74);
   static const Color blue00 = Color(0xff008284);
   static const Color blue7A = Color(0xff7AA7AA);
@@ -32,6 +32,7 @@ class ColorApp {
   static const Color red = Color(0xffF5BE41);
   static const Color redText=Color(0xffD70040);
   static const Color darkGreen=Color(0xff529E66);
+  static const Color green00=Color(0xff009448);
   static const Color dark=Color(0xff252525);
   static const Color orange=Color(0xffFFC94D);
   static const Color pink=Color(0xffF59398);

@@ -23,12 +23,11 @@ class Profile {
   String? name;
   String? email;
   String? phone;
-  String? address;
-  String? userName;
   String? password;
-  String? gender;
-  Null? avatar;
-  Null? deviceToken;
+  String? avatar;
+  String? banner;
+  String? slogan;
+  String? deviceToken;
   int? score;
   String? type;
   String? status;
@@ -41,11 +40,10 @@ class Profile {
         this.name,
         this.email,
         this.phone,
-        this.address,
-        this.userName,
         this.password,
-        this.gender,
         this.avatar,
+        this.banner,
+        this.slogan,
         this.deviceToken,
         this.score,
         this.type,
@@ -59,11 +57,10 @@ class Profile {
     name = json['name'];
     email = json['email'];
     phone = json['phone'];
-    address = json['address'];
-    userName = json['user_name'];
     password = json['password'];
-    gender = json['gender'];
     avatar = json['avatar'];
+    banner = json['banner'];
+    slogan = json['slogan'];
     deviceToken = json['device_token'];
     score = json['score'];
     type = json['type'];
@@ -79,11 +76,10 @@ class Profile {
     data['name'] = this.name;
     data['email'] = this.email;
     data['phone'] = this.phone;
-    data['address'] = this.address;
-    data['user_name'] = this.userName;
     data['password'] = this.password;
-    data['gender'] = this.gender;
     data['avatar'] = this.avatar;
+    data['banner'] = this.banner;
+    data['slogan'] = this.slogan;
     data['device_token'] = this.deviceToken;
     data['score'] = this.score;
     data['type'] = this.type;

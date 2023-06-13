@@ -11,6 +11,7 @@ class InputText1 extends StatefulWidget {
   bool hasSuffix;
   bool hasLeading;
   String label;
+  GlobalKey? globalKey;
   Function(String)? onChanged;
   Function(String)? validator;
 Widget? iconPreFix;
@@ -39,6 +40,7 @@ Color suffixColor;
       this.onChanged,
       this.iconData,
       this.suffix,
+        this.globalKey,
         this.suffixColor=Colors.black12,
       this.hasSuffix = false,
       this.hasLeading = false,
@@ -54,6 +56,7 @@ Color suffixColor;
       this.inputformater,
       this.onComplete,
         this.search,
+
       this.onTap});
 
   @override
@@ -72,7 +75,7 @@ class _InputText1State extends State<InputText1> {
       elevation: 5.0,
       shadowColor: ColorApp.grey4F.withOpacity(0.3),
       child: TextFormField(
-
+key: widget.globalKey,
         initialValue:widget.initVal ,
         onEditingComplete: widget.onComplete,
         inputFormatters: widget.inputformater,
@@ -85,7 +88,7 @@ class _InputText1State extends State<InputText1> {
         textAlign: TextAlign.left,
         style: StyleApp.textStyle400(),
         decoration: InputDecoration(
-          errorStyle: StyleApp.textStyle500(color: Colors.red, fontSize: 14),
+          errorStyle: StyleApp.textStyle500(color: Colors.white, fontSize: 14),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.radius),
             // borderSide:

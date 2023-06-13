@@ -4,6 +4,7 @@ import 'package:cs_global/bloc/auth/bloc_profile.dart';
 import 'package:cs_global/bloc/event_bloc.dart';
 import 'package:cs_global/config/const.dart';
 import 'package:cs_global/model/model_profile.dart';
+import 'package:cs_global/screen/account/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,8 +14,11 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../bloc/choose_image_bloc.dart';
 import '../../bloc/state_bloc.dart';
+import '../../config/path/share_pref_path.dart';
+import '../../start.dart';
 import '../../styles/init_style.dart';
 import '../../widget/item/load_image.dart';
+import '../../widget/loadPage/item_loadfaild.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -34,6 +38,7 @@ class _AccountScreenState extends State<AccountScreen> {
     return Scaffold(
       body: BlocBuilder(
         builder: (_, StateBloc state) {
+
           if(state is LoadSuccess){
             ModelProfile modelProfile=state.data;
             return SingleChildScrollView(
@@ -116,54 +121,54 @@ class _AccountScreenState extends State<AccountScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                     BlocBuilder(builder: (context,XFile? snapshot){
-                       return    Container(
-                         padding: EdgeInsets.all(2), // Border width
-                         decoration: BoxDecoration(
-                             color: Colors.red, shape: BoxShape.circle),
-                         child: ClipOval(
-                           child: SizedBox.fromSize(
-                             size: Size.fromRadius(60), // Image radius
-                             child: Stack(
-                               alignment: Alignment.bottomCenter,
-                               children: [
-                                 snapshot != null
-                                     ? Image.file(
-                                   File(snapshot.path),
-                                   width: 120,
-                                   height: 120,
-                                   fit: BoxFit.cover,
-                                 ):    LoadImage(
-                                   url: 'https://i.imgur.com/k0UTIr6.jpeg',
-                                   height: 120,
-                                   width: 120,
-                                   fit: BoxFit.cover,
-                                 ),
-                                 InkWell(
-                                   onTap: (){
-                                     ImagePicker _picker = ImagePicker();
-                                     _picker
-                                         .pickImage(source: ImageSource.gallery)
-                                         .then((value) {
+                        BlocBuilder(builder: (context,XFile? snapshot){
+                          return    Container(
+                            padding: EdgeInsets.all(2), // Border width
+                            decoration: BoxDecoration(
+                                color: Colors.red, shape: BoxShape.circle),
+                            child: ClipOval(
+                              child: SizedBox.fromSize(
+                                size: Size.fromRadius(60), // Image radius
+                                child: Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  children: [
+                                    snapshot != null
+                                        ? Image.file(
+                                      File(snapshot.path),
+                                      width: 120,
+                                      height: 120,
+                                      fit: BoxFit.cover,
+                                    ):    LoadImage(
+                                      url: 'https://i.imgur.com/k0UTIr6.jpeg',
+                                      height: 120,
+                                      width: 120,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    InkWell(
+                                      onTap: (){
+                                        ImagePicker _picker = ImagePicker();
+                                        _picker
+                                            .pickImage(source: ImageSource.gallery)
+                                            .then((value) {
 
-                                       chooseImageBloc.getImage(image: value);
-                                     });
-                                   },
-                                   child: Container(
-                                       height: 20,
-                                       width: double.infinity,
-                                       color: Colors.white.withOpacity(0.5),
-                                       child: Icon(
-                                         Icons.camera_alt_outlined,
-                                         color: ColorApp.dark500,
-                                       )),
-                                 )
-                               ],
-                             ),
-                           ),
-                         ),
-                       );
-                     },bloc: chooseImageBloc,),
+                                          chooseImageBloc.getImage(image: value);
+                                        });
+                                      },
+                                      child: Container(
+                                          height: 20,
+                                          width: double.infinity,
+                                          color: Colors.white.withOpacity(0.5),
+                                          child: Icon(
+                                            Icons.camera_alt_outlined,
+                                            color: ColorApp.dark500,
+                                          )),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },bloc: chooseImageBloc,),
                         SizedBox(
                           height: 10,
                         ),
@@ -266,13 +271,13 @@ class _AccountScreenState extends State<AccountScreen> {
                         SizedBox(height: 15,),
                         Container(width: double.infinity,height: 60,
                           decoration: BoxDecoration(
-                              color: ColorApp.grey8B,borderRadius: BorderRadius.circular(20)
+                              color: ColorApp.greyE6,borderRadius: BorderRadius.circular(40)
                           ),
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
                             child: Row(
                               children: [
-                                FaIcon(FontAwesomeIcons.crown,color: ColorApp.yellow,),
+                                Image.asset('assets/images/rank.png'),
                                 SizedBox(width: 10,),
                                 Column(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -294,7 +299,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         SizedBox(height: 15,),
                         Container(width: double.infinity,height: 60,
                           decoration: BoxDecoration(
-                              color: ColorApp.grey8B,borderRadius: BorderRadius.circular(20)
+                              color: ColorApp.greyE6,borderRadius: BorderRadius.circular(40)
                           ),
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
@@ -317,7 +322,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         SizedBox(height: 10,),
                         Container(width: double.infinity,height: 60,
                           decoration: BoxDecoration(
-                              color: ColorApp.grey8B,borderRadius: BorderRadius.circular(20)
+                              color: ColorApp.greyE6,borderRadius: BorderRadius.circular(40)
                           ),
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
@@ -362,9 +367,38 @@ class _AccountScreenState extends State<AccountScreen> {
                           ),
                         ),
                         SizedBox(height: 10,),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreen()));
+                          },
+                          child: Container(width: double.infinity,height: 60,
+                            decoration: BoxDecoration(
+                                color: ColorApp.greyE6,borderRadius: BorderRadius.circular(40)
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+
+                                    children: [
+                                      FaIcon(FontAwesomeIcons.crown,color: ColorApp.yellow,),
+                                      SizedBox(width: 10,),
+                                      Text('Thông tin tài khoản',style: StyleApp.textStyle700(fontSize: 16),),
+
+                                    ],
+                                  ),
+                                  FaIcon(FontAwesomeIcons.longArrowRight)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10,),
                         Container(width: double.infinity,height: 60,
                           decoration: BoxDecoration(
-                              color: ColorApp.grey8B,borderRadius: BorderRadius.circular(20)
+                              color: ColorApp.greyE6,borderRadius: BorderRadius.circular(40)
                           ),
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
@@ -376,7 +410,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   children: [
                                     FaIcon(FontAwesomeIcons.crown,color: ColorApp.yellow,),
                                     SizedBox(width: 10,),
-                                    Text('Quy định/quy chế App CS Global',style: StyleApp.textStyle700(fontSize: 16),),
+                                    Text('Quy định App CS Global',style: StyleApp.textStyle700(fontSize: 16),),
 
                                   ],
                                 ),
@@ -388,7 +422,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         SizedBox(height: 10,),
                         Container(width: double.infinity,height: 60,
                           decoration: BoxDecoration(
-                              color: ColorApp.grey8B,borderRadius: BorderRadius.circular(20)
+                              color: ColorApp.greyE6,borderRadius: BorderRadius.circular(40)
                           ),
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
@@ -412,7 +446,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         SizedBox(height: 10,),
                         Container(width: double.infinity,height: 60,
                           decoration: BoxDecoration(
-                              color: ColorApp.grey8B,borderRadius: BorderRadius.circular(20)
+                              color: ColorApp.greyE6,borderRadius: BorderRadius.circular(40)
                           ),
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
@@ -436,7 +470,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         SizedBox(height: 20,),
                         Container(width: double.infinity,height: 60,
                           decoration: BoxDecoration(
-                              color: Colors.transparent,borderRadius: BorderRadius.circular(20)
+                              color: Colors.transparent,borderRadius: BorderRadius.circular(40)
                           ),
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 28,vertical: 2),
@@ -452,20 +486,27 @@ class _AccountScreenState extends State<AccountScreen> {
                           ),
                         ),
                         SizedBox(height: 20,),
-                        Container(width: double.infinity,height: 60,
-                          decoration: BoxDecoration(
-                              color: Colors.transparent,borderRadius: BorderRadius.circular(20)
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 28,vertical: 2),
-                            child:  Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                        InkWell(
+                          onTap: ()async{
+                           await SharePrefsKeys.removeAllKey();
+                           Navigator.push(context, MaterialPageRoute(builder: (context)=>StartScreen()));
+
+                          },
+                          child: Container(width: double.infinity,height: 60,
+                            decoration: BoxDecoration(
+                                color: Colors.transparent,borderRadius: BorderRadius.circular(40)
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 28,vertical: 2),
+                              child:  Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
 
 
-                                Text('Đăng xuất',style: StyleApp.textStyle700(fontSize: 16),),
-                                FaIcon(FontAwesomeIcons.rightFromBracket)
-                              ],
+                                  Text('Đăng xuất',style: StyleApp.textStyle700(fontSize: 16),),
+                                  FaIcon(FontAwesomeIcons.rightFromBracket)
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -475,6 +516,13 @@ class _AccountScreenState extends State<AccountScreen> {
                 ],
               ),
             );
+          }
+          if(state is LoadFail){
+            return ItemLoadFaild(error: state.error,titleButton: 'Đăng nhập lại',
+            onTap: ()async{
+              await SharePrefsKeys.removeAllKey();
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>StartScreen()));
+            },);
           }
           return SizedBox();
         },

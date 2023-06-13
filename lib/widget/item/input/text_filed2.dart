@@ -76,7 +76,7 @@ class _InputText2State extends State<InputText2> {
         textAlign: TextAlign.left,
         style: StyleApp.textStyle400(),
         decoration: InputDecoration(
-          errorStyle: StyleApp.textStyle500(color: Colors.red, fontSize: 14),
+          errorStyle: StyleApp.textStyle500(color: Colors.white, fontSize: 14),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.radius),
             // borderSide:

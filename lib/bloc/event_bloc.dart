@@ -66,8 +66,13 @@ class LoginApp extends EventBloc {
     required this.password,
   });
 }
-class firebase extends EventBloc {
-
+class CreateAcc extends EventBloc {
+String? name;
+String? phone;
+String? pass;
+String? rePass;
+String code;
+CreateAcc({this.pass,this.rePass,this.code='',this.name,this.phone});
 }
 class RatePrd extends EventBloc{
   String? product_id;

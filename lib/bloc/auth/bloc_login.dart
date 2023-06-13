@@ -34,9 +34,9 @@ class BlocLogin extends Bloc<EventBloc, StateBloc> {
           yield LoadSuccess(
             data: model,
           );
-        } else if (res['status'] == 'failed') {
+        } else if (res['status'] == 'error') {
 
-          yield LoadFail(error: res['messages'] ?? "Lỗi kết nối");
+          yield LoadFail(error: res['message'] ?? "Lỗi kết nối");
         }
       } on DioError catch (e) {
         yield LoadFail(error: e.error.error);

@@ -68,7 +68,7 @@ class _LoadImageState extends State<LoadImage> {
               color: Colors.white,
               child: Center(
                 child: Image.network(
-                  'https://www.chanchao.com.tw/images/default.jpg',
+                  'https://www.pngitem.com/pimgs/m/35-350426_profile-icon-png-default-profile-picture-png-transparent.png',
                   width: widget.width,
                   height: widget.height,
                   fit: widget.fit,
