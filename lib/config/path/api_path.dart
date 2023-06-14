@@ -15,10 +15,10 @@ static const firebase="/notification/fcmToken";
   /// product
 static const flash='/product/flashsale?flash_sale_id=';
 static const config='/config';
-static const listPro='/product/category/';
-static const infoPro='/product/detail?product_id=';
+static const listPro='/customer/product/category/';
+static const infoPro='/customer/product/info/';
 static const relatePrd='/product/related?id=';
-static const category='/category';
+static const category='/customer/category';
 static const phiVanCHuyen='/order/shipFee';
 static const order="/order/create";
 static const search="/product/search?keyword=";

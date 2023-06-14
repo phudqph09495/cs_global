@@ -11,4 +11,6 @@ class Reduce extends EventBloc2{
   Reduce({required this.modelSanPhamMain});
 }
 class ClearAll extends EventBloc2{}
-class GetCart extends EventBloc2{}
+class GetCart extends EventBloc2{
+
+}

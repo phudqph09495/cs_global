@@ -46,7 +46,7 @@ class Customer {
 
 class Products {
   int? currentPage;
-  List<Data>? data;
+  List<Prod>? data;
   String? firstPageUrl;
   int? from;
   int? lastPage;
@@ -77,9 +77,9 @@ class Products {
   Products.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <Prod>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new Prod.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -123,7 +123,7 @@ class Products {
   }
 }
 
-class Data {
+class Prod {
   int? id;
   String? code;
   String? name;
@@ -147,7 +147,7 @@ class Data {
   String? updatedAt;
   Pivot? pivot;
 
-  Data(
+  Prod(
       {this.id,
         this.code,
         this.name,
@@ -171,7 +171,7 @@ class Data {
         this.updatedAt,
         this.pivot});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  Prod.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     code = json['code'];
     name = json['name'];

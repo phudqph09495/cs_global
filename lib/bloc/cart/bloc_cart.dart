@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../config/api.dart';
+import '../../config/path/api_path.dart';
 import '../../config/path/share_pref_path.dart';
 import '../../config/share_pref.dart';
 
+import '../../model/model_infoPro.dart';
 import '../event_bloc.dart';
 import '../state_bloc.dart';
 import 'event_bloc2.dart';
@@ -42,13 +45,30 @@ class BlocCartLocal extends Bloc<EventBloc2, StateBloc> {
     if (event is GetCart) {
       String jsonString = prefs.getString('cart') ?? '[]';
       print(jsonString);
+      int sum=0;
+      int discount=0;
+      List<ModelInfoPro> list=[];
       List<ModelSanPhamMain> objects = jsonString != '' && jsonString != '[]'
           ? List<ModelSanPhamMain>.from(
               jsonDecode(jsonString).map((x) => ModelSanPhamMain.fromJson(x)))
           : [];
+     for(var item in objects){
+       var res = await Api.getAsync(endPoint: ApiPath.infoPro+item.id.toString(),);
+       if (res['status'] == 'success'){
 
+         ModelInfoPro  model=ModelInfoPro.fromJson(res['data']);
+         list.add(model);
+sum=sum+item.amount!*int.parse('${model.product!.price}');
+
+
+       }
+     }
       yield LoadSuccess(
         data: objects,
+        data2: sum,
+        data3: list,
+        data4: discount
+
       );
     }
     if (event is Reduce) {
@@ -64,9 +84,11 @@ class BlocCartLocal extends Bloc<EventBloc2, StateBloc> {
         idList.add(item.id??0);
       }
       for (var i = 0; i < objects.length; i++) {
-        if (idList[i] == (event.modelSanPhamMain.id)) {
-          objects.removeAt(i);
-          break;
+        if (objects[i].id == (event.modelSanPhamMain.id)) {
+          objects[i].amount=objects[i].amount!-1;
+          if(objects[i].amount! <1){
+            objects.removeAt(i);
+          }
         }
       }
       jsonString = jsonEncode(objects);

@@ -15,11 +15,11 @@ class CustomToast {
     fToast.init(context);
 
     Widget toast = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.0),
-        border: Border.all(color: Colors.blue),
-        color: Colors.blue,
+
+        color: Colors.green,
       ),
       child: hasIcon
           ? Column(

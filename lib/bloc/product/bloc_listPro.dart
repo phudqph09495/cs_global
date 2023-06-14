@@ -13,30 +13,52 @@ import '../state_bloc.dart';
 
 class BlocListPro extends Bloc<EventBloc, StateBloc> {
   BlocListPro() : super(StateBloc());
+  List<Prod> list = [];
+
 
   @override
   Stream<StateBloc> mapEventToState(EventBloc event) async* {
-    if (event is GetData) {
-      yield Loading();
+    if (event is LoadMoreEvent) {
+
       try {
+        if (!event.loadMore) {
+          yield Loading();
+          list.clear();
+        }
+        if (event.loadMore) {
+          yield LoadSuccess(
+            data: list,
+            hasMore: true,
+          );
+        }
 
 
 
-        var res = await Api.getAsync(endPoint: ApiPath.listPro+event.param,);
+        var res = await Api.getAsync(endPoint: ApiPath.listPro+event.id+'?page='+event.page.toString(),);
 
-        // yield LoadSuccess(
-        // );
         if (res['status'] == 'success'){
 
-          ModelListPro model=ModelListPro.fromJson(res['data']);
+
+          if(res['data'].length!=0)     {
+            for (var item in res['data']['products']['data']) {
+            Prod prod=Prod.fromJson(item);
+              list.add(prod);
+            }
+          }
 
 
           yield LoadSuccess(
-              data: model
+            data: list,
+            hasMore: false,
+
+            checkLength: res['data']['products']['data'].length==0 && event.loadMore
+                ? true
+                : false,
+
           );
         } else if (res['status'] == 'error') {
 
-          yield LoadFail(error: res['messages'] ?? "Lỗi kết nối");
+          yield LoadFail(error: res['message'] ?? "Lỗi kết nối");
         }
       } on DioError catch (e) {
         yield LoadFail(error: e.error.error);

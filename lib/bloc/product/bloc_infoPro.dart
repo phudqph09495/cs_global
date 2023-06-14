@@ -4,14 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../config/api.dart';
 import '../../config/path/api_path.dart';
+import '../../model/model_infoPro.dart';
 import '../../model/model_listCate.dart';
+import '../../model/model_listPro.dart';
 import '../../model/model_login.dart';
 
 import '../event_bloc.dart';
 import '../state_bloc.dart';
 
-class BlocListCate extends Bloc<EventBloc, StateBloc> {
-  BlocListCate() : super(StateBloc());
+class BlocInfoPro extends Bloc<EventBloc, StateBloc> {
+  BlocInfoPro() : super(StateBloc());
 
   @override
   Stream<StateBloc> mapEventToState(EventBloc event) async* {
@@ -21,17 +23,17 @@ class BlocListCate extends Bloc<EventBloc, StateBloc> {
 
 
 
-        var res = await Api.getAsync(endPoint: ApiPath.category,);
+        var res = await Api.getAsync(endPoint: ApiPath.infoPro+event.param,);
 
         // yield LoadSuccess(
         // );
         if (res['status'] == 'success'){
 
-ModelListCate modelListCate=ModelListCate.fromJson(res['data']);
+          ModelInfoPro  model=ModelInfoPro.fromJson(res['data']);
 
 
           yield LoadSuccess(
-data: modelListCate
+              data: model
           );
         } else if (res['status'] == 'error') {
 

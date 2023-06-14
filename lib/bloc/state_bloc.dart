@@ -6,6 +6,8 @@ class LoadSuccess extends StateBloc {
   String? mess;
   dynamic data;
   dynamic data2;
+  dynamic data3;
+  dynamic data4;
 String? token;
   String? code;
   int? page;
@@ -20,8 +22,10 @@ String? token;
     this.token,
     this.code,
     this.mess,
+    this.data4,
     this.data2,this.page,this.cuoi=false,
     this.checkLength = false,
+    this.data3
   });
 }
 

@@ -6,6 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:group_button/group_button.dart';
 
 import '../../bloc/auth/bloc_profile.dart';
+import '../../bloc/cart/bloc_cart.dart';
+import '../../bloc/cart/event_bloc2.dart';
+import '../../bloc/cart/model_sp.dart';
 import '../../bloc/event_bloc.dart';
 import '../../bloc/product/bloc_listCate.dart';
 import '../../bloc/state_bloc.dart';
@@ -16,6 +19,7 @@ import '../../start.dart';
 import '../../styles/init_style.dart';
 import '../../widget/item/load_image.dart';
 import '../../widget/loadPage/item_loadfaild.dart';
+import '../cart/gio_hang_screen.dart';
 import 'item/product_item.dart';
 import 'listPro_screen.dart';
 
@@ -45,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     controller.selectIndex(0);
     blocProfile.add(GetData());
+    context.read<BlocCartLocal>().add(GetCart());
   }
 
   @override
@@ -95,9 +100,43 @@ class _HomeScreenState extends State<HomeScreen> {
                             Icons.qr_code_scanner_outlined,
                             color: Colors.white,
                           ),
-                          Icon(
-                            Icons.shopping_cart_outlined,
-                            color: Colors.white,
+                          InkWell(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>GioHangScreen()));
+                            },
+                            child: Stack(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Icon(
+                                    Icons.shopping_cart_outlined,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Positioned(
+                                    top:0,
+                                    right: 0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle),
+                                      child: Padding(
+                                        padding: EdgeInsets.all(4.0),
+                                        child: BlocBuilder<BlocCartLocal,StateBloc>(
+                                          builder: (context,StateBloc state){
+                                            List<ModelSanPhamMain> list=state is LoadSuccess?state.data:[];
+
+                                            return Text(
+                                              list.length.toString(),
+                                              style: StyleApp.textStyle500(
+                                                  fontSize: 10, color: Colors.white),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ))
+                              ],
+                            ) ,
                           ),
                           Stack(
                             children: [
@@ -324,7 +363,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 20,
                         ),
                         Text(
-                          'Sản phẩm mua nhất',
+                          'Sản phẩm mua nhiều nhất',
                           style: StyleApp.textStyle700(
                               color: ColorApp.darkGreen, fontSize: 18),
                         ),

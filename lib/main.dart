@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 
 import 'bloc/auth/bloc_checkLogin.dart';
 import 'bloc/bloc_counter.dart';
+import 'bloc/cart/bloc_cart.dart';
+import 'bloc/cart/event_bloc2.dart';
 import 'bloc/counter_observer.dart';
 import 'bloc/event_bloc.dart';
 import 'config/share_pref.dart';
@@ -22,11 +24,11 @@ void main()async {
   Bloc.observer = CounterObserver();
   await SharedPrefs.init();
   runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => MyApp(), // Wrap your app
-    ),
-    //   MyApp()
+    // DevicePreview(
+    //   enabled: !kReleaseMode,
+    //   builder: (context) => MyApp(), // Wrap your app
+    // ),
+      MyApp()
   );
 }
 
@@ -40,13 +42,8 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => CounterCubit()),
         BlocProvider(create: (_) => BlocCheckLogin()..add(GetData())),
-        // BlocProvider(create: (_) => BlocFireBaseMS()..add(firebase())),
-        // In this sample app, CatalogModel never changes, so a simple Provider
-        // is sufficient.
+        BlocProvider(create: (_) => BlocCartLocal()..add(GetCart())),
 
-        // CartModel is implemented as a ChangeNotifier, which calls for the use
-        // of ChangeNotifierProvider. Moreover, CartModel depends
-        // on CatalogModel, so a ProxyProvider is needed.
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

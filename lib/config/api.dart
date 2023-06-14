@@ -30,7 +30,7 @@ final dio = Dio()
             "#################################### error: [${e.response?.statusCode}] >> ${e.response?.data}");
         ModelApiError err = ModelApiError();
         if (e.response == null) {
-          err = ModelApiError(code: null, error: "Lỗi kết nối sever");
+          err = ModelApiError(code: null, error: "Không có kêt nối internet, vui lòng kiểm tra đường truyền");
         } else if (e.response?.statusCode == 400) {
           err =
               ModelApiError(code: e.response?.statusCode, error: "Lỗi cú pháp");
