@@ -93,15 +93,16 @@ class _ProductItemState extends State<ProductItem> {
           Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    bottomRight: Radius.circular(12),
-                    bottomLeft: Radius.circular(12)),
+                  topLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                ),
                 color: Colors.red),
             child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: Icon(
                 Icons.shopping_cart_outlined,
                 color: Colors.white,
+                size: 18,
               ),
             ),
           )

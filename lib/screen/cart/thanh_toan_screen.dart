@@ -1,5 +1,4 @@
 import 'package:cs_global/bloc/cart/event_bloc2.dart';
-import 'package:cs_global/screen/cart/thanh_toan_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,15 +10,14 @@ import '../../model/model_infoPro.dart';
 import '../../styles/init_style.dart';
 import '../../widget/item/load_image.dart';
 
-class GioHangScreen extends StatefulWidget {
-  const GioHangScreen({Key? key}) : super(key: key);
+class ThanhToanScreen extends StatefulWidget {
+  const ThanhToanScreen({Key? key}) : super(key: key);
 
   @override
-  State<GioHangScreen> createState() => _GioHangScreenState();
+  State<ThanhToanScreen> createState() => _ThanhToanScreenState();
 }
 
-class _GioHangScreenState extends State<GioHangScreen> {
-  BlocCartLocal blocCartLocal = BlocCartLocal();
+class _ThanhToanScreenState extends State<ThanhToanScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +43,7 @@ class _GioHangScreenState extends State<GioHangScreen> {
               centerTitle: true,
               backgroundColor: ColorApp.green00,
               title: Text(
-                'Giỏ Hàng',
+                'Thanh Toán',
                 style: StyleApp.textStyle500(fontSize: 20, color: Colors.white),
               ),
             ),
@@ -63,7 +61,7 @@ class _GioHangScreenState extends State<GioHangScreen> {
                               flex: 1,
                               child: LoadImage(
                                 url:
-                                    '${Const.image_host}${listInfo[index].product!.thumbnail}',
+                                '${Const.image_host}${listInfo[index].product!.thumbnail}',
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -87,15 +85,15 @@ class _GioHangScreenState extends State<GioHangScreen> {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
                                         width:
-                                            MediaQuery.of(context).size.width *
-                                                0.5,
+                                        MediaQuery.of(context).size.width *
+                                            0.5,
                                         child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               'Giá bán: ${Const.ConvertPrice.format(int.parse('${listInfo[index].product!.price}'))} đ',
@@ -114,53 +112,9 @@ class _GioHangScreenState extends State<GioHangScreen> {
                                       ),
                                       Row(
                                         children: [
-                                          BlocListener(
-                                              bloc: blocCartLocal,
-                                              listener: (_, StateBloc state) {
-                                                if (state is LoadSuccess) {
-                                                  context
-                                                      .read<BlocCartLocal>()
-                                                      .add(GetCart());
-                                                }
-                                              },
-                                              child: InkWell(
-                                                  onTap: () {
-                                                    blocCartLocal.add(Reduce(
-                                                        modelSanPhamMain:
-                                                        ModelSanPhamMain(
-                                                            id: list[index]
-                                                                .id,
-                                                            amount: 1)));
-                                                  },
-                                                  child: Icon(
-                                                    Icons.remove_circle,
-                                                    color: ColorApp.redText,
-                                                    size: 27,
-                                                  ))),
+
                                           Text('   ${list[index].amount}   '),
-                                          BlocListener(
-                                              bloc: blocCartLocal,
-                                              listener: (_, StateBloc state) {
-                                                if (state is LoadSuccess) {
-                                                  context
-                                                      .read<BlocCartLocal>()
-                                                      .add(GetCart());
-                                                }
-                                              },
-                                              child: InkWell(
-                                                  onTap: () {
-                                                    blocCartLocal.add(AddData(
-                                                        modelSanPhamMain:
-                                                            ModelSanPhamMain(
-                                                                id: list[index]
-                                                                    .id,
-                                                                amount: 1)));
-                                                  },
-                                                  child: Icon(
-                                                    Icons.add_circle,
-                                                    color: ColorApp.redText,
-                                                    size: 27,
-                                                  ))),
+
                                         ],
                                       )
                                     ],
@@ -235,57 +189,23 @@ class _GioHangScreenState extends State<GioHangScreen> {
                         )
                       ],
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 20,
-                          child: InkWell(
-                            onTap: () {},
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: ColorApp.redText),
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 12),
-                                child: Text(
-                                  'Mua Tiếp',
-                                  style: StyleApp.textStyle500(
-                                      color: ColorApp.dark500),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
+                    InkWell(
+                      onTap: () {},
+                      child: Container(width: double.infinity,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: ColorApp.redText),
+                        child: Padding(
+                          padding:
+                          const EdgeInsets.symmetric(vertical: 12),
+                          child: Text(
+                            'Thanh Toán',
+                            style: StyleApp.textStyle500(fontSize: 14,
+                                color: ColorApp.whiteF0),
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                        Expanded(
-                          child: SizedBox(),
-                          flex: 1,
-                        ),
-                        Expanded(
-                          flex: 20,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ThanhToanScreen()));
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: ColorApp.redText),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 12),
-                                child: Text(
-                                  'Thanh Toán',
-                                  style: StyleApp.textStyle500(
-                                      color: ColorApp.whiteF0),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     )
                   ],
                 ),

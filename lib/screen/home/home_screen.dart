@@ -101,8 +101,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: Colors.white,
                           ),
                           InkWell(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>GioHangScreen()));
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => GioHangScreen()));
                             },
                             child: Stack(
                               children: [
@@ -114,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                                 Positioned(
-                                    top:0,
+                                    top: 0,
                                     right: 0,
                                     child: Container(
                                       decoration: BoxDecoration(
@@ -122,21 +125,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                           shape: BoxShape.circle),
                                       child: Padding(
                                         padding: EdgeInsets.all(4.0),
-                                        child: BlocBuilder<BlocCartLocal,StateBloc>(
-                                          builder: (context,StateBloc state){
-                                            List<ModelSanPhamMain> list=state is LoadSuccess?state.data:[];
+                                        child: BlocBuilder<BlocCartLocal,
+                                            StateBloc>(
+                                          builder: (context, StateBloc state) {
+                                            List<ModelSanPhamMain> list =
+                                                state is LoadSuccess
+                                                    ? state.data
+                                                    : [];
 
                                             return Text(
                                               list.length.toString(),
                                               style: StyleApp.textStyle500(
-                                                  fontSize: 10, color: Colors.white),
+                                                  fontSize: 10,
+                                                  color: Colors.white),
                                             );
                                           },
                                         ),
                                       ),
                                     ))
                               ],
-                            ) ,
+                            ),
                           ),
                           Stack(
                             children: [
@@ -232,10 +240,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       barrierDismissible: false,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text(state.error,style: StyleApp.textStyle500(),),
+                          title: Text(
+                            state.error,
+                            style: StyleApp.textStyle500(),
+                          ),
                           actions: [
                             InkWell(
-                              onTap: () async{
+                              onTap: () async {
                                 await SharePrefsKeys.removeAllKey();
                                 Navigator.push(
                                     context,
@@ -245,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Container(
                                   width: double.infinity,
                                   decoration:
-                                  BoxDecoration(color: Colors.green),
+                                      BoxDecoration(color: Colors.green),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
@@ -321,8 +332,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return InkWell(
-                                      onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ListProScreen(id: model.categories![index].id!,title:model.categories![index].name! ,)));
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ListProScreen(
+                                                      id: model
+                                                          .categories![index]
+                                                          .id!,
+                                                      title: model
+                                                          .categories![index]
+                                                          .name!,
+                                                    ))).then((value) => context.read<BlocCartLocal>().add(GetCart()));
                                       },
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
@@ -346,7 +368,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 10),
                                             child: Text(
-                                              model.categories![index].name??'',
+                                              model.categories![index].name ??
+                                                  '',
                                               style: StyleApp.textStyle500(),
                                               textAlign: TextAlign.center,
                                             ),
@@ -383,14 +406,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 20,
                         ),
                         Text(
                           'Sản phẩm E - commerce đề xuất',
                           style: StyleApp.textStyle700(
                               color: ColorApp.darkGreen, fontSize: 18),
                         ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         GridView.builder(
+                          padding: EdgeInsets.zero,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
@@ -409,26 +436,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text(
-                          'Sản phẩm cùng danh mục',
-                          style: StyleApp.textStyle700(
-                              color: ColorApp.darkGreen, fontSize: 18),
-                        ),
-                        GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 10,
-                                  mainAxisExtent:
-                                      MediaQuery.of(context).size.height *
-                                          0.33),
-                          itemBuilder: (context, index) {
-                            return ProductItem();
-                          },
-                          itemCount: 6,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                        ),
+
                       ],
                     ),
                   ),

@@ -33,8 +33,7 @@ class Customer {
   String? userName;
   String? password;
   String? gender;
-  Null? avatar;
-  Null? deviceToken;
+
   int? score;
   String? type;
   String? status;
@@ -51,8 +50,7 @@ class Customer {
         this.userName,
         this.password,
         this.gender,
-        this.avatar,
-        this.deviceToken,
+
         this.score,
         this.type,
         this.status,
@@ -69,8 +67,7 @@ class Customer {
     userName = json['user_name'];
     password = json['password'];
     gender = json['gender'];
-    avatar = json['avatar'];
-    deviceToken = json['device_token'];
+
     score = json['score'];
     type = json['type'];
     status = json['status'];
@@ -89,8 +86,7 @@ class Customer {
     data['user_name'] = this.userName;
     data['password'] = this.password;
     data['gender'] = this.gender;
-    data['avatar'] = this.avatar;
-    data['device_token'] = this.deviceToken;
+
     data['score'] = this.score;
     data['type'] = this.type;
     data['status'] = this.status;

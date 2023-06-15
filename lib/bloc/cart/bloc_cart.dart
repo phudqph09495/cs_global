@@ -26,17 +26,17 @@ class BlocCartLocal extends Bloc<EventBloc2, StateBloc> {
           ? List<ModelSanPhamMain>.from(
               jsonDecode(jsonString).map((x) => ModelSanPhamMain.fromJson(x)))
           : [];
-      bool same=false;
-      for(var item in list){
-        if(event.modelSanPhamMain.id==item.id){
-          same=true;
-          item.amount =item.amount! +event.modelSanPhamMain.amount!;
+      bool same = false;
+      for (var item in list) {
+        if (event.modelSanPhamMain.id == item.id) {
+          same = true;
+          item.amount = item.amount! + event.modelSanPhamMain.amount!;
         }
       }
 
-     if(same==false){
-       list.add(event.modelSanPhamMain);
-     }
+      if (same == false) {
+        list.add(event.modelSanPhamMain);
+      }
 
       jsonString = jsonEncode(list);
       prefs.setString('cart', jsonString);
@@ -45,31 +45,25 @@ class BlocCartLocal extends Bloc<EventBloc2, StateBloc> {
     if (event is GetCart) {
       String jsonString = prefs.getString('cart') ?? '[]';
       print(jsonString);
-      int sum=0;
-      int discount=0;
-      List<ModelInfoPro> list=[];
+      int sum = 0;
+      int discount = 0;
+      List<ModelInfoPro> list = [];
       List<ModelSanPhamMain> objects = jsonString != '' && jsonString != '[]'
           ? List<ModelSanPhamMain>.from(
               jsonDecode(jsonString).map((x) => ModelSanPhamMain.fromJson(x)))
           : [];
-     for(var item in objects){
-       var res = await Api.getAsync(endPoint: ApiPath.infoPro+item.id.toString(),);
-       if (res['status'] == 'success'){
-
-         ModelInfoPro  model=ModelInfoPro.fromJson(res['data']);
-         list.add(model);
-sum=sum+item.amount!*int.parse('${model.product!.price}');
-
-
-       }
-     }
+      for (var item in objects) {
+        var res = await Api.getAsync(
+          endPoint: ApiPath.infoPro + item.id.toString(),
+        );
+        if (res['status'] == 'success') {
+          ModelInfoPro model = ModelInfoPro.fromJson(res['data']);
+          list.add(model);
+          sum = sum + item.amount! * int.parse('${model.product!.price}');
+        }
+      }
       yield LoadSuccess(
-        data: objects,
-        data2: sum,
-        data3: list,
-        data4: discount
-
-      );
+          data: objects, data2: sum, data3: list, data4: discount);
     }
     if (event is Reduce) {
       String jsonString = prefs.getString('cart') ?? '[]';
@@ -81,12 +75,12 @@ sum=sum+item.amount!*int.parse('${model.product!.price}');
 
       List<int> idList = [];
       for (var item in objects) {
-        idList.add(item.id??0);
+        idList.add(item.id ?? 0);
       }
       for (var i = 0; i < objects.length; i++) {
         if (objects[i].id == (event.modelSanPhamMain.id)) {
-          objects[i].amount=objects[i].amount!-1;
-          if(objects[i].amount! <1){
+          objects[i].amount = objects[i].amount! - 1;
+          if (objects[i].amount! < 1) {
             objects.removeAt(i);
           }
         }

@@ -25,9 +25,10 @@ Widget? iconPreFix;
   Color borderColor;
   Function()? search;
   bool readOnly;
-
+Color colorShadow;
   String? initVal;
 Color suffixColor;
+int maxLine;
   Function()? onComplete;
   Color colorLabel;
   List<TextInputFormatter>? inputformater;
@@ -46,6 +47,7 @@ Color suffixColor;
       this.hasLeading = false,
       this.validator,this.iconPreFix,
       this.radius = 20,
+      this.maxLine=1,
       this.width = double.infinity,
       this.borderColor = ColorApp.orangeF8,
       this.colorBg = Colors.white,
@@ -56,7 +58,7 @@ Color suffixColor;
       this.inputformater,
       this.onComplete,
         this.search,
-
+this.colorShadow=ColorApp.pink,
       this.onTap});
 
   @override
@@ -73,8 +75,9 @@ class _InputText1State extends State<InputText1> {
       ),
       color: Colors.transparent,
       elevation: 5.0,
-      shadowColor: ColorApp.grey4F.withOpacity(0.3),
+      shadowColor: widget.colorShadow,
       child: TextFormField(
+        maxLines: widget.maxLine,
 key: widget.globalKey,
         initialValue:widget.initVal ,
         onEditingComplete: widget.onComplete,

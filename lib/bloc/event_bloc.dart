@@ -19,12 +19,12 @@ String? name;
 String? email;
 String? phone;
 String? address;
-  String?  region;
-  String? district;
+  String?  avatar;
+  String? banner;
   String? birth;
   String? id;
   String? nameS;
-  UpdateProfile({this.phone,this.name,this.email,this.address,this.district,this.region,this.birth,this.id,this.nameS});
+  UpdateProfile({this.phone,this.name,this.email,this.address,this.banner,this.avatar,this.birth,this.id,this.nameS});
 }
 class GetData extends EventBloc {
   int limit, page;
@@ -105,11 +105,7 @@ class GetData3 extends EventBloc {
   GetData3({this.type='',this.param=''});
 }
 
-class Product extends EventBloc {
-  String? id;
-  int? qty;
-  Product({this.id, this.qty});
-}
+
 
 class Delivery_info extends EventBloc {
   String? address;
@@ -121,24 +117,4 @@ class Delivery_info extends EventBloc {
       {this.name, this.address, this.phone, this.district_id, this.region_id});
 }
 
-class TaoOrder extends EventBloc {
-  List<Product> product;
-  String? payment_method;
-  String? promotion_code;
-  String? address;
-  String? region_id;
-  String? district_id;
-  String? name;
-  String? phone;
-  String? shipping_method;
-  TaoOrder(
-      {this.name,
-      this.address,
-      this.phone,
-      this.district_id,
-      this.region_id,
-      this.payment_method,
-      required this.product,
-        this.shipping_method,
-      this.promotion_code});
-}
+

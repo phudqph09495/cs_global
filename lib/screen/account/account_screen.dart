@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cs_global/bloc/auth/bloc_profile.dart';
+import 'package:cs_global/bloc/check_log_state.dart';
 import 'package:cs_global/bloc/event_bloc.dart';
 import 'package:cs_global/config/const.dart';
 import 'package:cs_global/model/model_profile.dart';
@@ -12,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../bloc/auth/bloc_updateProfile.dart';
 import '../../bloc/choose_image_bloc.dart';
 import '../../bloc/state_bloc.dart';
 import '../../config/path/share_pref_path.dart';
@@ -19,6 +22,8 @@ import '../../start.dart';
 import '../../styles/init_style.dart';
 import '../../widget/item/load_image.dart';
 import '../../widget/loadPage/item_loadfaild.dart';
+import 'changPass_screen.dart';
+import 'package:flutter_exit_app/flutter_exit_app.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -32,15 +37,15 @@ class _AccountScreenState extends State<AccountScreen> {
   bool showMoney2 = true;
   BlocProfile blocProfile = BlocProfile()..add(GetData());
   ChooseImageBloc chooseImageBloc = ChooseImageBloc();
+  BlocUpdateProfile blocUpdateProfile = BlocUpdateProfile();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder(
         builder: (_, StateBloc state) {
-
-          if(state is LoadSuccess){
-            ModelProfile modelProfile=state.data;
+          if (state is LoadSuccess) {
+            ModelProfile modelProfile = state.data;
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -48,12 +53,16 @@ class _AccountScreenState extends State<AccountScreen> {
                     alignment: Alignment.bottomCenter,
                     children: [
                       Container(
-                        color: Colors.red,
                         height: Const.size(context).height * 0.25,
                         width: double.infinity,
+                        child: LoadImage(
+                          url:
+                              '${Const.image_host}${modelProfile.profile!.banner}',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                       Container(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withOpacity(0.5),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
@@ -99,7 +108,9 @@ class _AccountScreenState extends State<AccountScreen> {
                             Row(
                               children: [
                                 Text(
-                                  showMoney ? '0' : '*******',
+                                  showMoney
+                                      ? '${Const.ConvertPrice.format(int.parse('${modelProfile.profile!.balance}'))}'
+                                      : '*******',
                                   style: StyleApp.textStyle500(fontSize: 16),
                                 ),
                                 SizedBox(
@@ -121,37 +132,54 @@ class _AccountScreenState extends State<AccountScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        BlocBuilder(builder: (context,XFile? snapshot){
-                          return    Container(
-                            padding: EdgeInsets.all(2), // Border width
-                            decoration: BoxDecoration(
-                                color: Colors.red, shape: BoxShape.circle),
-                            child: ClipOval(
-                              child: SizedBox.fromSize(
-                                size: Size.fromRadius(60), // Image radius
-                                child: Stack(
-                                  alignment: Alignment.bottomCenter,
-                                  children: [
-                                    snapshot != null
-                                        ? Image.file(
-                                      File(snapshot.path),
-                                      width: 120,
-                                      height: 120,
-                                      fit: BoxFit.cover,
-                                    ):    LoadImage(
-                                      url: 'https://i.imgur.com/k0UTIr6.jpeg',
-                                      height: 120,
-                                      width: 120,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    InkWell(
-                                      onTap: (){
+                        Container(
+                          padding: EdgeInsets.all(2), // Border width
+                          decoration: BoxDecoration(
+                              color: Colors.red, shape: BoxShape.circle),
+                          child: ClipOval(
+                            child: SizedBox.fromSize(
+                              size: Size.fromRadius(60), // Image radius
+                              child: Stack(
+                                alignment: Alignment.bottomCenter,
+                                children: [
+                                  LoadImage(
+                                    url:
+                                        '${Const.image_host}${modelProfile.profile!.avatar}',
+                                    height: 120,
+                                    width: 120,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  BlocListener(
+                                    bloc: blocUpdateProfile,
+                                    listener: (_, StateBloc state) {
+                                      CheckLogState.check(context,
+                                          state: state,
+                                          isShowMsg: false, success: () {
+                                        blocProfile.add(GetData());
+                                      });
+                                    },
+                                    child: InkWell(
+                                      onTap: () {
                                         ImagePicker _picker = ImagePicker();
                                         _picker
-                                            .pickImage(source: ImageSource.gallery)
+                                            .pickImage(
+                                                source: ImageSource.gallery)
                                             .then((value) {
-
-                                          chooseImageBloc.getImage(image: value);
+                                          if (value != null) {
+                                            final bytes = File(value.path)
+                                                .readAsBytesSync();
+                                            String avatar =
+                                                "data:image/png;base64," +
+                                                    base64Encode(bytes);
+                                            blocUpdateProfile.add(UpdateProfile(
+                                                name:
+                                                    modelProfile.profile!.name,
+                                                email:
+                                                    modelProfile.profile!.email,
+                                                address: modelProfile
+                                                    .profile!.address,
+                                                avatar: avatar));
+                                          }
                                         });
                                       },
                                       child: Container(
@@ -162,18 +190,18 @@ class _AccountScreenState extends State<AccountScreen> {
                                             Icons.camera_alt_outlined,
                                             color: ColorApp.dark500,
                                           )),
-                                    )
-                                  ],
-                                ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
-                          );
-                        },bloc: chooseImageBloc,),
+                          ),
+                        ),
                         SizedBox(
                           height: 10,
                         ),
                         Text(
-                          modelProfile.profile!.name??'',
+                          modelProfile.profile!.name ?? '',
                           style: StyleApp.textStyle600(fontSize: 16),
                         ),
                         SizedBox(
@@ -190,7 +218,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   style: StyleApp.textStyle500(fontSize: 16),
                                 ),
                                 Text(
-                                  modelProfile.profile!.code??'',
+                                  modelProfile.profile!.code ?? '',
                                   style: StyleApp.textStyle500(fontSize: 16),
                                 ),
                                 SizedBox(
@@ -198,12 +226,14 @@ class _AccountScreenState extends State<AccountScreen> {
                                 ),
                                 InkWell(
                                     onTap: () {
-                                      Clipboard.setData(
-                                          ClipboardData(text: modelProfile.profile!.name??''))
+                                      Clipboard.setData(ClipboardData(
+                                              text:
+                                                  modelProfile.profile!.name ??
+                                                      ''))
                                           .then((value) {
                                         //only if ->
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
                                                 content: Text(
                                                     'Đã copy '))); // -> show a notification
                                       });
@@ -227,14 +257,11 @@ class _AccountScreenState extends State<AccountScreen> {
                                   'Cập nhật Sologan ',
                                   style: StyleApp.textStyle500(fontSize: 16),
                                 ),
-
                                 SizedBox(
                                   width: 5,
                                 ),
                                 InkWell(
-                                    onTap: () {
-
-                                    },
+                                    onTap: () {},
                                     child: Icon((FontAwesomeIcons.penToSquare)))
                               ],
                             ),
@@ -248,38 +275,35 @@ class _AccountScreenState extends State<AccountScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(),
-                            Row(
-                              children: [
-                                Text(
-                                  '0387159652',
-                                  style: StyleApp.textStyle500(fontSize: 16),
-                                ),
-
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                InkWell(
-                                    onTap: () {
-
-                                    },
-                                    child: Icon((FontAwesomeIcons.penToSquare)))
-                              ],
+                            Text(
+                              modelProfile.profile!.phone ?? '',
+                              style: StyleApp.textStyle500(fontSize: 16),
                             ),
                             SizedBox(),
                           ],
                         ),
-                        SizedBox(height: 15,),
-                        Container(width: double.infinity,height: 60,
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 60,
                           decoration: BoxDecoration(
-                              color: ColorApp.greyE6,borderRadius: BorderRadius.circular(40)
-                          ),
+                              color: ColorApp.greyE6,
+                              borderRadius: BorderRadius.circular(40)),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 2),
                             child: Row(
                               children: [
                                 Image.asset('assets/images/rank.png'),
-                                SizedBox(width: 10,),
-                                Column(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text('Hạng tài khoản'),
                                     Text('Hạng: Vàng')
@@ -290,58 +314,114 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 15,),
-                        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [SizedBox(),
-                            InkWell(onTap: (){},child: Text('Kích hoạt hạng tài khoản',style: StyleApp.textStyle500(color: ColorApp.blue00),)),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(),
+                            InkWell(
+                                onTap: () {},
+                                child: Text(
+                                  'Kích hoạt hạng tài khoản',
+                                  style: StyleApp.textStyle500(
+                                      color: ColorApp.blue00),
+                                )),
                           ],
                         ),
-                        SizedBox(height: 15,),
-                        Container(width: double.infinity,height: 60,
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 60,
                           decoration: BoxDecoration(
-                              color: ColorApp.greyE6,borderRadius: BorderRadius.circular(40)
-                          ),
+                              color: ColorApp.greyE6,
+                              borderRadius: BorderRadius.circular(40)),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 2),
                             child: Row(
                               children: [
-                                FaIcon(FontAwesomeIcons.crown,color: ColorApp.yellow,),
-                                SizedBox(width: 10,),
-                                Column(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                FaIcon(
+                                  FontAwesomeIcons.crown,
+                                  color: ColorApp.yellow,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('Người giới thiệu:',style: StyleApp.textStyle500(),),
-                                    Text('Diễm Quỳnh',style: StyleApp.textStyle700(),),
-                                    Text('C5784781',style: StyleApp.textStyle500(),),
+                                    Text(
+                                      'Người giới thiệu:',
+                                      style: StyleApp.textStyle500(),
+                                    ),
+                                    Text(
+                                      'Diễm Quỳnh',
+                                      style: StyleApp.textStyle700(),
+                                    ),
+                                    Text(
+                                      'C5784781',
+                                      style: StyleApp.textStyle500(),
+                                    ),
                                   ],
                                 ),
-
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(height: 10,),
-                        Container(width: double.infinity,height: 60,
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 60,
                           decoration: BoxDecoration(
-                              color: ColorApp.greyE6,borderRadius: BorderRadius.circular(40)
-                          ),
+                              color: ColorApp.greyE6,
+                              borderRadius: BorderRadius.circular(40)),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 2),
                             child: Row(
                               children: [
-                                FaIcon(FontAwesomeIcons.crown,color: ColorApp.yellow,),
-                                SizedBox(width: 10,),
-                                Column(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                FaIcon(
+                                  FontAwesomeIcons.crown,
+                                  color: ColorApp.yellow,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('Ví CS',style: StyleApp.textStyle500(),),
-                                    Text('Nguyễn Việt Anh',style: StyleApp.textStyle700(),),
+                                    Text(
+                                      'Ví CS',
+                                      style: StyleApp.textStyle500(),
+                                    ),
+                                    Text(
+                                      modelProfile.profile!.name ?? '',
+                                      style: StyleApp.textStyle700(),
+                                    ),
                                     Row(
                                       children: [
-                                        Text('Số dư (VNĐ): ',style: StyleApp.textStyle500(),),
+                                        Text(
+                                          'Số dư (VNĐ): ',
+                                          style: StyleApp.textStyle500(),
+                                        ),
                                         Row(
                                           children: [
                                             Text(
-                                              showMoney2 ? '0' : '*******',
-                                              style: StyleApp.textStyle500(fontSize: 14),
+                                              showMoney2
+                                                  ? '${Const.formatPrice(modelProfile.profile!.balance)}'
+                                                  : '*******',
+                                              style: StyleApp.textStyle500(
+                                                  fontSize: 14),
                                             ),
                                             SizedBox(
                                               width: 10,
@@ -352,9 +432,12 @@ class _AccountScreenState extends State<AccountScreen> {
                                                     showMoney2 = !showMoney2;
                                                   });
                                                 },
-                                                child: Icon(showMoney2
-                                                    ? CupertinoIcons.eye_slash
-                                                    : CupertinoIcons.eye,size: 18,))
+                                                child: Icon(
+                                                  showMoney2
+                                                      ? CupertinoIcons.eye_slash
+                                                      : CupertinoIcons.eye,
+                                                  size: 18,
+                                                ))
                                           ],
                                         )
                                       ],
@@ -366,27 +449,44 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         InkWell(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreen()));
+                          onTap: () {
+                            Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProfileScreen()))
+                                .then((value) => blocProfile.add(GetData()));
                           },
-                          child: Container(width: double.infinity,height: 60,
+                          child: Container(
+                            width: double.infinity,
+                            height: 60,
                             decoration: BoxDecoration(
-                                color: ColorApp.greyE6,borderRadius: BorderRadius.circular(40)
-                            ),
+                                color: ColorApp.greyE6,
+                                borderRadius: BorderRadius.circular(40)),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 2),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
-
                                     children: [
-                                      FaIcon(FontAwesomeIcons.crown,color: ColorApp.yellow,),
-                                      SizedBox(width: 10,),
-                                      Text('Thông tin tài khoản',style: StyleApp.textStyle700(fontSize: 16),),
-
+                                      FaIcon(
+                                        FontAwesomeIcons.crown,
+                                        color: ColorApp.yellow,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        'Thông tin tài khoản',
+                                        style:
+                                            StyleApp.textStyle700(fontSize: 16),
+                                      ),
                                     ],
                                   ),
                                   FaIcon(FontAwesomeIcons.longArrowRight)
@@ -395,23 +495,35 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 10,),
-                        Container(width: double.infinity,height: 60,
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 60,
                           decoration: BoxDecoration(
-                              color: ColorApp.greyE6,borderRadius: BorderRadius.circular(40)
-                          ),
+                              color: ColorApp.greyE6,
+                              borderRadius: BorderRadius.circular(40)),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 2),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
-
                                   children: [
-                                    FaIcon(FontAwesomeIcons.crown,color: ColorApp.yellow,),
-                                    SizedBox(width: 10,),
-                                    Text('Quy định App CS Global',style: StyleApp.textStyle700(fontSize: 16),),
-
+                                    FaIcon(
+                                      FontAwesomeIcons.crown,
+                                      color: ColorApp.yellow,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Quy định App CS Global',
+                                      style:
+                                          StyleApp.textStyle700(fontSize: 16),
+                                    ),
                                   ],
                                 ),
                                 FaIcon(FontAwesomeIcons.longArrowRight)
@@ -419,23 +531,35 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 10,),
-                        Container(width: double.infinity,height: 60,
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 60,
                           decoration: BoxDecoration(
-                              color: ColorApp.greyE6,borderRadius: BorderRadius.circular(40)
-                          ),
+                              color: ColorApp.greyE6,
+                              borderRadius: BorderRadius.circular(40)),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 2),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
-
                                   children: [
-                                    FaIcon(FontAwesomeIcons.crown,color: ColorApp.yellow,),
-                                    SizedBox(width: 10,),
-                                    Text('Hỗ trợ khách hàng',style: StyleApp.textStyle700(fontSize: 16),),
-
+                                    FaIcon(
+                                      FontAwesomeIcons.crown,
+                                      color: ColorApp.yellow,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Hỗ trợ khách hàng',
+                                      style:
+                                          StyleApp.textStyle700(fontSize: 16),
+                                    ),
                                   ],
                                 ),
                                 FaIcon(FontAwesomeIcons.longArrowRight)
@@ -443,23 +567,35 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 10,),
-                        Container(width: double.infinity,height: 60,
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 60,
                           decoration: BoxDecoration(
-                              color: ColorApp.greyE6,borderRadius: BorderRadius.circular(40)
-                          ),
+                              color: ColorApp.greyE6,
+                              borderRadius: BorderRadius.circular(40)),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8,vertical: 2),
-                            child:  Row(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 2),
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
-
                                   children: [
-                                    FaIcon(FontAwesomeIcons.crown,color: ColorApp.yellow,),
-                                    SizedBox(width: 10,),
-                                    Text('Giới thiệu CS Global',style: StyleApp.textStyle700(fontSize: 16),),
-
+                                    FaIcon(
+                                      FontAwesomeIcons.crown,
+                                      color: ColorApp.yellow,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Giới thiệu CS Global',
+                                      style:
+                                          StyleApp.textStyle700(fontSize: 16),
+                                    ),
                                   ],
                                 ),
                                 FaIcon(FontAwesomeIcons.longArrowRight)
@@ -467,43 +603,126 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 20,),
-                        Container(width: double.infinity,height: 60,
-                          decoration: BoxDecoration(
-                              color: Colors.transparent,borderRadius: BorderRadius.circular(40)
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 28,vertical: 2),
-                            child:  Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-
-
-                                Text('Đổi mật khẩu',style: StyleApp.textStyle700(fontSize: 16),),
-                                FaIcon(FontAwesomeIcons.key)
-                              ],
-                            ),
-                          ),
+                        SizedBox(
+                          height: 20,
                         ),
-                        SizedBox(height: 20,),
                         InkWell(
-                          onTap: ()async{
-                           await SharePrefsKeys.removeAllKey();
-                           Navigator.push(context, MaterialPageRoute(builder: (context)=>StartScreen()));
-
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChangePassProfile()));
                           },
-                          child: Container(width: double.infinity,height: 60,
+                          child: Container(
+                            width: double.infinity,
+                            height: 60,
                             decoration: BoxDecoration(
-                                color: Colors.transparent,borderRadius: BorderRadius.circular(40)
-                            ),
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(40)),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 28,vertical: 2),
-                              child:  Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 28, vertical: 2),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
+                                  Text(
+                                    'Đổi mật khẩu',
+                                    style: StyleApp.textStyle700(fontSize: 16),
+                                  ),
+                                  FaIcon(FontAwesomeIcons.key)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(20.0))
+                                  ),
+                                  backgroundColor: ColorApp.whiteF7,
+                                  actionsPadding: EdgeInsets.only(bottom: 10),
+                                      actionsAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      scrollable: true,
+                                      content: Container(
+                                          width: Const.sizeWidth(context, 370),
+                                          height: Const.sizeHeight(context, 50),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'Bạn muốn đăng xuất',
+                                              style: StyleApp.textStyle500(),
+                                            ),
+                                          )),
+                                      actions: [
+                                        InkWell(
+                                          onTap: ()async{
+                                           await SharePrefsKeys.removeAllKey();
+                                           Navigator.push(context, MaterialPageRoute(builder: (context)=>StartScreen())).then((value) {
 
-
-                                  Text('Đăng xuất',style: StyleApp.textStyle700(fontSize: 16),),
+                                             FlutterExitApp.exitApp(iosForceExit: true);
+                                           });
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(12),
+                                                color: ColorApp.redText),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Đồng ý',
+                                                style: StyleApp.textStyle500(color: Colors.white),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        InkWell(
+                                          onTap: (){
+                                            Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(12),
+                                                color: ColorApp.redText),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Huỷ bỏ',
+                                                style: StyleApp.textStyle500(color: Colors.white),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ));
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 60,
+                            decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(40)),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 28, vertical: 2),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Đăng xuất',
+                                    style: StyleApp.textStyle700(fontSize: 16),
+                                  ),
                                   FaIcon(FontAwesomeIcons.rightFromBracket)
                                 ],
                               ),
@@ -517,12 +736,16 @@ class _AccountScreenState extends State<AccountScreen> {
               ),
             );
           }
-          if(state is LoadFail){
-            return ItemLoadFaild(error: state.error,titleButton: 'Đăng nhập lại',
-            onTap: ()async{
-              await SharePrefsKeys.removeAllKey();
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>StartScreen()));
-            },);
+          if (state is LoadFail) {
+            return ItemLoadFaild(
+              error: state.error,
+              titleButton: 'Đăng nhập lại',
+              onTap: () async {
+                await SharePrefsKeys.removeAllKey();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => StartScreen()));
+              },
+            );
           }
           return SizedBox();
         },

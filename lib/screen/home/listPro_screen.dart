@@ -31,7 +31,7 @@ class _ListProScreenState extends State<ListProScreen> {
   BlocListPro blocListPro = BlocListPro();
   int page = 1;
   ScrollController _controller = ScrollController();
-  BlocCartLocal blocCartLocal = BlocCartLocal();
+
 
   Future<void> onRefresh() async {
     page = 1;
@@ -109,8 +109,10 @@ class _ListProScreenState extends State<ListProScreen> {
                           mainAxisExtent:
                               MediaQuery.of(context).size.height * 0.33),
                       itemBuilder: (context, index) {
+                        BlocCartLocal blocCartLocal = BlocCartLocal();
                         return InkWell(
                           onTap: () {
+                            context.read<BlocCartLocal>().add(GetCart());
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -200,12 +202,10 @@ class _ListProScreenState extends State<ListProScreen> {
                                   ),
                                 ),
                                 BlocListener(
-                                  bloc: blocListPro,
+                                  bloc: blocCartLocal,
                                   listener: (context, StateBloc state) {
                                     if (state is LoadSuccess) {
-                                      context
-                                          .read<BlocCartLocal>()
-                                          .add(GetCart());
+
                                       CustomToast.showToast(
                                           context: context,
                                           msg: 'Đã thêm vào giỏ hàng thành công',
@@ -250,43 +250,7 @@ class _ListProScreenState extends State<ListProScreen> {
                       hasMore: hasMore,
                       length: length,
                     ),
-                    // SizedBox(height: 20,),
-                    // Row(
-                    //   children: [
-                    //     Text('Trang ',style: StyleApp.textStyle500(),),
-                    //     Text('${page}/'),
-                    //     Text('${model.products!.lastPage}'),
-                    //     page != 1
-                    //         ? InkWell(
-                    //       child: Icon(
-                    //         Icons.arrow_back_ios_outlined,
-                    //         color: Colors.red,
-                    //       ),
-                    //       onTap: () {
-                    //         page--;
-                    //         setState(() {});
-                    //         blocListPro.add(GetData(param: widget.id.toString(),page: page));
-                    //
-                    //       },
-                    //     )
-                    //         : Icon(Icons.arrow_back_ios_outlined,
-                    //         color: Colors.red.withOpacity(0.5)),
-                    //     page != model.products!.lastPage
-                    //         ? InkWell(
-                    //       child: Icon(
-                    //         Icons.arrow_forward_ios,
-                    //         color: Colors.red,
-                    //       ),
-                    //       onTap: () {
-                    //         page++;
-                    //         setState(() {});
-                    //         blocListPro.add(GetData(param: widget.id.toString(),page: page));
-                    //       },
-                    //     )
-                    //         : Icon(Icons.arrow_forward_ios,
-                    //         color: Colors.red.withOpacity(0.5))
-                    //   ],
-                    // ),
+
                   ],
                 ),
               );

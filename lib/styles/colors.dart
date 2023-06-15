@@ -21,7 +21,7 @@ class ColorApp {
   static const Color greyF6 = Color(0xffF6F6F6);
   static const Color greyEB = Color(0xffEBEBEB);
   static const Color greyBE = Color(0xffBEBEBE);
-  static const Color grey4F = Color(0xff4F4F4F);
+  static  Color grey4F = const Color(0xff4F4F4F).withOpacity(0.3);
   static const Color whiteF7 = Color(0xffF7FCFC);
   static const Color whiteF0 = Color(0xffF0F0F0);
   static const Color orangeF8 = Color(0xffCFA869);

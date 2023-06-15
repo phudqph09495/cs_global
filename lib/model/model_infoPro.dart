@@ -55,7 +55,7 @@ class Product {
   String? createdAt;
   String? updatedAt;
   bool? isFlashSale;
-
+String? discountPrice;
   List<ImagesShow>? imagesShow;
 
 
@@ -80,7 +80,7 @@ class Product {
         this.createdAt,
         this.updatedAt,
         this.isFlashSale,
-
+this.discountPrice,
         this.imagesShow,
       });
 
@@ -105,7 +105,7 @@ class Product {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     isFlashSale = json['is_flashSale'];
-
+discountPrice=json['discount_price'];
     if (json['images_show'] != null) {
       imagesShow = <ImagesShow>[];
       json['images_show'].forEach((v) {
@@ -113,6 +113,36 @@ class Product {
       });
     }
 
+  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['code'] = this.code;
+    data['name'] = this.name;
+    data['thumbnail'] = this.thumbnail;
+    data['origin_price'] = this.originPrice;
+    data['price'] = this.price;
+    data['fs_price'] = this.fsPrice;
+    data['discount_ctv'] = this.discountCtv;
+    data['discount_dl'] = this.discountDl;
+    data['discount_tnkd'] = this.discountTnkd;
+    data['discount_qlkd'] = this.discountQlkd;
+    data['sold'] = this.sold;
+    data['score'] = this.score;
+    data['hot_product'] = this.hotProduct;
+    data['amount'] = this.amount;
+    data['descript'] = this.descript;
+    data['status'] = this.status;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['is_flashSale'] = this.isFlashSale;
+    data['discount_price'] = this.discountPrice;
+
+    if (this.imagesShow != null) {
+      data['images_show'] = this.imagesShow!.map((v) => v.toJson()).toList();
+    }
+
+    return data;
   }
 
 }

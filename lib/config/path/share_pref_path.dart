@@ -25,8 +25,8 @@ SharedPrefs.saveBool(SharePrefsKeys.login, true);
   }
 
   static removeAllKey() async {
-    SharedPrefs.remove(SharePrefsKeys.login);
-    SharedPrefs.remove(SharePrefsKeys.user_token);
+  await  SharedPrefs.remove(SharePrefsKeys.login);
+  await  SharedPrefs.remove(SharePrefsKeys.user_token);
     SharedPrefs.clear();
 
 

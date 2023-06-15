@@ -6,7 +6,7 @@ class ApiPath {
   static const lichSu='/order?per_page=10&page=';
   static const tinh="/location/region";
   static const huyen="/location/district";
-  static const updatePro="/user/update";
+  static const updatePro="/customer/profile/update";
   static const deleteAcc="/user/remove";
   static const dangky="/customer/register?refercode=";
 static const firebase="/notification/fcmToken";

@@ -32,11 +32,7 @@ class CheckLogState {
               msg: msg ?? state.data,
               duration: 3,
               gravity: ToastGravity.CENTER)
-          : CustomToast.showToast(
-              context: context,
-              msg: msg ?? state.data,
-              duration: 3,
-              gravity: ToastGravity.CENTER);
+          : null;
       if (success != null) {
         success();
       }
