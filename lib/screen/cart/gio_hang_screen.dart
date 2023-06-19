@@ -98,17 +98,17 @@ class _GioHangScreenState extends State<GioHangScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Giá bán: ${Const.ConvertPrice.format(int.parse('${listInfo[index].product!.price}'))} đ',
+                                              'Giá bán: ${Const.ConvertPrice.format(int.parse('${listInfo[index].product!.discountPrice}'))} đ',
                                               style: StyleApp.textStyle600(
                                                   color: ColorApp.dark500,
                                                   fontSize: 14),
                                             ),
-                                            Text(
-                                              'Lợi nhuận: 50.000 đ',
-                                              style: StyleApp.textStyle600(
-                                                  color: ColorApp.green00,
-                                                  fontSize: 14),
-                                            ),
+                                            // Text(
+                                            //   'Lợi nhuận: 50.000 đ',
+                                            //   style: StyleApp.textStyle600(
+                                            //       color: ColorApp.green00,
+                                            //       fontSize: 14),
+                                            // ),
                                           ],
                                         ),
                                       ),
@@ -196,19 +196,19 @@ class _GioHangScreenState extends State<GioHangScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Lợi nhuận:',
-                          style: StyleApp.textStyle500(),
-                        ),
-                        Text(
-                          '${Const.ConvertPrice.format(discount)} đ',
-                          style: StyleApp.textStyle500(color: ColorApp.dark),
-                        )
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Text(
+                    //       'Lợi nhuận:',
+                    //       style: StyleApp.textStyle500(),
+                    //     ),
+                    //     Text(
+                    //       '${Const.ConvertPrice.format(discount)} đ',
+                    //       style: StyleApp.textStyle500(color: ColorApp.dark),
+                    //     )
+                    //   ],
+                    // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

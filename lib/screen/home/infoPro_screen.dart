@@ -85,7 +85,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
         builder: (_, StateBloc state) {
           if (state is LoadSuccess) {
             ModelInfoPro modelInfoPro = state.data;
-            sum = int.parse('${modelInfoPro.product!.price}') * value;
+            sum = int.parse('${modelInfoPro.product!.discountPrice}') * value;
             return Container(
               decoration: BoxDecoration(
                   border: Border(
@@ -343,7 +343,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    '${Const.ConvertPrice.format(int.parse('${modelInfoPro.product!.price}'))} đ',
+                                    '${Const.ConvertPrice.format(int.parse('${modelInfoPro.product!.discountPrice}'))} đ',
                                     style: StyleApp.textStyle500(
                                         color: ColorApp.redText, fontSize: 17),
                                   ),

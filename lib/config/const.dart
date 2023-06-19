@@ -36,6 +36,8 @@ class Const {
   static showScreen(
     Widget widget,
     BuildContext context,
+
+  {Color color= const Color(0xffF8BBD0),bool sign=true}
   ) {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -43,7 +45,7 @@ class Const {
       builder: (context) {
         return Padding(
           padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              EdgeInsets.only(bottom:sign? MediaQuery.of(context).viewInsets.bottom:0),
           child: widget,
         );
       },
@@ -51,7 +53,7 @@ class Const {
         borderRadius: BorderRadius.only(
             topRight: Radius.circular(10), topLeft: Radius.circular(10)),
       ),
-      backgroundColor: Colors.pinkAccent.shade100,
+      backgroundColor: color,
     );
   }
 

@@ -4,8 +4,8 @@ class ApiPath {
   static const vertifyOTP="/user/verifyotp";
   static const profile="/customer/profile-user";
   static const lichSu='/order?per_page=10&page=';
-  static const tinh="/location/region";
-  static const huyen="/location/district";
+  static const tinh="/customer/order/region/list";
+  static const huyen="/customer/order/district/list?regionId=";
   static const updatePro="/customer/profile/update";
   static const deleteAcc="/user/remove";
   static const dangky="/customer/register?refercode=";
@@ -19,14 +19,14 @@ static const listPro='/customer/product/category/';
 static const infoPro='/customer/product/info/';
 static const relatePrd='/product/related?id=';
 static const category='/customer/category';
-static const phiVanCHuyen='/order/shipFee';
-static const order="/order/create";
+static const phiVanCHuyen='/customer/order/shipment?districtId=';
+static const order="/customer/order/create";
 static const search="/product/search?keyword=";
   static const like='/product/like?product_id=';
   static const likeList="/product/favorite";
   static const rate="/product/rate";
   static const coupon="/coupon/run";
-  static const testCounpon="/order/promotionCode?code=";
+  static const testCounpon="/customer/order/coupon/add?code=";
 
 
 /// noti

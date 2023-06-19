@@ -32,6 +32,9 @@ class GetData extends EventBloc {
   String param;
   String type;
   String year;
+  String tinh;
+  String huyen;
+
   String month;
 
   GetData({
@@ -43,6 +46,7 @@ class GetData extends EventBloc {
     this.type = '',
     this.year = '',
     this.month = '',
+    this.tinh='',this.huyen=''
   });
 }
 

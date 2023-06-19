@@ -59,7 +59,7 @@ class BlocCartLocal extends Bloc<EventBloc2, StateBloc> {
         if (res['status'] == 'success') {
           ModelInfoPro model = ModelInfoPro.fromJson(res['data']);
           list.add(model);
-          sum = sum + item.amount! * int.parse('${model.product!.price}');
+          sum = sum + item.amount! * int.parse('${model.product!.discountPrice}');
         }
       }
       yield LoadSuccess(
