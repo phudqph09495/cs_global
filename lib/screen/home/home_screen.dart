@@ -1,7 +1,10 @@
+import 'package:cs_global/model/model_listMostSale.dart';
+import 'package:cs_global/model/model_listSug.dart';
 import 'package:cs_global/widget/item/input/text_filed.dart';
 import 'package:cs_global/widget/item/input/text_filed2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:group_button/group_button.dart';
 
@@ -11,15 +14,19 @@ import '../../bloc/cart/event_bloc2.dart';
 import '../../bloc/cart/model_sp.dart';
 import '../../bloc/event_bloc.dart';
 import '../../bloc/product/bloc_listCate.dart';
+import '../../bloc/product/bloc_listMostSale.dart';
+import '../../bloc/product/bloc_listSuggest.dart';
 import '../../bloc/state_bloc.dart';
 import '../../config/const.dart';
 import '../../config/path/share_pref_path.dart';
 import '../../model/model_listCate.dart';
 import '../../start.dart';
 import '../../styles/init_style.dart';
+import '../../widget/item/custom_toast.dart';
 import '../../widget/item/load_image.dart';
 import '../../widget/loadPage/item_loadfaild.dart';
 import '../cart/gio_hang_screen.dart';
+import 'infoPro_screen.dart';
 import 'item/product_item.dart';
 import 'listPro_screen.dart';
 
@@ -33,8 +40,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final controller = GroupButtonController();
   BlocListCate blocListCate = BlocListCate()..add(GetData());
+  BlocListSuggest blocListSuggest=BlocListSuggest()..add(GetData());
   List<String> listButton = ['Sản phẩm', 'Dịch vụ', 'Đào Tạo', 'HT Land'];
   int tab = 0;
+  BlocListMostSale blocListMostSale=BlocListMostSale()..add(GetData());
   BlocProfile blocProfile = BlocProfile();
 
   List<IconData> listIcon = [
@@ -65,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.3,
                   width: double.infinity,
-                  color: Colors.blue,
+                 child: Image.asset('assets/images/img.png'),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.02,
@@ -165,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Padding(
                                       padding: EdgeInsets.all(4.0),
                                       child: Text(
-                                        '1',
+                                        '0',
                                         style: StyleApp.textStyle500(
                                             fontSize: 10, color: Colors.white),
                                       ),
@@ -314,7 +323,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               if (state is LoadFail) {
                                 return ItemLoadFaild(
                                   error: state.error,
-                                  onTap: () {},
+                                  onTap: () {
+
+                                  },
                                 );
                               }
                               if (state is LoadSuccess) {
@@ -322,6 +333,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return GridView.builder(
                                   padding: EdgeInsets.zero,
                                   itemCount: model.categories!.length,
+                                  physics: NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
@@ -393,18 +405,155 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.33,
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return ProductItem();
-                            },
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 10,
-                            physics: AlwaysScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                          ),
-                        ),
+                   BlocBuilder(builder: (_,StateBloc state){
+                     if(state is LoadSuccess){
+                       ModelListMostSale model=state.data;
+                  return     Container(
+                         height: MediaQuery.of(context).size.height * 0.33,
+                         child: ListView.builder(
+                           itemBuilder: (context, index) {
+                             BlocCartLocal blocCartLocal = BlocCartLocal();
+                             return InkWell(
+                               onTap: () {
+                                 context.read<BlocCartLocal>().add(GetCart());
+                                 Navigator.push(
+                                     context,
+                                     MaterialPageRoute(
+                                         builder: (context) => InfoProdScreen(
+                                           id: model.mostSaleProduct![index].id.toString(),
+                                           cateID: model.mostSaleProduct![index].category![0].id.toString(),
+                                         )));
+                               },
+                               child: Padding(
+                                 padding: EdgeInsets.symmetric(horizontal: 5),
+                                 child: Stack(
+                                   alignment: Alignment.bottomRight,
+                                   children: [
+                                     Container(
+                                       height:
+                                       MediaQuery.of(context).size.height * 0.33,
+                                       width:
+                                       MediaQuery.of(context).size.width * 0.48,
+                                       decoration: BoxDecoration(
+                                           border: Border.all(),
+                                           borderRadius: BorderRadius.circular(12)),
+                                       child: Column(
+                                         crossAxisAlignment:
+                                         CrossAxisAlignment.start,
+                                         children: [
+                                           Padding(
+                                             padding: const EdgeInsets.all(5.0),
+                                             child: Container(
+                                               height: MediaQuery.of(context)
+                                                   .size
+                                                   .height *
+                                                   0.19,
+                                               width: MediaQuery.of(context)
+                                                   .size
+                                                   .width *
+                                                   0.48,
+                                               child: LoadImage(
+                                                 fit: BoxFit.cover,
+                                                 url:
+                                                 '${Const.image_host}${model.mostSaleProduct![index].thumbnail}',
+                                               ),
+                                             ),
+                                           ),
+                                           Container(
+                                             height:
+                                             MediaQuery.of(context).size.height *
+                                                 0.12,
+                                             child: Padding(
+                                               padding: const EdgeInsets.symmetric(
+                                                   horizontal: 8, vertical: 4),
+                                               child: Column(
+                                                 crossAxisAlignment:
+                                                 CrossAxisAlignment.start,
+                                                 mainAxisAlignment:
+                                                 MainAxisAlignment.spaceBetween,
+                                                 children: [
+                                                   Text(
+                                                     model.mostSaleProduct![index].code ?? '',
+                                                     style: StyleApp.textStyle600(),
+                                                   ),
+                                                   Text(
+                                                     model.mostSaleProduct![index].name ?? '',
+                                                     style: StyleApp.textStyle500(),
+                                                     overflow: TextOverflow.ellipsis,
+                                                   ),
+                                                   Row(
+                                                     children: [
+                                                       Text(
+                                                         'Giá bán: ',
+                                                         style:
+                                                         StyleApp.textStyle500(),
+                                                       ),
+                                                       Text(
+                                                         '${Const.ConvertPrice.format(int.parse('${model.mostSaleProduct![index].discountPrice}'))}',
+                                                         style:
+                                                         StyleApp.textStyle700(
+                                                             color: ColorApp
+                                                                 .redText),
+                                                       )
+                                                     ],
+                                                   )
+                                                 ],
+                                               ),
+                                             ),
+                                           ),
+                                         ],
+                                       ),
+                                     ),
+                                     BlocListener(
+                                       bloc: blocCartLocal,
+                                       listener: (context, StateBloc state) {
+                                         if (state is LoadSuccess) {
+                                           context.read<BlocCartLocal>().add(GetCart());
+                                           CustomToast.showToast(
+                                               context: context,
+                                               msg: 'Đã thêm vào giỏ hàng thành công',
+                                               duration: 1,
+                                               gravity: ToastGravity.BOTTOM);
+                                         }
+                                       },
+                                       child: InkWell(
+                                         onTap: () {
+                                           blocCartLocal.add(AddData(
+                                               modelSanPhamMain: ModelSanPhamMain(
+                                                   id: model.mostSaleProduct![index].id, amount: 1,max: model.mostSaleProduct![index].amount )));
+                                         },
+                                         child: Container(
+                                           decoration: BoxDecoration(
+                                               borderRadius: BorderRadius.only(
+                                                 topLeft: Radius.circular(12),
+                                                 bottomRight: Radius.circular(12),
+                                               ),
+                                               color: Colors.red),
+                                           child: Padding(
+                                             padding: const EdgeInsets.all(4.0),
+                                             child: Icon(
+                                               Icons.shopping_cart_outlined,
+                                               color: Colors.white,
+                                               size: 18,
+                                             ),
+                                           ),
+                                         ),
+                                       ),
+                                     )
+                                   ],
+                                 ),
+                               ),
+                             );
+                           },
+                           scrollDirection: Axis.horizontal,
+                           itemCount: model.mostSaleProduct!.length,
+                           physics: AlwaysScrollableScrollPhysics(),
+                           shrinkWrap: true,
+                         ),
+                       );
+                     }
+                     return SizedBox();
+                   },bloc: blocListMostSale,),
                         SizedBox(
                           height: 20,
                         ),
@@ -416,23 +565,160 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        GridView.builder(
-                          padding: EdgeInsets.zero,
-                          gridDelegate:
+                        BlocBuilder(builder: (_,StateBloc state){
+                          if(state is LoadSuccess){
+                            ModelListSugg model=state.data;
+                            return GridView.builder(
+                              padding: EdgeInsets.zero,
+                              gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   mainAxisSpacing: 10,
                                   crossAxisSpacing: 10,
                                   mainAxisExtent:
-                                      MediaQuery.of(context).size.height *
-                                          0.33),
-                          itemBuilder: (context, index) {
-                            return ProductItem();
-                          },
-                          itemCount: 6,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                        ),
+                                  MediaQuery.of(context).size.height *
+                                      0.33),
+                              itemBuilder: (context, index) {
+                                BlocCartLocal blocCartLocal = BlocCartLocal();
+                                return InkWell(
+                                  onTap: () {
+                                    context.read<BlocCartLocal>().add(GetCart());
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => InfoProdScreen(
+                                              id: model.productSugges![index].id.toString(),
+                                              cateID: model.productSugges![index].category![0].id.toString(),
+                                            )));
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 5),
+                                    child: Stack(
+                                      alignment: Alignment.bottomRight,
+                                      children: [
+                                        Container(
+                                          height:
+                                          MediaQuery.of(context).size.height * 0.33,
+                                          width:
+                                          MediaQuery.of(context).size.width * 0.48,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(),
+                                              borderRadius: BorderRadius.circular(12)),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.all(5.0),
+                                                child: Container(
+                                                  height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                      0.19,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.48,
+                                                  child: LoadImage(
+                                                    fit: BoxFit.cover,
+                                                    url:
+                                                    '${Const.image_host}${model.productSugges![index].thumbnail}',
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                height:
+                                                MediaQuery.of(context).size.height *
+                                                    0.12,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.symmetric(
+                                                      horizontal: 8, vertical: 4),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        model.productSugges![index].code ?? '',
+                                                        style: StyleApp.textStyle600(),
+                                                      ),
+                                                      Text(
+                                                        model.productSugges![index].name ?? '',
+                                                        style: StyleApp.textStyle500(),
+                                                        overflow: TextOverflow.ellipsis,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            'Giá bán: ',
+                                                            style:
+                                                            StyleApp.textStyle500(),
+                                                          ),
+                                                          Text(
+                                                            '${Const.ConvertPrice.format(int.parse('${model.productSugges![index].discountPrice}'))}',
+                                                            style:
+                                                            StyleApp.textStyle700(
+                                                                color: ColorApp
+                                                                    .redText),
+                                                          )
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        BlocListener(
+                                          bloc: blocCartLocal,
+                                          listener: (context, StateBloc state) {
+                                            if (state is LoadSuccess) {
+                                              context.read<BlocCartLocal>().add(GetCart());
+                                              CustomToast.showToast(
+                                                  context: context,
+                                                  msg: 'Đã thêm vào giỏ hàng thành công',
+                                                  duration: 1,
+                                                  gravity: ToastGravity.BOTTOM);
+                                            }
+                                          },
+                                          child: InkWell(
+                                            onTap: () {
+                                              blocCartLocal.add(AddData(
+                                                  modelSanPhamMain: ModelSanPhamMain(
+                                                      id: model.productSugges![index].id, amount: 1,max: model.productSugges![index].amount )));
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(12),
+                                                    bottomRight: Radius.circular(12),
+                                                  ),
+                                                  color: Colors.red),
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(4.0),
+                                                child: Icon(
+                                                  Icons.shopping_cart_outlined,
+                                                  color: Colors.white,
+                                                  size: 18,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                              itemCount: model.productSugges!.length,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                            );
+                          }
+                          return SizedBox();
+                        },bloc: blocListSuggest,),
                         SizedBox(
                           height: 10,
                         ),

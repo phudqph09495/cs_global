@@ -21,7 +21,7 @@ class CreateOrder extends EventBloc2 {
   String? address;
   Coupon? coupon;
   List<Products>? products;
-  bool? freeShip;
+  String? freeShip;
   int? shipmentCost;
   int? totalProductPrice;
   int? totalPrice;
@@ -52,7 +52,7 @@ class CreateOrder extends EventBloc2 {
         products!.add(new Products.fromJson(v));
       });
     }
-    // freeShip = json['free_ship'];
+    freeShip = json['free_ship'];
     shipmentCost = json['shipment_cost'];
     totalProductPrice = json['total_product_price'];
     totalPrice = json['total_price'];
@@ -64,13 +64,16 @@ class CreateOrder extends EventBloc2 {
     data['district'] = this.district;
     data['region'] = this.region;
     data['address'] = this.address;
-    if (this.coupon != null) {
+    if (this.coupon != null&&this.coupon!.id!=null) {
       data['coupon'] = this.coupon!.toJson();
+    }else{
+      data['coupon']=null;
     }
     if (this.products != null) {
       data['products'] = this.products!.map((v) => v.toJson()).toList();
     }
-    // data['free_ship'] = this.freeShip;
+
+    data['free_ship'] = this.freeShip;
     data['shipment_cost'] = this.shipmentCost;
     data['total_product_price'] = this.totalProductPrice;
     data['total_price'] = this.totalPrice;
@@ -125,6 +128,7 @@ class Products {
     if (this.productInfo != null) {
       data['productInfo'] = this.productInfo!.toJson();
     }
+    // data['propertyInfo']=null;
 
     return data;
   }

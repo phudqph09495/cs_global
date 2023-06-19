@@ -130,6 +130,7 @@ class Prod {
   String? thumbnail;
   String? originPrice;
   String? price;
+  String? discountPrice;
   String? vip1Price;
   String? vip2Price;
   String? fsPrice;
@@ -163,6 +164,7 @@ class Prod {
         this.discountQlkd,
         this.sold,
         this.score,
+        this.discountPrice,
         this.hotProduct,
         this.amount,
         this.descript,
@@ -187,6 +189,7 @@ class Prod {
     discountQlkd = json['discount_qlkd'];
     sold = json['sold'];
     score = json['score'];
+    discountPrice=json['discount_price'];
     hotProduct = json['hot_product'];
     amount = json['amount'];
     descript = json['descript'];

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config/api.dart';
@@ -29,8 +30,13 @@ class BlocCartLocal extends Bloc<EventBloc2, StateBloc> {
       bool same = false;
       for (var item in list) {
         if (event.modelSanPhamMain.id == item.id) {
-          same = true;
-          item.amount = item.amount! + event.modelSanPhamMain.amount!;
+
+            same = true;
+            if(item.amount! <item.max!){
+            item.amount = item.amount! + event.modelSanPhamMain.amount!;
+          }else{
+              Fluttertoast.showToast(msg: 'Số lượng đã đạt tối đa');
+            }
         }
       }
 

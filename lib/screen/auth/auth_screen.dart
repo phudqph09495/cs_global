@@ -37,6 +37,7 @@ class _AuthScreenState extends State<AuthScreen> {
             SizedBox(),
             Column(
               children: [
+                Image.asset('assets/images/logo.png'),
                 Button1(
                   ontap: () {
                    Const.showScreen(Login(),context);
@@ -52,6 +53,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 Button1(
                   ontap: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {

@@ -82,7 +82,7 @@ class Const {
     var dateTime = DateFormat("yyyy-MM-ddTHH:mm:ss.SSSSSSZ").parse(time, true);
     var dateLocal = dateTime.toLocal();
     String date = formatTime(dateLocal.millisecondsSinceEpoch,
-        format: 'dd-MM-yyyy HH:mm');
+        format: 'HH:mm:ss - dd-MM-yyyy ');
     return date;
   }
 

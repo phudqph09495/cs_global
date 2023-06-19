@@ -19,12 +19,12 @@ class BlocOrder extends Bloc<EventBloc2, StateBloc> {
       yield Loading();
       try {
         Map<String, dynamic> req = event.toJson();
-
+        print(req);
         var res = await Api.postAsync(
           endPoint: ApiPath.order,
           req: req,
         );
-
+print(res);
         if (res['status'] == 'success') {
           yield LoadSuccess();
         } else if (res['status'] == 'error') {

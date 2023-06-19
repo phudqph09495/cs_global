@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../bloc/auth/bloc_profile.dart';
 import '../../bloc/cart/bloc_cart.dart';
 import '../../bloc/event_bloc.dart';
 import '../../bloc/product/bloc_listPro.dart';
 import '../../bloc/state_bloc.dart';
 import '../../config/const.dart';
+import '../../config/path/share_pref_path.dart';
 import '../../model/model_listPro.dart';
+import '../../start.dart';
 import '../../styles/init_style.dart';
 import '../../widget/item/custom_toast.dart';
 import '../../widget/item/load_image.dart';
@@ -32,7 +35,7 @@ class _ListProScreenState extends State<ListProScreen> {
   int page = 1;
   ScrollController _controller = ScrollController();
 
-
+  BlocProfile blocProfile = BlocProfile()..add(GetData());
   Future<void> onRefresh() async {
     page = 1;
     blocListPro.add(
@@ -64,6 +67,7 @@ class _ListProScreenState extends State<ListProScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: ColorApp.green00,
@@ -100,6 +104,57 @@ class _ListProScreenState extends State<ListProScreen> {
                 controller: _controller,
                 child: Column(
                   children: [
+                    BlocBuilder(
+                      builder: (_, StateBloc statePro) {
+                        if (statePro is LoadFail) {
+                          Future.delayed(Duration(seconds: 1), () async {
+                            showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      statePro.error,
+                                      style: StyleApp.textStyle500(),
+                                    ),
+                                    actions: [
+                                      InkWell(
+                                        onTap: () async {
+                                          await SharePrefsKeys.removeAllKey();
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => StartScreen()));
+                                        },
+                                        child: Container(
+                                            width: double.infinity,
+                                            decoration:
+                                            BoxDecoration(color: Colors.green),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Quay lại trang đăng nhập',
+                                                textAlign: TextAlign.center,
+                                                style: StyleApp.textStyle500(
+                                                    color: Colors.white),
+                                              ),
+                                            )),
+                                      )
+                                    ],
+                                  );
+                                });
+                            // await SharePrefsKeys.removeAllKey();
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => StartScreen()));
+                          });
+                          return SizedBox();
+                        }
+                        return SizedBox();
+                      },
+                      bloc: blocProfile,
+                    ),
                     GridView.builder(
                       padding: EdgeInsets.symmetric(vertical: 20),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -186,7 +241,7 @@ class _ListProScreenState extends State<ListProScreen> {
                                                         StyleApp.textStyle500(),
                                                   ),
                                                   Text(
-                                                    '${Const.ConvertPrice.format(int.parse('${model[index].price}'))}',
+                                                    '${Const.ConvertPrice.format(int.parse('${model[index].discountPrice}'))}',
                                                     style:
                                                         StyleApp.textStyle700(
                                                             color: ColorApp
@@ -217,7 +272,7 @@ class _ListProScreenState extends State<ListProScreen> {
                                     onTap: () {
                                       blocCartLocal.add(AddData(
                                           modelSanPhamMain: ModelSanPhamMain(
-                                              id: model[index].id, amount: 1)));
+                                              id: model[index].id, amount: 1,max: model[index].amount)));
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(

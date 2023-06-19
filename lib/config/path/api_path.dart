@@ -13,7 +13,7 @@ static const firebase="/notification/fcmToken";
 
 
   /// product
-static const flash='/product/flashsale?flash_sale_id=';
+static const detailOrder='/customer/order/detail/';
 static const config='/config';
 static const listPro='/customer/product/category/';
 static const infoPro='/customer/product/info/';
@@ -21,11 +21,14 @@ static const relatePrd='/product/related?id=';
 static const category='/customer/category';
 static const phiVanCHuyen='/customer/order/shipment?districtId=';
 static const order="/customer/order/create";
+
 static const search="/product/search?keyword=";
-  static const like='/product/like?product_id=';
+  static const listDonHang='/customer/order/list?search=';
   static const likeList="/product/favorite";
   static const rate="/product/rate";
   static const coupon="/coupon/run";
+  static const mostSale="/customer/product/most-sale";
+  static const listSuggest="/customer/product/suggest";
   static const testCounpon="/customer/order/coupon/add?code=";
 
 

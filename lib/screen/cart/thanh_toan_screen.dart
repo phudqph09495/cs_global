@@ -5,6 +5,7 @@ import 'package:cs_global/bloc/order/bloc_addCoupon.dart';
 import 'package:cs_global/bloc/order/bloc_huyen.dart';
 import 'package:cs_global/bloc/order/bloc_phiShip.dart';
 import 'package:cs_global/bloc/order/bloc_tinh.dart';
+import 'package:cs_global/home.dart';
 import 'package:cs_global/model/model_huyen.dart';
 import 'package:cs_global/model/model_profile.dart';
 import 'package:cs_global/model/model_ship.dart';
@@ -19,8 +20,10 @@ import '../../bloc/cart/bloc_order.dart';
 import '../../bloc/cart/model_sp.dart';
 import '../../bloc/state_bloc.dart';
 import '../../config/const.dart';
+import '../../config/path/share_pref_path.dart';
 import '../../model/model_infoPro.dart';
 import '../../model/model_tinh.dart';
+import '../../start.dart';
 import '../../styles/init_style.dart';
 import '../../widget/item/load_image.dart';
 import '../auth/otp_modal.dart';
@@ -42,7 +45,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
   BlocPhiShip blocPhiShip = BlocPhiShip();
   TextEditingController address = TextEditingController();
   BlocAddCoupon blocAddCoupon = BlocAddCoupon();
-  Coupon? coupon;
+  Coupon coupon=Coupon();
   int ship = 0;
   int voucherINT = 0;
   BlocProfile blocProfile = BlocProfile()..add(GetData());
@@ -79,6 +82,57 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
             body: SingleChildScrollView(
               child: Column(
                 children: [
+                  BlocBuilder(
+                    builder: (_, StateBloc statePro) {
+                      if (statePro is LoadFail) {
+                        Future.delayed(Duration(seconds: 1), () async {
+                          showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    statePro.error,
+                                    style: StyleApp.textStyle500(),
+                                  ),
+                                  actions: [
+                                    InkWell(
+                                      onTap: () async {
+                                        await SharePrefsKeys.removeAllKey();
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => StartScreen()));
+                                      },
+                                      child: Container(
+                                          width: double.infinity,
+                                          decoration:
+                                          BoxDecoration(color: Colors.green),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'Quay lại trang đăng nhập',
+                                              textAlign: TextAlign.center,
+                                              style: StyleApp.textStyle500(
+                                                  color: Colors.white),
+                                            ),
+                                          )),
+                                    )
+                                  ],
+                                );
+                              });
+                          // await SharePrefsKeys.removeAllKey();
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => StartScreen()));
+                        });
+                        return SizedBox();
+                      }
+                      return SizedBox();
+                    },
+                    bloc: blocProfile,
+                  ),
                   Card(
                     child: Column(
                       children: [
@@ -834,7 +888,12 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                         CheckLogState.check(context,
                             state: stateOrder,
                             msg: 'Đặt hàng thành công',
-                            success: () {});
+                            success: () {
+                              context
+                                  .read<BlocCartLocal>()
+                                  .add(ClearAll());
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyHomePage()));
+                            });
                       },
                       child: InkWell(
                         onTap: () {
@@ -857,12 +916,13 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                             }
                             blocOrder.add(CreateOrder(
                                 region: tinhS,
+                                coupon: coupon,
                                 district: huyenS,
                                 address: address.text,
                                 products: products,
                                 shipmentCost: ship,
                                 totalProductPrice: sum,
-                                freeShip: false,
+                                freeShip: 'false',
                                 totalPrice: gia));
 
                           }

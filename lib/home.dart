@@ -1,5 +1,7 @@
 import 'package:cs_global/screen/account/account_screen.dart';
+import 'package:cs_global/screen/donhang/quanly_screen.dart';
 import 'package:cs_global/screen/home/home_screen.dart';
+import 'package:cs_global/screen/sanPham/san_pham_screen.dart';
 import 'package:cs_global/widget/loadPage/item_loadfaild.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,8 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           // HomeScreen(),
           HomeScreen(),
-          Container(color: Colors.blue,),
-          Container(color: Colors.green,),
+          SanPhamScreen(),
+          QuanLyScreen(),
           AccountScreen(),
 
           // LoveScreen(),

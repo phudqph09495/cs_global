@@ -1,5 +1,6 @@
 import 'package:cs_global/bloc/cart/event_bloc2.dart';
 import 'package:cs_global/bloc/cart/model_sp.dart';
+import 'package:cs_global/screen/cart/gio_hang_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
@@ -8,14 +9,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../bloc/auth/bloc_profile.dart';
 import '../../bloc/cart/bloc_cart.dart';
 import '../../bloc/event_bloc.dart';
 import '../../bloc/product/bloc_infoPro.dart';
 import '../../bloc/product/bloc_listPro.dart';
 import '../../bloc/state_bloc.dart';
 import '../../config/const.dart';
+import '../../config/path/share_pref_path.dart';
 import '../../model/model_infoPro.dart';
 import '../../model/model_listPro.dart';
+import '../../start.dart';
 import '../../styles/init_style.dart';
 import '../../widget/item/custom_toast.dart';
 import '../../widget/item/load_image.dart';
@@ -42,6 +46,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
   BlocListPro blocListPro = BlocListPro();
   int page = 1;
   BlocCartLocal blocCartLocal = BlocCartLocal();
+  BlocProfile blocProfile = BlocProfile()..add(GetData());
 
   ScrollController _controller = ScrollController();
   Future<void> onRefresh() async {
@@ -132,7 +137,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                 blocCartLocal.add(AddData(
                                     modelSanPhamMain: ModelSanPhamMain(
                                         id: int.parse('${widget.id}'),
-                                        amount: value)));
+                                        amount: value,max: modelInfoPro.product!.amount)));
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -168,7 +173,8 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                 blocCartLocal.add(AddData(
                                     modelSanPhamMain: ModelSanPhamMain(
                                         id: int.parse('${widget.id}'),
-                                        amount: value)));
+                                        amount: value,max: modelInfoPro.product!.amount)));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>GioHangScreen()));
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -203,6 +209,57 @@ class _InfoProdScreenState extends State<InfoProdScreen>
         controller: _controller,
         child: Column(
           children: [
+            BlocBuilder(
+              builder: (_, StateBloc statePro) {
+                if (statePro is LoadFail) {
+                  Future.delayed(Duration(seconds: 1), () async {
+                    showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text(
+                              statePro.error,
+                              style: StyleApp.textStyle500(),
+                            ),
+                            actions: [
+                              InkWell(
+                                onTap: () async {
+                                  await SharePrefsKeys.removeAllKey();
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => StartScreen()));
+                                },
+                                child: Container(
+                                    width: double.infinity,
+                                    decoration:
+                                    BoxDecoration(color: Colors.green),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        'Quay lại trang đăng nhập',
+                                        textAlign: TextAlign.center,
+                                        style: StyleApp.textStyle500(
+                                            color: Colors.white),
+                                      ),
+                                    )),
+                              )
+                            ],
+                          );
+                        });
+                    // await SharePrefsKeys.removeAllKey();
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => StartScreen()));
+                  });
+                  return SizedBox();
+                }
+                return SizedBox();
+              },
+              bloc: blocProfile,
+            ),
             BlocBuilder(
                 bloc: blocInfoPro,
                 builder: (_, StateBloc state) {

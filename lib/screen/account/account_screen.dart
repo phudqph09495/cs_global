@@ -25,6 +25,8 @@ import '../../widget/loadPage/item_loadfaild.dart';
 import 'changPass_screen.dart';
 import 'package:flutter_exit_app/flutter_exit_app.dart';
 
+import 'gioithieu_screen.dart';
+
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
 
@@ -61,31 +63,36 @@ class _AccountScreenState extends State<AccountScreen> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      Container(
-                        color: Colors.black.withOpacity(0.5),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(),
-                              Row(
-                                children: [
-                                  Text(
-                                    'Giới thiệu bạn bè  ',
-                                    style: StyleApp.textStyle500(
-                                        color: Colors.white, fontSize: 16),
-                                  ),
-                                  Icon(
-                                    Icons.info_rounded,
-                                    color: Colors.white,
-                                  ),
-                                ],
-                              ),
-                            ],
+                      InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>GioiThieuScreen()));
+                        },
+                        child: Container(
+                          color: Colors.black.withOpacity(0.5),
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Giới thiệu bạn bè  ',
+                                      style: StyleApp.textStyle500(
+                                          color: Colors.white, fontSize: 16),
+                                    ),
+                                    Icon(
+                                      Icons.info_rounded,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        width: double.infinity,
                       )
                     ],
                   ),
@@ -228,7 +235,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     onTap: () {
                                       Clipboard.setData(ClipboardData(
                                               text:
-                                                  modelProfile.profile!.name ??
+                                                  modelProfile.profile!.code ??
                                                       ''))
                                           .then((value) {
                                         //only if ->
@@ -344,10 +351,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 horizontal: 8, vertical: 2),
                             child: Row(
                               children: [
-                                FaIcon(
-                                  FontAwesomeIcons.crown,
-                                  color: ColorApp.yellow,
-                                ),
+                                Image.asset('assets/images/meeting.png'),
                                 SizedBox(
                                   width: 10,
                                 ),
@@ -388,10 +392,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 horizontal: 8, vertical: 2),
                             child: Row(
                               children: [
-                                FaIcon(
-                                  FontAwesomeIcons.crown,
-                                  color: ColorApp.yellow,
-                                ),
+                                Image.asset('assets/images/vi.png'),
                                 SizedBox(
                                   width: 10,
                                 ),
@@ -476,7 +477,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   Row(
                                     children: [
                                       FaIcon(
-                                        FontAwesomeIcons.crown,
+                                        FontAwesomeIcons.person,
                                         color: ColorApp.yellow,
                                       ),
                                       SizedBox(
@@ -512,10 +513,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    FaIcon(
-                                      FontAwesomeIcons.crown,
-                                      color: ColorApp.yellow,
-                                    ),
+                                    Image.asset('assets/images/quydinh.png'),
                                     SizedBox(
                                       width: 10,
                                     ),
@@ -548,10 +546,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    FaIcon(
-                                      FontAwesomeIcons.crown,
-                                      color: ColorApp.yellow,
-                                    ),
+                                    Image.asset('assets/images/htkh.png'),
                                     SizedBox(
                                       width: 10,
                                     ),
@@ -584,10 +579,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    FaIcon(
-                                      FontAwesomeIcons.crown,
-                                      color: ColorApp.yellow,
-                                    ),
+                                    Image.asset('assets/images/splash.png'),
                                     SizedBox(
                                       width: 10,
                                     ),

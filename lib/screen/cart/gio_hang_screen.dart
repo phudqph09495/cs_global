@@ -19,6 +19,7 @@ class GioHangScreen extends StatefulWidget {
 }
 
 class _GioHangScreenState extends State<GioHangScreen> {
+
   BlocCartLocal blocCartLocal = BlocCartLocal();
 
   @override
@@ -137,7 +138,7 @@ class _GioHangScreenState extends State<GioHangScreen> {
                                                     color: ColorApp.redText,
                                                     size: 27,
                                                   ))),
-                                          Text('   ${list[index].amount}   '),
+                                          Text('  ${list[index].amount}  '),
                                           BlocListener(
                                               bloc: blocCartLocal,
                                               listener: (_, StateBloc state) {
@@ -240,7 +241,9 @@ class _GioHangScreenState extends State<GioHangScreen> {
                         Expanded(
                           flex: 20,
                           child: InkWell(
-                            onTap: () {},
+                            onTap: ()async {
+Navigator.pop(context);
+                            },
                             child: Container(
                               decoration: BoxDecoration(
                                   border: Border.all(color: ColorApp.redText),

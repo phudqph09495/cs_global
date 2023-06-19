@@ -23,6 +23,7 @@ class InputText2 extends StatefulWidget {
   Color borderColor;
   Function()? search;
   bool readOnly;
+  Color colorShadow;
   double colorLabel;
   List<TextInputFormatter>? inputformater;
 
@@ -45,7 +46,7 @@ class InputText2 extends StatefulWidget {
         this.height = 50,
         this.readOnly = false,
         this.inputformater,
-
+        this.colorShadow=ColorApp.pink,
         this.search,
         this.onTap});
 
@@ -63,7 +64,7 @@ class _InputText2State extends State<InputText2> {
       ),
       color: Colors.transparent,
       elevation: 5.0,
-      shadowColor: ColorApp.grey4F.withOpacity(0.3),
+      shadowColor: widget.colorShadow,
       child: TextFormField(
 
         inputFormatters: widget.inputformater,
@@ -76,7 +77,7 @@ class _InputText2State extends State<InputText2> {
         textAlign: TextAlign.left,
         style: StyleApp.textStyle400(),
         decoration: InputDecoration(
-          errorStyle: StyleApp.textStyle500(color: Colors.white, fontSize: 14),
+          errorStyle: StyleApp.textStyle500(color: ColorApp.redText, fontSize: 14),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.radius),
             // borderSide:
