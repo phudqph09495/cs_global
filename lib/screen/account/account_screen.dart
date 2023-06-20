@@ -26,6 +26,7 @@ import 'changPass_screen.dart';
 import 'package:flutter_exit_app/flutter_exit_app.dart';
 
 import 'gioithieu_screen.dart';
+import 'khtk_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -329,7 +330,9 @@ class _AccountScreenState extends State<AccountScreen> {
                           children: [
                             SizedBox(),
                             InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>KichHoatTK()));
+                                },
                                 child: Text(
                                   'Kích hoạt hạng tài khoản',
                                   style: StyleApp.textStyle500(
@@ -365,11 +368,11 @@ class _AccountScreenState extends State<AccountScreen> {
                                       style: StyleApp.textStyle500(),
                                     ),
                                     Text(
-                                      'Diễm Quỳnh',
+                                      modelProfile.profile!.beRefered![0].name??'',
                                       style: StyleApp.textStyle700(),
                                     ),
                                     Text(
-                                      'C5784781',
+                                      modelProfile.profile!.beRefered![0].code??'',
                                       style: StyleApp.textStyle500(),
                                     ),
                                   ],

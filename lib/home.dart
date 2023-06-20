@@ -6,6 +6,7 @@ import 'package:cs_global/widget/loadPage/item_loadfaild.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -62,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 23,
-        items: const [
+        items:  [
           BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(top: 3),
@@ -71,17 +72,17 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(top: 3),
-                child: FaIcon(FontAwesomeIcons.boxArchive),
+                child: SvgPicture.asset('assets/svg/product.svg',color: index==1?ColorApp.green:ColorApp.black,),
               ), label: "SẢN PHẨM"),
           BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(top: 3),
-                child: FaIcon(FontAwesomeIcons.clipboardList),
+                child: SvgPicture.asset('assets/svg/donHang.svg',color: index==2?ColorApp.green:ColorApp.black,),
               ), label: "ĐƠN HÀNG"),
 
 
           BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline_rounded), label: "TÀI KHOẢN"),
+              icon: SvgPicture.asset('assets/svg/acc.svg',color: index==3?ColorApp.green:ColorApp.black,), label: "TÀI KHOẢN",),
           // BottomNavigationBarItem(
           //     icon:ImageIcon(AssetImage(ImagePath.bottomBarAccount)), label: "Tài khoản"),
         ],
@@ -96,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.white,
         currentIndex: index,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: ColorApp.red,
+        selectedItemColor: ColorApp.green,
         selectedLabelStyle:
         StyleApp.textStyle400(color: ColorApp.red, fontSize: 12),
         unselectedItemColor: ColorApp.black,

@@ -4,6 +4,7 @@ import 'package:cs_global/widget/item/input/text_filed.dart';
 import 'package:cs_global/widget/item/input/text_filed2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:group_button/group_button.dart';
@@ -44,6 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> listButton = ['Sản phẩm', 'Dịch vụ', 'Đào Tạo', 'HT Land'];
   int tab = 0;
   BlocListMostSale blocListMostSale=BlocListMostSale()..add(GetData());
+
+  List<String> htLand=['Giới thiệu HT LAND','Sự kiện','Khoá đào tạo BĐS','Tin Tức','Đối Tác'];
+
   BlocProfile blocProfile = BlocProfile();
 
   List<IconData> listIcon = [
@@ -90,8 +94,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 0.7,
                         child: InputText1(
+                          colorShadow: Colors.transparent,
                           label: 'Tìm kiếm sản phẩm',
-                          colorBg: ColorApp.green,
+                          colorBg: ColorApp.green.withOpacity(0.5),
                           colorLabel: Colors.white,
                           hasLeading: true,
                           iconPreFix: Icon(
@@ -727,7 +732,399 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ))
-              : SizedBox()
+              : SizedBox(),
+          tab==3? Expanded(child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Nhóm sản phẩm',
+                    style: StyleApp.textStyle700(
+                        color: ColorApp.darkGreen, fontSize: 18),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  GridView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: htLand.length,
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate:
+                    SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10.0,
+                        mainAxisExtent: 160),
+                    itemBuilder:
+                        (BuildContext context, int index) {
+                      return InkWell(
+                        onTap: () {
+
+                        },
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context)
+                                  .size
+                                  .width *
+                                  0.2,
+                              height: 100,
+                              child: SvgPicture.asset('assets/svg/htland${index}.svg'),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10),
+                              child: Text(
+                               htLand[index],
+                                style: StyleApp.textStyle500(),
+                                textAlign: TextAlign.center,
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Sản phẩm mua nhiều nhất',
+                    style: StyleApp.textStyle700(
+                        color: ColorApp.darkGreen, fontSize: 18),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  BlocBuilder(builder: (_,StateBloc state){
+                    if(state is LoadSuccess){
+                      ModelListMostSale model=state.data;
+                      return     Container(
+                        height: MediaQuery.of(context).size.height * 0.33,
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            BlocCartLocal blocCartLocal = BlocCartLocal();
+                            return InkWell(
+                              onTap: () {
+                                context.read<BlocCartLocal>().add(GetCart());
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => InfoProdScreen(
+                                          id: model.mostSaleProduct![index].id.toString(),
+                                          cateID: model.mostSaleProduct![index].category![0].id.toString(),
+                                        )));
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: Stack(
+                                  alignment: Alignment.bottomRight,
+                                  children: [
+                                    Container(
+                                      height:
+                                      MediaQuery.of(context).size.height * 0.33,
+                                      width:
+                                      MediaQuery.of(context).size.width * 0.48,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(),
+                                          borderRadius: BorderRadius.circular(12)),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: Container(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                                  0.19,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                                  0.48,
+                                              child: LoadImage(
+                                                fit: BoxFit.cover,
+                                                url:
+                                                '${Const.image_host}${model.mostSaleProduct![index].thumbnail}',
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height:
+                                            MediaQuery.of(context).size.height *
+                                                0.12,
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 8, vertical: 4),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    model.mostSaleProduct![index].code ?? '',
+                                                    style: StyleApp.textStyle600(),
+                                                  ),
+                                                  Text(
+                                                    model.mostSaleProduct![index].name ?? '',
+                                                    style: StyleApp.textStyle500(),
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        'Giá bán: ',
+                                                        style:
+                                                        StyleApp.textStyle500(),
+                                                      ),
+                                                      Text(
+                                                        '${Const.ConvertPrice.format(int.parse('${model.mostSaleProduct![index].discountPrice}'))}',
+                                                        style:
+                                                        StyleApp.textStyle700(
+                                                            color: ColorApp
+                                                                .redText),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    BlocListener(
+                                      bloc: blocCartLocal,
+                                      listener: (context, StateBloc state) {
+                                        if (state is LoadSuccess) {
+                                          context.read<BlocCartLocal>().add(GetCart());
+                                          CustomToast.showToast(
+                                              context: context,
+                                              msg: 'Đã thêm vào giỏ hàng thành công',
+                                              duration: 1,
+                                              gravity: ToastGravity.BOTTOM);
+                                        }
+                                      },
+                                      child: InkWell(
+                                        onTap: () {
+                                          blocCartLocal.add(AddData(
+                                              modelSanPhamMain: ModelSanPhamMain(
+                                                  id: model.mostSaleProduct![index].id, amount: 1,max: model.mostSaleProduct![index].amount )));
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(12),
+                                                bottomRight: Radius.circular(12),
+                                              ),
+                                              color: Colors.red),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Icon(
+                                              Icons.shopping_cart_outlined,
+                                              color: Colors.white,
+                                              size: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                          scrollDirection: Axis.horizontal,
+                          itemCount: model.mostSaleProduct!.length,
+                          physics: AlwaysScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                        ),
+                      );
+                    }
+                    return SizedBox();
+                  },bloc: blocListMostSale,),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Sản phẩm E - commerce đề xuất',
+                    style: StyleApp.textStyle700(
+                        color: ColorApp.darkGreen, fontSize: 18),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  BlocBuilder(builder: (_,StateBloc state){
+                    if(state is LoadSuccess){
+                      ModelListSugg model=state.data;
+                      return GridView.builder(
+                        padding: EdgeInsets.zero,
+                        gridDelegate:
+                        SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                            mainAxisExtent:
+                            MediaQuery.of(context).size.height *
+                                0.33),
+                        itemBuilder: (context, index) {
+                          BlocCartLocal blocCartLocal = BlocCartLocal();
+                          return InkWell(
+                            onTap: () {
+                              context.read<BlocCartLocal>().add(GetCart());
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => InfoProdScreen(
+                                        id: model.productSugges![index].id.toString(),
+                                        cateID: model.productSugges![index].category![0].id.toString(),
+                                      )));
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              child: Stack(
+                                alignment: Alignment.bottomRight,
+                                children: [
+                                  Container(
+                                    height:
+                                    MediaQuery.of(context).size.height * 0.33,
+                                    width:
+                                    MediaQuery.of(context).size.width * 0.48,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        borderRadius: BorderRadius.circular(12)),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.19,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width *
+                                                0.48,
+                                            child: LoadImage(
+                                              fit: BoxFit.cover,
+                                              url:
+                                              '${Const.image_host}${model.productSugges![index].thumbnail}',
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height:
+                                          MediaQuery.of(context).size.height *
+                                              0.12,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8, vertical: 4),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  model.productSugges![index].code ?? '',
+                                                  style: StyleApp.textStyle600(),
+                                                ),
+                                                Text(
+                                                  model.productSugges![index].name ?? '',
+                                                  style: StyleApp.textStyle500(),
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'Giá bán: ',
+                                                      style:
+                                                      StyleApp.textStyle500(),
+                                                    ),
+                                                    Text(
+                                                      '${Const.ConvertPrice.format(int.parse('${model.productSugges![index].discountPrice}'))}',
+                                                      style:
+                                                      StyleApp.textStyle700(
+                                                          color: ColorApp
+                                                              .redText),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  BlocListener(
+                                    bloc: blocCartLocal,
+                                    listener: (context, StateBloc state) {
+                                      if (state is LoadSuccess) {
+                                        context.read<BlocCartLocal>().add(GetCart());
+                                        CustomToast.showToast(
+                                            context: context,
+                                            msg: 'Đã thêm vào giỏ hàng thành công',
+                                            duration: 1,
+                                            gravity: ToastGravity.BOTTOM);
+                                      }
+                                    },
+                                    child: InkWell(
+                                      onTap: () {
+                                        blocCartLocal.add(AddData(
+                                            modelSanPhamMain: ModelSanPhamMain(
+                                                id: model.productSugges![index].id, amount: 1,max: model.productSugges![index].amount )));
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(12),
+                                              bottomRight: Radius.circular(12),
+                                            ),
+                                            color: Colors.red),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: Icon(
+                                            Icons.shopping_cart_outlined,
+                                            color: Colors.white,
+                                            size: 18,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                        itemCount: model.productSugges!.length,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                      );
+                    }
+                    return SizedBox();
+                  },bloc: blocListSuggest,),
+                  SizedBox(
+                    height: 10,
+                  ),
+
+                ],
+              ),
+            ),
+          )):SizedBox()
         ],
       ),
     );

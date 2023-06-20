@@ -19,7 +19,7 @@ class BlocUpdateProfile extends Bloc<EventBloc, StateBloc> {
       try {
         Map<String, dynamic> req = Map();
         req['customerName'] = event.name;
-        req['customerAdd'] = event.address;
+        req['customerAdd'] = event.address??'địa chỉ';
         req['customerEmail'] = event.email;
         req['avatar'] = event.avatar;
 

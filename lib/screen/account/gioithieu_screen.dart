@@ -73,7 +73,7 @@ class _GioiThieuScreenState extends State<GioiThieuScreen> {
                         shadowColor: ColorApp.pink,
                         color: Colors.transparent,
                         child: Container(
-                          height: 50,
+                          height: 45,
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -111,7 +111,7 @@ class _GioiThieuScreenState extends State<GioiThieuScreen> {
                                       Icons.copy,
                                       color: Colors.white,
                                     ),
-                                    height: 50,
+                                    height: 45,
                                     decoration: BoxDecoration(
                                       color: ColorApp.green00,
                                       borderRadius: BorderRadius.only(
@@ -132,16 +132,79 @@ class _GioiThieuScreenState extends State<GioiThieuScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(),
-                          InkWell(onTap: (){
-                            Share.share('${modelProfile.profile!.code}');
-                          },child: Text('Chia sẻ đến bạn bè ',style: StyleApp.textStyle500(fontSize: 16,color: ColorApp.blue00,decoration: TextDecoration.underline),)),
+                          InkWell(
+                              onTap: () {
+                                Share.share('${modelProfile.profile!.code}');
+                              },
+                              child: Text(
+                                'Chia sẻ đến bạn bè ',
+                                style: StyleApp.textStyle500(
+                                    fontSize: 16,
+                                    color: ColorApp.blue00,
+                                    decoration: TextDecoration.underline),
+                              )),
                           SizedBox()
                         ],
                       ),
                       SizedBox(
                         height: 15,
                       ),
-
+                      Text(
+                        'Danh sách khách hàng được giới thiệu',
+                        style: StyleApp.textStyle700(),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      ListView.builder(shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                        return     PhysicalModel(
+                          borderRadius: BorderRadius.circular(
+                            20,
+                          ),
+                          elevation: 5.0,
+                          shadowColor: ColorApp.pink,
+                          color: Colors.transparent,
+                          child: Container(
+                            height: 45,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: SizedBox(),
+                                ),
+                                Expanded(
+                                    flex: 10,
+                                    child: Text(
+                                      '${index+1}.${modelProfile.profile!.refer![index].name}' ,
+                                      textAlign: TextAlign.center,
+                                    )),
+                                Expanded(
+                                  flex: 1,
+                                  child: SizedBox(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                        },
+                        itemCount: modelProfile.profile!.refer!.length > 3
+                            ? 3
+                            : modelProfile.profile!.refer!.length,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [SizedBox(),
+                          Text('Xem tất cả',style: StyleApp.textStyle500(decoration: TextDecoration.underline,color: ColorApp.dark500),),
+                        ],
+                      )
                     ],
                   ),
                 ),

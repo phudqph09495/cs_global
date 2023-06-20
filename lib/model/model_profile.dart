@@ -34,9 +34,12 @@ class Profile {
   String? totalCost;
   String? manageFee;
   String? type;
+  String? dateActiveBussiness;
   String? status;
   String? createdAt;
   String? updatedAt;
+  List<Refer>? refer;
+  List<Refer>? beRefered;
 
   Profile(
       {this.id,
@@ -55,9 +58,12 @@ class Profile {
         this.totalCost,
         this.manageFee,
         this.type,
+        this.dateActiveBussiness,
         this.status,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.refer,
+        this.beRefered});
 
   Profile.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -71,14 +77,27 @@ class Profile {
     banner = json['banner'];
     slogan = json['slogan'];
     deviceToken = json['device_token'];
-    score = json['score']??'0';
-    balance = json['balance']??'0';
-    totalCost = json['total_cost']??'0';
-    manageFee = json['manage_fee']??'0';
+    score = json['score'];
+    balance = json['balance'];
+    totalCost = json['total_cost'];
+    manageFee = json['manage_fee'];
     type = json['type'];
+    dateActiveBussiness = json['date_active_bussiness'];
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    if (json['refer'] != null) {
+      refer = <Refer>[];
+      json['refer'].forEach((v) {
+        refer!.add(new Refer.fromJson(v));
+      });
+    }
+    if (json['beRefered'] != null) {
+      beRefered = <Refer>[];
+      json['beRefered'].forEach((v) {
+        beRefered!.add(new Refer.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -99,9 +118,59 @@ class Profile {
     data['total_cost'] = this.totalCost;
     data['manage_fee'] = this.manageFee;
     data['type'] = this.type;
+    data['date_active_bussiness'] = this.dateActiveBussiness;
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    if (this.refer != null) {
+      data['refer'] = this.refer!.map((v) => v.toJson()).toList();
+    }
+    if (this.beRefered != null) {
+      data['beRefered'] = this.beRefered!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Refer {
+  String? code;
+  String? name;
+  Pivot? pivot;
+
+  Refer({this.code, this.name, this.pivot});
+
+  Refer.fromJson(Map<String, dynamic> json) {
+    code = json['code'];
+    name = json['name'];
+    pivot = json['pivot'] != null ? new Pivot.fromJson(json['pivot']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['code'] = this.code;
+    data['name'] = this.name;
+    if (this.pivot != null) {
+      data['pivot'] = this.pivot!.toJson();
+    }
+    return data;
+  }
+}
+
+class Pivot {
+  int? customerFriendId;
+  int? customerId;
+
+  Pivot({this.customerFriendId, this.customerId});
+
+  Pivot.fromJson(Map<String, dynamic> json) {
+    customerFriendId = json['customer_friend_id'];
+    customerId = json['customer_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['customer_friend_id'] = this.customerFriendId;
+    data['customer_id'] = this.customerId;
     return data;
   }
 }

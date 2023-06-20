@@ -36,7 +36,7 @@ TextEditingController name=TextEditingController();
     final entry = OverlayEntry(
       builder: (_) => Positioned(
         top: offset.dy-80,
-left:offset.dx-280 ,
+left:offset.dx ,
         child: _buildInfo(),
       ),
     );
