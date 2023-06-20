@@ -66,7 +66,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                       InkWell(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>GioiThieuScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>GioiThieuScreen())).then((value) => blocProfile.add(GetData()));
                         },
                         child: Container(
                           color: Colors.black.withOpacity(0.5),
@@ -311,10 +311,10 @@ class _AccountScreenState extends State<AccountScreen> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceAround,
                                   children: [
-                                    Text('Hạng tài khoản'),
-                                    Text('Hạng: Vàng')
+                                    Text('Hạng tài khoản',style: StyleApp.textStyle500(),),
+                                    Text('Hạng: ${modelProfile.profile!.type!.name}',style: StyleApp.textStyle500(),)
                                   ],
                                 ),
                                 SizedBox()

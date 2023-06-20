@@ -70,6 +70,15 @@ class LoginApp extends EventBloc {
     required this.password,
   });
 }
+class upgrade extends EventBloc {
+  String? type;
+  String? img;
+
+  upgrade({
+     this.type,
+     this.img,
+  });
+}
 class CreateAcc extends EventBloc {
 String? name;
 String? phone;

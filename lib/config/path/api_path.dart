@@ -10,6 +10,7 @@ class ApiPath {
   static const deleteAcc="/user/remove";
   static const dangky="/customer/register?refercode=";
 static const firebase="/notification/fcmToken";
+static const upgrade="/customer/upgrade/account";
 
 
   /// product

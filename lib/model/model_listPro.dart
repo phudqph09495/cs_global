@@ -189,7 +189,7 @@ class Prod {
     discountQlkd = json['discount_qlkd'];
     sold = json['sold'];
     score = json['score'];
-    discountPrice=json['discount_price'];
+    discountPrice=json['discount_price'].toString();
     hotProduct = json['hot_product'];
     amount = json['amount'];
     descript = json['descript'];

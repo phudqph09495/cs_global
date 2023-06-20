@@ -510,14 +510,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                'Sản phẩm cùng danh mục',
-                                style: StyleApp.textStyle700(
-                                    color: ColorApp.darkGreen, fontSize: 18),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
+
                             ],
                           ),
                         ),
@@ -552,6 +545,14 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                     final hasMore = state.hasMore;
                     return Column(
                       children: [
+                        Text(
+                          'Sản phẩm cùng danh mục',
+                          style: StyleApp.textStyle700(
+                              color: ColorApp.darkGreen, fontSize: 18),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         GridView.builder(
                           padding: EdgeInsets.symmetric(vertical: 20),
                           gridDelegate:

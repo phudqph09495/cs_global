@@ -90,7 +90,7 @@ class ProductSugges {
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    discountPrice = json['discount_price'];
+    discountPrice = json['discount_price'].toString();
 
     if (json['category'] != null) {
       category = <Category>[];

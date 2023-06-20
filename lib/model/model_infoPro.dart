@@ -105,7 +105,7 @@ this.discountPrice,
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     isFlashSale = json['is_flashSale'];
-discountPrice=json['discount_price'];
+discountPrice=json['discount_price'].toString();
     if (json['images_show'] != null) {
       imagesShow = <ImagesShow>[];
       json['images_show'].forEach((v) {

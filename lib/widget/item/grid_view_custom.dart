@@ -66,6 +66,6 @@ class GridViewCustom extends StatelessWidget {
         mainAxisExtent: mainAxisExtent,
       ),
       itemBuilder: itemBuilder,
-    ):Container();
+    ):Image.asset('assets/images/photo.png',width: 40,height: 50,);
   }
 }

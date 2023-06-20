@@ -27,13 +27,13 @@ class Profile {
   String? password;
   String? avatar;
   String? banner;
-  String? slogan;
+  Null? slogan;
   Null? deviceToken;
   int? score;
   String? balance;
   String? totalCost;
   String? manageFee;
-  String? type;
+  Type? type;
   String? dateActiveBussiness;
   String? status;
   String? createdAt;
@@ -81,7 +81,7 @@ class Profile {
     balance = json['balance'];
     totalCost = json['total_cost'];
     manageFee = json['manage_fee'];
-    type = json['type'];
+    type = json['type'] != null ? new Type.fromJson(json['type']) : null;
     dateActiveBussiness = json['date_active_bussiness'];
     status = json['status'];
     createdAt = json['created_at'];
@@ -117,7 +117,9 @@ class Profile {
     data['balance'] = this.balance;
     data['total_cost'] = this.totalCost;
     data['manage_fee'] = this.manageFee;
-    data['type'] = this.type;
+    if (this.type != null) {
+      data['type'] = this.type!.toJson();
+    }
     data['date_active_bussiness'] = this.dateActiveBussiness;
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
@@ -128,6 +130,25 @@ class Profile {
     if (this.beRefered != null) {
       data['beRefered'] = this.beRefered!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class Type {
+  String? key;
+  String? name;
+
+  Type({this.key, this.name});
+
+  Type.fromJson(Map<String, dynamic> json) {
+    key = json['key'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['key'] = this.key;
+    data['name'] = this.name;
     return data;
   }
 }
