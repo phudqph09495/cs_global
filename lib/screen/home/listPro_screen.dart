@@ -67,7 +67,6 @@ class _ListProScreenState extends State<ListProScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: ColorApp.green00,
@@ -124,14 +123,16 @@ class _ListProScreenState extends State<ListProScreen> {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) => StartScreen()));
+                                                  builder: (context) =>
+                                                      StartScreen()));
                                         },
                                         child: Container(
                                             width: double.infinity,
-                                            decoration:
-                                            BoxDecoration(color: Colors.green),
+                                            decoration: BoxDecoration(
+                                                color: Colors.green),
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: Text(
                                                 'Quay lại trang đăng nhập',
                                                 textAlign: TextAlign.center,
@@ -185,7 +186,7 @@ class _ListProScreenState extends State<ListProScreen> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.33,
                                   width:
-                                      MediaQuery.of(context).size.width * 0.48,
+                                      MediaQuery.of(context).size.width * 0.45,
                                   decoration: BoxDecoration(
                                       border: Border.all(),
                                       borderRadius: BorderRadius.circular(12)),
@@ -193,17 +194,17 @@ class _ListProScreenState extends State<ListProScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.19,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.48,
+                                      Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.24,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.45,
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(12),
+                                              topRight: Radius.circular(12)),
                                           child: LoadImage(
                                             fit: BoxFit.cover,
                                             url:
@@ -214,7 +215,7 @@ class _ListProScreenState extends State<ListProScreen> {
                                       Container(
                                         height:
                                             MediaQuery.of(context).size.height *
-                                                0.12,
+                                                0.08,
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 8, vertical: 4),
@@ -224,14 +225,30 @@ class _ListProScreenState extends State<ListProScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
-                                                model[index].code ?? '',
-                                                style: StyleApp.textStyle600(),
-                                              ),
+                                              // Text(
+                                              //   model[index].code ?? '',
+                                              //   style: StyleApp.textStyle600(),
+                                              // ),
                                               Text(
                                                 model[index].name ?? '',
                                                 style: StyleApp.textStyle500(),
                                                 overflow: TextOverflow.ellipsis,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'Giá gốc: ',
+                                                    style:
+                                                    StyleApp.textStyle500(),
+                                                  ),
+                                                  Text(
+                                                    '${Const.ConvertPrice.format(int.parse('${model[index].price}'))}',
+                                                    style:
+                                                    StyleApp.textStyle700(
+                                                        color: ColorApp
+                                                            .dark500),
+                                                  )
+                                                ],
                                               ),
                                               Row(
                                                 children: [
@@ -260,10 +277,10 @@ class _ListProScreenState extends State<ListProScreen> {
                                   bloc: blocCartLocal,
                                   listener: (context, StateBloc state) {
                                     if (state is LoadSuccess) {
-
                                       CustomToast.showToast(
                                           context: context,
-                                          msg: 'Đã thêm vào giỏ hàng thành công',
+                                          msg:
+                                              'Đã thêm vào giỏ hàng thành công',
                                           duration: 1,
                                           gravity: ToastGravity.BOTTOM);
                                     }
@@ -272,7 +289,9 @@ class _ListProScreenState extends State<ListProScreen> {
                                     onTap: () {
                                       blocCartLocal.add(AddData(
                                           modelSanPhamMain: ModelSanPhamMain(
-                                              id: model[index].id, amount: 1,max: model[index].amount)));
+                                              id: model[index].id,
+                                              amount: 1,
+                                              max: model[index].amount)));
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
@@ -305,7 +324,6 @@ class _ListProScreenState extends State<ListProScreen> {
                       hasMore: hasMore,
                       length: length,
                     ),
-
                   ],
                 ),
               );

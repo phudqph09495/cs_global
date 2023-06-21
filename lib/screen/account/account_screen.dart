@@ -368,11 +368,11 @@ class _AccountScreenState extends State<AccountScreen> {
                                       style: StyleApp.textStyle500(),
                                     ),
                                     Text(
-                                      modelProfile.profile!.beRefered![0].name??'',
+                                      modelProfile.profile!.beRefered!.length>0?          modelProfile.profile!.beRefered![0].name??'':'',
                                       style: StyleApp.textStyle700(),
                                     ),
                                     Text(
-                                      modelProfile.profile!.beRefered![0].code??'',
+                                      modelProfile.profile!.beRefered!.length>0?       modelProfile.profile!.beRefered![0].code??'':'',
                                       style: StyleApp.textStyle500(),
                                     ),
                                   ],

@@ -119,7 +119,7 @@ key: widget.globalKey,
           ),
           filled: true,
           fillColor: widget.colorBg,
-          contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+          contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           prefixIcon: widget.hasLeading
               ? widget.iconPreFix
               : null,

@@ -323,7 +323,7 @@ class _ChuyenKhoanScreenState extends State<ChuyenKhoanScreen> {
         physics: const NeverScrollableScrollPhysics(),
         showFull: true,
         maxWight: 100,
-        mainAxisExtent: 50,
+        mainAxisExtent: 100,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
         itemBuilder: (_, index) {

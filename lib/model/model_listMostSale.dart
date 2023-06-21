@@ -133,10 +133,10 @@ class MostSaleProduct {
 class Category {
   int? id;
   String? name;
-  Null? image;
+  String? image;
   int? position;
-  Null? descript;
-  Null? parentId;
+  String? descript;
+  String? parentId;
   String? status;
   String? createdAt;
   String? updatedAt;
@@ -160,7 +160,7 @@ class Category {
     image = json['image'];
     position = json['position'];
     descript = json['descript'];
-    parentId = json['parent_id'];
+    parentId = json['parent_id'].toString();
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];

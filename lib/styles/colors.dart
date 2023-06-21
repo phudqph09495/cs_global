@@ -41,6 +41,9 @@ class ColorApp {
   static  Color greyF9= const Color(0xff8B8B8B).withOpacity(0.1);
   static const Color yellow=Color(0xffEFB839);
   static const Color black3F=Color(0xff3F3F3F);
+  static const Color red1 = Color(0xffCC2127);
+  static const Color background = Color(0xffFFFFFF);
+  static const Color green1 = Color(0xff009448);
 
   static const LinearGradient linearGradientMain =
       LinearGradient(colors: [blue1F, blue00]);
