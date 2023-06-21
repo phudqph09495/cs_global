@@ -51,6 +51,9 @@ class Product {
   String? hotProduct;
   int? amount;
   String? descript;
+  String? manual_user;
+  String? supplier_info;
+  String? legal_info;
   String? status;
   String? createdAt;
   String? updatedAt;
@@ -73,6 +76,7 @@ String? discountPrice;
         this.discountQlkd,
         this.sold,
         this.score,
+        this.manual_user,this.supplier_info,this.legal_info,
         this.hotProduct,
         this.amount,
         this.descript,
@@ -97,6 +101,9 @@ this.discountPrice,
     discountTnkd = json['discount_tnkd'];
     discountQlkd = json['discount_qlkd'];
     sold = json['sold'];
+    manual_user=json['manual_user'];
+    supplier_info=json['supplier_info'];
+    legal_info=json['legal_info'];
     score = json['score'];
     hotProduct = json['hot_product'];
     amount = json['amount'];

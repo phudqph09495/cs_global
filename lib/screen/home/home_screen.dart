@@ -100,6 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 0.65,
                         child: InputText1(
+                          readOnly: true,
                           colorShadow: Colors.transparent,
                           label: 'Tìm kiếm sản phẩm',
                           colorBg: Color(0xff019549),
@@ -492,7 +493,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ModelListMostSale model = state.data;
                             return SizedBox(
                               height:
-                              MediaQuery.of(context).size.height * 0.33,
+                              MediaQuery.of(context).size.height * 0.34,
                               child: ListView.builder(
                                 itemBuilder: (context, index) {
                                   BlocCartLocal blocCartLocal =
@@ -528,7 +529,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             height: MediaQuery.of(context)
                                                 .size
                                                 .height *
-                                                0.33,
+                                                0.34,
                                             width: MediaQuery.of(context)
                                                 .size
                                                 .width *
@@ -738,7 +739,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   crossAxisSpacing: 10,
                                   mainAxisExtent:
                                   MediaQuery.of(context).size.height *
-                                      0.33),
+                                      0.34),
                               itemBuilder: (context, index) {
                                 BlocCartLocal blocCartLocal = BlocCartLocal();
                                 return InkWell(
@@ -772,7 +773,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           height: MediaQuery.of(context)
                                               .size
                                               .height *
-                                              0.33,
+                                              0.34,
                                           width: MediaQuery.of(context)
                                               .size
                                               .width *
@@ -1030,7 +1031,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ModelListMostSale model = state.data;
                             return SizedBox(
                               height:
-                              MediaQuery.of(context).size.height * 0.33,
+                              MediaQuery.of(context).size.height * 0.34,
                               child: ListView.builder(
                                 itemBuilder: (context, index) {
                                   BlocCartLocal blocCartLocal =
@@ -1066,7 +1067,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             height: MediaQuery.of(context)
                                                 .size
                                                 .height *
-                                                0.33,
+                                                0.34,
                                             width: MediaQuery.of(context)
                                                 .size
                                                 .width *
@@ -1276,7 +1277,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   crossAxisSpacing: 10,
                                   mainAxisExtent:
                                   MediaQuery.of(context).size.height *
-                                      0.33),
+                                      0.34),
                               itemBuilder: (context, index) {
                                 BlocCartLocal blocCartLocal = BlocCartLocal();
                                 return InkWell(
@@ -1310,7 +1311,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           height: MediaQuery.of(context)
                                               .size
                                               .height *
-                                              0.33,
+                                              0.34,
                                           width: MediaQuery.of(context)
                                               .size
                                               .width *

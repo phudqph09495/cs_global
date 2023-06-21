@@ -507,9 +507,66 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                       ),
                                     )
                                   : SizedBox(),
-                              tab==1?Container():SizedBox(),
-                              tab==2?Container():SizedBox(),
-                              tab==3?Container():SizedBox(),
+                              tab == 1
+                                  ? Container(
+                                height: 200,
+                                child: SingleChildScrollView(
+                                  child: HtmlWidget(
+                                    '${modelInfoPro.product!.manual_user}',
+                                    customWidgetBuilder: (ele) {
+                                      if (ele.attributes['src'] != null &&
+                                          ele.attributes['src']!
+                                              .startsWith("/media")) {
+                                        return LoadImage(
+                                            url:
+                                            '${Const.image_host}${ele.attributes['src']}');
+                                      }
+                                    },
+                                    onTapUrl: (url) => _launchURL(url),
+                                  ),
+                                ),
+                              )
+                                  : SizedBox(),
+                              tab == 2
+                                  ? Container(
+                                height: 200,
+                                child: SingleChildScrollView(
+                                  child: HtmlWidget(
+                                    '${modelInfoPro.product!.supplier_info}',
+                                    customWidgetBuilder: (ele) {
+                                      if (ele.attributes['src'] != null &&
+                                          ele.attributes['src']!
+                                              .startsWith("/media")) {
+                                        return LoadImage(
+                                            url:
+                                            '${Const.image_host}${ele.attributes['src']}');
+                                      }
+                                    },
+                                    onTapUrl: (url) => _launchURL(url),
+                                  ),
+                                ),
+                              )
+                                  : SizedBox(),
+                              tab == 3
+                                  ? Container(
+                                height: 200,
+                                child: SingleChildScrollView(
+                                  child: HtmlWidget(
+                                    '${modelInfoPro.product!.legal_info}',
+                                    customWidgetBuilder: (ele) {
+                                      if (ele.attributes['src'] != null &&
+                                          ele.attributes['src']!
+                                              .startsWith("/media")) {
+                                        return LoadImage(
+                                            url:
+                                            '${Const.image_host}${ele.attributes['src']}');
+                                      }
+                                    },
+                                    onTapUrl: (url) => _launchURL(url),
+                                  ),
+                                ),
+                              )
+                                  : SizedBox(),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -564,7 +621,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                   crossAxisSpacing: 0,
                                   mainAxisExtent:
                                       MediaQuery.of(context).size.height *
-                                          0.33),
+                                          0.34),
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
@@ -585,7 +642,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                     Container(
                                       height:
                                           MediaQuery.of(context).size.height *
-                                              0.33,
+                                              0.34,
                                       width: MediaQuery.of(context).size.width *
                                           0.45,
                                       decoration: BoxDecoration(

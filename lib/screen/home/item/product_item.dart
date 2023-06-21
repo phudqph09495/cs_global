@@ -20,7 +20,7 @@ class _ProductItemState extends State<ProductItem> {
           Container(
             height:
             MediaQuery.of(context).size.height *
-                0.33 ,
+                0.34 ,
             width: MediaQuery.of(context).size.width *
                 0.45,
             decoration: BoxDecoration(

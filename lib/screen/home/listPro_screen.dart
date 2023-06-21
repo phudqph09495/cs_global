@@ -163,7 +163,7 @@ class _ListProScreenState extends State<ListProScreen> {
                           mainAxisSpacing: 20,
                           crossAxisSpacing: 0,
                           mainAxisExtent:
-                              MediaQuery.of(context).size.height * 0.33),
+                              MediaQuery.of(context).size.height * 0.34),
                       itemBuilder: (context, index) {
                         BlocCartLocal blocCartLocal = BlocCartLocal();
                         return InkWell(
@@ -184,7 +184,7 @@ class _ListProScreenState extends State<ListProScreen> {
                               children: [
                                 Container(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.33,
+                                      MediaQuery.of(context).size.height * 0.34,
                                   width:
                                       MediaQuery.of(context).size.width * 0.45,
                                   decoration: BoxDecoration(
