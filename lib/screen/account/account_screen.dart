@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../bloc/auth/bloc_deleteAcc.dart';
 import '../../bloc/auth/bloc_updateProfile.dart';
 import '../../bloc/choose_image_bloc.dart';
 import '../../bloc/state_bloc.dart';
@@ -41,6 +42,7 @@ class _AccountScreenState extends State<AccountScreen> {
   BlocProfile blocProfile = BlocProfile()..add(GetData());
   ChooseImageBloc chooseImageBloc = ChooseImageBloc();
   BlocUpdateProfile blocUpdateProfile = BlocUpdateProfile();
+  BlocDeleteAcc blocDeleteAcc=BlocDeleteAcc();
 
   @override
   Widget build(BuildContext context) {
@@ -318,9 +320,9 @@ class _AccountScreenState extends State<AccountScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceAround,
-                                  children: const [
+                                  children:  [
                                     Text('Hạng tài khoản'),
-                                    Text('Hạng: Vàng')
+                                    Text('Hạng: ${ modelProfile.profile!.type!.name}')
                                   ],
                                 ),
                                 const SizedBox()
@@ -385,8 +387,9 @@ class _AccountScreenState extends State<AccountScreen> {
                                       style: StyleApp.textStyle500(),
                                     ),
                                     (modelProfile.profile!.beRefered!.length >
-                                        1)
+                                        0)
                                         ? Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           modelProfile.profile!
@@ -682,6 +685,118 @@ class _AccountScreenState extends State<AccountScreen> {
                                     style: StyleApp.textStyle700(fontSize: 16),
                                   ),
                                   const FaIcon(FontAwesomeIcons.key)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20.0))),
+                                  backgroundColor: ColorApp.whiteF7,
+                                  actionsPadding:
+                                  const EdgeInsets.only(bottom: 10),
+                                  actionsAlignment:
+                                  MainAxisAlignment.spaceEvenly,
+                                  scrollable: true,
+                                  content: SizedBox(
+                                      width: Const.sizeWidth(context, 370),
+                                      height: Const.sizeHeight(context, 80),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Bạn có chắc chắn muốn xoá tài khoản',
+                                          style: StyleApp.textStyle500(),
+                                        ),
+                                      )),
+                                  actions: [
+                                    BlocListener(bloc: blocDeleteAcc,
+                                      listener: (_,StateBloc state) {
+                                      CheckLogState.check(context, state: state,msg: 'Đã xoá tài khoản',success: ()async{
+                                        await SharePrefsKeys.removeAllKey();
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                const StartScreen()))
+                                            .then((value) {
+                                          FlutterExitApp.exitApp(
+                                              iosForceExit: true);
+                                        });
+                                      });
+                                      },
+                                      child: InkWell(
+                                        onTap: ()  {
+
+                                          blocDeleteAcc.add(GetData());
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(12),
+                                              color: ColorApp.redText),
+                                          child: Padding(
+                                            padding:
+                                            const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'Đồng ý',
+                                              style: StyleApp.textStyle500(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(12),
+                                            color: ColorApp.redText),
+                                        child: Padding(
+                                          padding:
+                                          const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Huỷ bỏ',
+                                            style: StyleApp.textStyle500(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ));
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 60,
+                            decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(40)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 28, vertical: 2),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Xoá Tài Khoản',
+                                    style: StyleApp.textStyle700(fontSize: 16),
+                                  ),
+                                  const FaIcon(
+                                      FontAwesomeIcons.userXmark)
                                 ],
                               ),
                             ),

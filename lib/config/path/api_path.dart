@@ -7,7 +7,7 @@ class ApiPath {
   static const tinh="/customer/order/region/list";
   static const huyen="/customer/order/district/list?regionId=";
   static const updatePro="/customer/profile/update";
-  static const deleteAcc="/user/remove";
+  static const deleteAcc="/customer/delete";
   static const dangky="/customer/register?refercode=";
 static const firebase="/notification/fcmToken";
 static const upgrade="/customer/upgrade/account";
