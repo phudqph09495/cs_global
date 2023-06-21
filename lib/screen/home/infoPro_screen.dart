@@ -602,7 +602,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                     return ItemLoadFaild(
                       error: state.error,
                       onTap: () {
-                        blocListPro.add(GetData(param: widget.id.toString()));
+                        blocListPro.add(GetData(param: widget.cateID.toString()));
                       },
                     );
                   }
@@ -631,7 +631,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                     MaterialPageRoute(
                                         builder: (context) => InfoProdScreen(
                                               id: model[index].id.toString(),
-                                              cateID: widget.id.toString(),
+                                              cateID: widget.cateID.toString(),
                                             )));
                               },
                               child: Padding(
@@ -786,7 +786,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                   }
                   return Container();
                 }),
-            SizedBox(height: 50,)
+            SizedBox(height: 100,)
           ],
         ),
       ),

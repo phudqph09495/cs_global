@@ -55,18 +55,22 @@ class _AccountScreenState extends State<AccountScreen> {
                   Stack(
                     alignment: Alignment.bottomCenter,
                     children: [
-                      Container(
+                      SizedBox(
                         height: Const.size(context).height * 0.25,
                         width: double.infinity,
                         child: LoadImage(
                           url:
-                              '${Const.image_host}${modelProfile.profile!.banner}',
+                          '${Const.image_host}${modelProfile.profile!.banner}',
                           fit: BoxFit.cover,
                         ),
                       ),
                       InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>GioiThieuScreen())).then((value) => blocProfile.add(GetData()));
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                  const GioiThieuScreen()));
                         },
                         child: Container(
                           color: Colors.black.withOpacity(0.5),
@@ -76,7 +80,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SizedBox(),
+                                const SizedBox(),
                                 Row(
                                   children: [
                                     Text(
@@ -84,7 +88,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                       style: StyleApp.textStyle500(
                                           color: Colors.white, fontSize: 16),
                                     ),
-                                    Icon(
+                                    const Icon(
                                       Icons.info_rounded,
                                       color: Colors.white,
                                     ),
@@ -98,7 +102,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Column(
                       children: [
                         Row(
@@ -106,7 +110,8 @@ class _AccountScreenState extends State<AccountScreen> {
                           children: [
                             Row(
                               children: [
-                                Icon(Icons.account_balance_wallet_outlined),
+                                const Icon(
+                                    Icons.account_balance_wallet_outlined),
                                 Text(
                                   ' Số dư ví (VNĐ) : ',
                                   style: StyleApp.textStyle500(fontSize: 16),
@@ -117,11 +122,12 @@ class _AccountScreenState extends State<AccountScreen> {
                               children: [
                                 Text(
                                   showMoney
-                                      ? '${Const.ConvertPrice.format(int.parse('${modelProfile.profile!.balance}'))}'
+                                      ? Const.ConvertPrice.format(int.parse(
+                                      '${modelProfile.profile!.balance}'))
                                       : '*******',
                                   style: StyleApp.textStyle500(fontSize: 16),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 InkWell(
@@ -137,22 +143,22 @@ class _AccountScreenState extends State<AccountScreen> {
                             )
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
-                          padding: EdgeInsets.all(2), // Border width
-                          decoration: BoxDecoration(
+                          padding: const EdgeInsets.all(2), // Border width
+                          decoration: const BoxDecoration(
                               color: Colors.red, shape: BoxShape.circle),
                           child: ClipOval(
                             child: SizedBox.fromSize(
-                              size: Size.fromRadius(60), // Image radius
+                              size: const Size.fromRadius(60), // Image radius
                               child: Stack(
                                 alignment: Alignment.bottomCenter,
                                 children: [
                                   LoadImage(
                                     url:
-                                        '${Const.image_host}${modelProfile.profile!.avatar}',
+                                    '${Const.image_host}${modelProfile.profile!.avatar}',
                                     height: 120,
                                     width: 120,
                                     fit: BoxFit.cover,
@@ -163,27 +169,26 @@ class _AccountScreenState extends State<AccountScreen> {
                                       CheckLogState.check(context,
                                           state: state,
                                           isShowMsg: false, success: () {
-                                        blocProfile.add(GetData());
-                                      });
+                                            blocProfile.add(GetData());
+                                          });
                                     },
                                     child: InkWell(
                                       onTap: () {
                                         ImagePicker _picker = ImagePicker();
                                         _picker
                                             .pickImage(
-                                                source: ImageSource.gallery)
+                                            source: ImageSource.gallery)
                                             .then((value) {
                                           if (value != null) {
                                             final bytes = File(value.path)
                                                 .readAsBytesSync();
                                             String avatar =
-                                                "data:image/png;base64," +
-                                                    base64Encode(bytes);
+                                                "data:image/png;base64,${base64Encode(bytes)}";
                                             blocUpdateProfile.add(UpdateProfile(
                                                 name:
-                                                    modelProfile.profile!.name,
+                                                modelProfile.profile!.name,
                                                 email:
-                                                    modelProfile.profile!.email,
+                                                modelProfile.profile!.email,
                                                 address: modelProfile
                                                     .profile!.address,
                                                 avatar: avatar));
@@ -194,7 +199,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                           height: 20,
                                           width: double.infinity,
                                           color: Colors.white.withOpacity(0.5),
-                                          child: Icon(
+                                          child: const Icon(
                                             Icons.camera_alt_outlined,
                                             color: ColorApp.dark500,
                                           )),
@@ -205,20 +210,20 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(
                           modelProfile.profile!.name ?? '',
                           style: StyleApp.textStyle600(fontSize: 16),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(),
+                            const SizedBox(),
                             Row(
                               children: [
                                 Text(
@@ -229,68 +234,69 @@ class _AccountScreenState extends State<AccountScreen> {
                                   modelProfile.profile!.code ?? '',
                                   style: StyleApp.textStyle500(fontSize: 16),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 InkWell(
                                     onTap: () {
                                       Clipboard.setData(ClipboardData(
-                                              text:
-                                                  modelProfile.profile!.code ??
-                                                      ''))
+                                          text:
+                                          modelProfile.profile!.code ??
+                                              ''))
                                           .then((value) {
                                         //only if ->
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content: Text(
-                                                    'Đã copy '))); // -> show a notification
+                                            .showSnackBar(const SnackBar(
+                                            content: Text(
+                                                'Đã copy '))); // -> show a notification
                                       });
                                     },
-                                    child: Icon((Icons.copy)))
+                                    child: const Icon((Icons.copy)))
                               ],
                             ),
-                            SizedBox(),
+                            const SizedBox(),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(),
+                            const SizedBox(),
                             Row(
                               children: [
                                 Text(
                                   'Cập nhật Sologan ',
                                   style: StyleApp.textStyle500(fontSize: 16),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 InkWell(
                                     onTap: () {},
-                                    child: Icon((FontAwesomeIcons.penToSquare)))
+                                    child: const Icon(
+                                        (FontAwesomeIcons.penToSquare)))
                               ],
                             ),
-                            SizedBox(),
+                            const SizedBox(),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(),
+                            const SizedBox(),
                             Text(
                               modelProfile.profile!.phone ?? '',
                               style: StyleApp.textStyle500(fontSize: 16),
                             ),
-                            SizedBox(),
+                            const SizedBox(),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         Container(
@@ -300,38 +306,42 @@ class _AccountScreenState extends State<AccountScreen> {
                               color: ColorApp.greyE6,
                               borderRadius: BorderRadius.circular(40)),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 2),
                             child: Row(
                               children: [
                                 Image.asset('assets/images/rank.png'),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text('Hạng tài khoản',style: StyleApp.textStyle500(),),
-                                    Text('Hạng: ${modelProfile.profile!.type!.name}',style: StyleApp.textStyle500(),)
+                                  MainAxisAlignment.spaceAround,
+                                  children: const [
+                                    Text('Hạng tài khoản'),
+                                    Text('Hạng: Vàng')
                                   ],
                                 ),
-                                SizedBox()
+                                const SizedBox()
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(),
+                            const SizedBox(),
                             InkWell(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>KichHoatTK()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const KichHoatTK()));
                                 },
                                 child: Text(
                                   'Kích hoạt hạng tài khoản',
@@ -340,7 +350,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 )),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         Container(
@@ -350,38 +360,56 @@ class _AccountScreenState extends State<AccountScreen> {
                               color: ColorApp.greyE6,
                               borderRadius: BorderRadius.circular(40)),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 2),
                             child: Row(
                               children: [
-                                Image.asset('assets/images/meeting.png'),
-                                SizedBox(
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Image.asset(
+                                  'assets/images/meeting.png',
+                                  width: 35,
+                                  height: 35,
+                                ),
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Người giới thiệu:',
                                       style: StyleApp.textStyle500(),
                                     ),
-                                    Text(
-                                      modelProfile.profile!.beRefered!.length>0?          modelProfile.profile!.beRefered![0].name??'':'',
-                                      style: StyleApp.textStyle700(),
-                                    ),
-                                    Text(
-                                      modelProfile.profile!.beRefered!.length>0?       modelProfile.profile!.beRefered![0].code??'':'',
-                                      style: StyleApp.textStyle500(),
-                                    ),
+                                    (modelProfile.profile!.beRefered!.length >
+                                        1)
+                                        ? Column(
+                                      children: [
+                                        Text(
+                                          modelProfile.profile!
+                                              .beRefered![0].name ??
+                                              '',
+                                          style: StyleApp.textStyle700(),
+                                        ),
+                                        Text(
+                                          modelProfile.profile!
+                                              .beRefered![0].code ??
+                                              '',
+                                          style: StyleApp.textStyle500(),
+                                        ),
+                                      ],
+                                    )
+                                        : const SizedBox.shrink(),
                                   ],
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
@@ -391,18 +419,25 @@ class _AccountScreenState extends State<AccountScreen> {
                               color: ColorApp.greyE6,
                               borderRadius: BorderRadius.circular(40)),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 2),
                             child: Row(
                               children: [
-                                Image.asset('assets/images/vi.png'),
-                                SizedBox(
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Image.asset(
+                                  'assets/images/vi.png',
+                                  width: 35,
+                                  height: 35,
+                                ),
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Ví CS',
@@ -422,12 +457,14 @@ class _AccountScreenState extends State<AccountScreen> {
                                           children: [
                                             Text(
                                               showMoney2
-                                                  ? '${Const.formatPrice(modelProfile.profile!.balance)}'
+                                                  ? Const.formatPrice(
+                                                  modelProfile
+                                                      .profile!.balance)
                                                   : '*******',
                                               style: StyleApp.textStyle500(
                                                   fontSize: 14),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 10,
                                             ),
                                             InkWell(
@@ -448,20 +485,21 @@ class _AccountScreenState extends State<AccountScreen> {
                                     ),
                                   ],
                                 ),
-                                SizedBox()
+                                const SizedBox()
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         InkWell(
                           onTap: () {
                             Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ProfileScreen()))
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                    const ProfileScreen()))
                                 .then((value) => blocProfile.add(GetData()));
                           },
                           child: Container(
@@ -471,35 +509,35 @@ class _AccountScreenState extends State<AccountScreen> {
                                 color: ColorApp.greyE6,
                                 borderRadius: BorderRadius.circular(40)),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 2),
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
-                                      FaIcon(
+                                      const FaIcon(
                                         FontAwesomeIcons.person,
                                         color: ColorApp.yellow,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       Text(
                                         'Thông tin tài khoản',
                                         style:
-                                            StyleApp.textStyle700(fontSize: 16),
+                                        StyleApp.textStyle700(fontSize: 16),
                                       ),
                                     ],
                                   ),
-                                  FaIcon(FontAwesomeIcons.longArrowRight)
+                                  const FaIcon(FontAwesomeIcons.longArrowRight)
                                 ],
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
@@ -509,30 +547,37 @@ class _AccountScreenState extends State<AccountScreen> {
                               color: ColorApp.greyE6,
                               borderRadius: BorderRadius.circular(40)),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 2),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   children: [
-                                    Image.asset('assets/images/quydinh.png'),
-                                    SizedBox(
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Image.asset(
+                                      'assets/images/quydinh.png',
+                                      width: 35,
+                                      height: 35,
+                                    ),
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Text(
                                       'Quy định App CS Global',
                                       style:
-                                          StyleApp.textStyle700(fontSize: 16),
+                                      StyleApp.textStyle700(fontSize: 16),
                                     ),
                                   ],
                                 ),
-                                FaIcon(FontAwesomeIcons.longArrowRight)
+                                const FaIcon(FontAwesomeIcons.longArrowRight)
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
@@ -542,30 +587,37 @@ class _AccountScreenState extends State<AccountScreen> {
                               color: ColorApp.greyE6,
                               borderRadius: BorderRadius.circular(40)),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 2),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   children: [
-                                    Image.asset('assets/images/htkh.png'),
-                                    SizedBox(
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Image.asset(
+                                      'assets/images/htkh.png',
+                                      width: 35,
+                                      height: 35,
+                                    ),
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Text(
                                       'Hỗ trợ khách hàng',
                                       style:
-                                          StyleApp.textStyle700(fontSize: 16),
+                                      StyleApp.textStyle700(fontSize: 16),
                                     ),
                                   ],
                                 ),
-                                FaIcon(FontAwesomeIcons.longArrowRight)
+                                const FaIcon(FontAwesomeIcons.longArrowRight)
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
@@ -575,30 +627,33 @@ class _AccountScreenState extends State<AccountScreen> {
                               color: ColorApp.greyE6,
                               borderRadius: BorderRadius.circular(40)),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 2),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   children: [
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
                                     Image.asset('assets/images/splash.png'),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Text(
                                       'Giới thiệu CS Global',
                                       style:
-                                          StyleApp.textStyle700(fontSize: 16),
+                                      StyleApp.textStyle700(fontSize: 16),
                                     ),
                                   ],
                                 ),
-                                FaIcon(FontAwesomeIcons.longArrowRight)
+                                const FaIcon(FontAwesomeIcons.longArrowRight)
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         InkWell(
@@ -606,7 +661,8 @@ class _AccountScreenState extends State<AccountScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChangePassProfile()));
+                                    builder: (context) =>
+                                    const ChangePassProfile()));
                           },
                           child: Container(
                             width: double.infinity,
@@ -615,23 +671,23 @@ class _AccountScreenState extends State<AccountScreen> {
                                 color: Colors.transparent,
                                 borderRadius: BorderRadius.circular(40)),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 28, vertical: 2),
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Đổi mật khẩu',
                                     style: StyleApp.textStyle700(fontSize: 16),
                                   ),
-                                  FaIcon(FontAwesomeIcons.key)
+                                  const FaIcon(FontAwesomeIcons.key)
                                 ],
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         InkWell(
@@ -639,67 +695,77 @@ class _AccountScreenState extends State<AccountScreen> {
                             showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(20.0))
-                                  ),
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20.0))),
                                   backgroundColor: ColorApp.whiteF7,
-                                  actionsPadding: EdgeInsets.only(bottom: 10),
-                                      actionsAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      scrollable: true,
-                                      content: Container(
-                                          width: Const.sizeWidth(context, 370),
-                                          height: Const.sizeHeight(context, 50),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'Bạn muốn đăng xuất',
-                                              style: StyleApp.textStyle500(),
-                                            ),
-                                          )),
-                                      actions: [
-                                        InkWell(
-                                          onTap: ()async{
-                                           await SharePrefsKeys.removeAllKey();
-                                           Navigator.push(context, MaterialPageRoute(builder: (context)=>StartScreen())).then((value) {
-
-                                             FlutterExitApp.exitApp(iosForceExit: true);
-                                           });
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(12),
-                                                color: ColorApp.redText),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                'Đồng ý',
-                                                style: StyleApp.textStyle500(color: Colors.white),
-                                              ),
-                                            ),
+                                  actionsPadding:
+                                  const EdgeInsets.only(bottom: 10),
+                                  actionsAlignment:
+                                  MainAxisAlignment.spaceEvenly,
+                                  scrollable: true,
+                                  content: SizedBox(
+                                      width: Const.sizeWidth(context, 370),
+                                      height: Const.sizeHeight(context, 50),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Bạn muốn đăng xuất',
+                                          style: StyleApp.textStyle500(),
+                                        ),
+                                      )),
+                                  actions: [
+                                    InkWell(
+                                      onTap: () async {
+                                        await SharePrefsKeys.removeAllKey();
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                const StartScreen()))
+                                            .then((value) {
+                                          FlutterExitApp.exitApp(
+                                              iosForceExit: true);
+                                        });
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(12),
+                                            color: ColorApp.redText),
+                                        child: Padding(
+                                          padding:
+                                          const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Đồng ý',
+                                            style: StyleApp.textStyle500(
+                                                color: Colors.white),
                                           ),
                                         ),
-                                        InkWell(
-                                          onTap: (){
-                                            Navigator.pop(context);
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(12),
-                                                color: ColorApp.redText),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                'Huỷ bỏ',
-                                                style: StyleApp.textStyle500(color: Colors.white),
-                                              ),
-                                            ),
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(12),
+                                            color: ColorApp.redText),
+                                        child: Padding(
+                                          padding:
+                                          const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Huỷ bỏ',
+                                            style: StyleApp.textStyle500(
+                                                color: Colors.white),
                                           ),
                                         ),
-                                      ],
-                                    ));
+                                      ),
+                                    ),
+                                  ],
+                                ));
                           },
                           child: Container(
                             width: double.infinity,
@@ -708,17 +774,18 @@ class _AccountScreenState extends State<AccountScreen> {
                                 color: Colors.transparent,
                                 borderRadius: BorderRadius.circular(40)),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 28, vertical: 2),
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Đăng xuất',
                                     style: StyleApp.textStyle700(fontSize: 16),
                                   ),
-                                  FaIcon(FontAwesomeIcons.rightFromBracket)
+                                  const FaIcon(
+                                      FontAwesomeIcons.rightFromBracket)
                                 ],
                               ),
                             ),
@@ -737,12 +804,14 @@ class _AccountScreenState extends State<AccountScreen> {
               titleButton: 'Đăng nhập lại',
               onTap: () async {
                 await SharePrefsKeys.removeAllKey();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => StartScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const StartScreen()));
               },
             );
           }
-          return SizedBox();
+          return const SizedBox();
         },
         bloc: blocProfile,
       ),
