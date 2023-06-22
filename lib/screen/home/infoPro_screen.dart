@@ -8,7 +8,6 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../bloc/auth/bloc_profile.dart';
 import '../../bloc/cart/bloc_cart.dart';
 import '../../bloc/event_bloc.dart';
@@ -75,7 +74,6 @@ class _InfoProdScreenState extends State<InfoProdScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     blocInfoPro.add(GetData(param: widget.id));
     _tabController = TabController(length: 2, vsync: this);
@@ -92,7 +90,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
             ModelInfoPro modelInfoPro = state.data;
             sum = int.parse('${modelInfoPro.product!.discountPrice}') * value;
             return Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   border: Border(
                       top: BorderSide(color: ColorApp.dark500, width: 1.5))),
               height: 85,
@@ -136,8 +134,9 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                               onTap: () {
                                 blocCartLocal.add(AddData(
                                     modelSanPhamMain: ModelSanPhamMain(
-                                        id: int.parse('${widget.id}'),
-                                        amount: value,max: modelInfoPro.product!.amount)));
+                                        id: int.parse(widget.id),
+                                        amount: value,
+                                        max: modelInfoPro.product!.amount)));
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -157,7 +156,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                             ),
                           ),
                         ),
-                        Expanded(
+                        const Expanded(
                           child: SizedBox(),
                           flex: 1,
                         ),
@@ -172,9 +171,14 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                               onTap: () {
                                 blocCartLocal.add(AddData(
                                     modelSanPhamMain: ModelSanPhamMain(
-                                        id: int.parse('${widget.id}'),
-                                        amount: value,max: modelInfoPro.product!.amount)));
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>GioHangScreen()));
+                                        id: int.parse(widget.id),
+                                        amount: value,
+                                        max: modelInfoPro.product!.amount)));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const GioHangScreen()));
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -201,7 +205,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
               ),
             );
           }
-          return SizedBox();
+          return const SizedBox();
         },
         bloc: blocInfoPro,
       ),
@@ -212,7 +216,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
             BlocBuilder(
               builder: (_, StateBloc statePro) {
                 if (statePro is LoadFail) {
-                  Future.delayed(Duration(seconds: 1), () async {
+                  Future.delayed(const Duration(seconds: 1), () async {
                     showDialog(
                         context: context,
                         barrierDismissible: false,
@@ -229,12 +233,13 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => StartScreen()));
+                                          builder: (context) =>
+                                              const StartScreen()));
                                 },
                                 child: Container(
                                     width: double.infinity,
-                                    decoration:
-                                    BoxDecoration(color: Colors.green),
+                                    decoration: const BoxDecoration(
+                                        color: Colors.green),
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
@@ -254,9 +259,9 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                     //     MaterialPageRoute(
                     //         builder: (context) => StartScreen()));
                   });
-                  return SizedBox();
+                  return const SizedBox();
                 }
-                return SizedBox();
+                return const SizedBox();
               },
               bloc: blocProfile,
             ),
@@ -264,7 +269,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                 bloc: blocInfoPro,
                 builder: (_, StateBloc state) {
                   if (state is Loading) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(
                         color: ColorApp.main,
                       ),
@@ -326,8 +331,8 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                   decoration: BoxDecoration(
                                       color: Colors.black.withOpacity(0.3),
                                       borderRadius: BorderRadius.circular(20)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
                                         horizontal: 8, vertical: 8),
                                     child: Icon(
                                       Icons.arrow_back_ios_new,
@@ -358,7 +363,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                       ),
                                     ),
                                   )
-                                : SizedBox(),
+                                : const SizedBox(),
                             Positioned(
                               top: 30,
                               right: 10,
@@ -367,8 +372,8 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                   shape: BoxShape.circle,
                                   color: Colors.black.withOpacity(0.3),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 8),
                                   child: Icon(
                                     Icons.share_outlined,
@@ -380,11 +385,11 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                           ],
                         ),
                         Padding(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Text(
@@ -392,7 +397,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                 style: StyleApp.textStyle600(
                                     color: ColorApp.dark, fontSize: 20),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Row(
@@ -414,7 +419,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                             });
                                           }
                                         },
-                                        child: Icon(
+                                        child: const Icon(
                                           Icons.remove_circle,
                                           color: ColorApp.redText,
                                           size: 30,
@@ -430,7 +435,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                             value++;
                                           });
                                         },
-                                        child: Icon(
+                                        child: const Icon(
                                           Icons.add_circle,
                                           color: ColorApp.redText,
                                           size: 30,
@@ -440,7 +445,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                   )
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               TabBar(
@@ -452,14 +457,14 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                   setState(() {});
                                 },
                                 labelPadding:
-                                    EdgeInsets.symmetric(horizontal: 30),
+                                    const EdgeInsets.symmetric(horizontal: 30),
                                 labelStyle: StyleApp.textStyle700(fontSize: 16),
                                 indicatorColor: ColorApp.redText,
                                 unselectedLabelStyle:
                                     StyleApp.textStyle500(fontSize: 14),
                                 labelColor: ColorApp.redText,
                                 unselectedLabelColor: ColorApp.dark500,
-                                tabs: <Widget>[
+                                tabs: const <Widget>[
                                   Tab(
                                     child: Text(
                                       'Chi tiết',
@@ -468,10 +473,18 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                   Tab(
                                     child: Text('Hướng dẫn sử dụng'),
                                   ),
+                                  // Tab(
+                                  //   child: Text(
+                                  //     'Thông tin sản phẩm ',
+                                  //   ),
+                                  // ),
+                                  // Tab(
+                                  //   child: Text('Thông tin nhà cung cấp'),
+                                  // ),
                                 ],
                               ),
                               tab == 0
-                                  ? Container(
+                                  ? SizedBox(
                                       height: 200,
                                       child: SingleChildScrollView(
                                         child: HtmlWidget(
@@ -489,7 +502,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                         ),
                                       ),
                                     )
-                                  : Container(
+                                  : SizedBox(
                                       height: 200,
                                       child: SingleChildScrollView(
                                         child: HtmlWidget(
@@ -507,7 +520,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                         ),
                                       ),
                                     ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Text(
@@ -515,7 +528,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                 style: StyleApp.textStyle700(
                                     color: ColorApp.darkGreen, fontSize: 18),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                             ],
@@ -524,13 +537,13 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                       ],
                     );
                   }
-                  return Scaffold();
+                  return const Scaffold();
                 }),
             BlocBuilder(
                 bloc: blocListPro,
                 builder: (_, StateBloc state) {
                   if (state is Loading) {
-                    return Scaffold(
+                    return const Scaffold(
                       body: Center(
                         child: CircularProgressIndicator(
                           color: ColorApp.main,
@@ -553,28 +566,30 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                     return Column(
                       children: [
                         GridView.builder(
-                          padding: EdgeInsets.symmetric(vertical: 20),
+                          padding: const EdgeInsets.symmetric(vertical: 20),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   mainAxisSpacing: 20,
-                                  crossAxisSpacing: 0,
+                                  crossAxisSpacing: 10,
                                   mainAxisExtent:
                                       MediaQuery.of(context).size.height *
                                           0.33),
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
+                                context.read<BlocCartLocal>().add(GetCart());
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => InfoProdScreen(
                                               id: model[index].id.toString(),
-                                              cateID: widget.cateID.toString(),
+                                              cateID: widget.id.toString(),
                                             )));
                               },
                               child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
                                 child: Stack(
                                   alignment: Alignment.bottomRight,
                                   children: [
@@ -583,7 +598,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                           MediaQuery.of(context).size.height *
                                               0.33,
                                       width: MediaQuery.of(context).size.width *
-                                          0.48,
+                                          0.45,
                                       decoration: BoxDecoration(
                                           border: Border.all(),
                                           borderRadius:
@@ -592,17 +607,22 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(5.0),
-                                            child: Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.19,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.48,
+                                          SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.24,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.45,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(12),
+                                                      topRight:
+                                                          Radius.circular(12)),
                                               child: LoadImage(
                                                 fit: BoxFit.cover,
                                                 url:
@@ -610,11 +630,11 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                               ),
                                             ),
                                           ),
-                                          Container(
+                                          SizedBox(
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                0.12,
+                                                0.08,
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
@@ -627,11 +647,10 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Text(
-                                                    model[index].code ?? '',
-                                                    style:
-                                                        StyleApp.textStyle600(),
-                                                  ),
+                                                  // Text(
+                                                  //   model[index].code ?? '',
+                                                  //   style: StyleApp.textStyle600(),
+                                                  // ),
                                                   Text(
                                                     model[index].name ?? '',
                                                     style:
@@ -647,7 +666,9 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                                             .textStyle500(),
                                                       ),
                                                       Text(
-                                                        '${Const.ConvertPrice.format(int.parse('${model[index].price}'))}',
+                                                        Const.ConvertPrice
+                                                            .format(int.parse(
+                                                                '${model[index].discountPrice}')),
                                                         style: StyleApp
                                                             .textStyle700(
                                                                 color: ColorApp
@@ -662,19 +683,44 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                         ],
                                       ),
                                     ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(12),
-                                            bottomRight: Radius.circular(12),
+                                    BlocListener(
+                                      bloc: blocCartLocal,
+                                      listener: (context, StateBloc state) {
+                                        if (state is LoadSuccess) {
+                                          CustomToast.showToast(
+                                              context: context,
+                                              msg:
+                                                  'Đã thêm vào giỏ hàng thành công',
+                                              duration: 1,
+                                              gravity: ToastGravity.BOTTOM);
+                                        }
+                                      },
+                                      child: InkWell(
+                                        onTap: () {
+                                          blocCartLocal.add(AddData(
+                                              modelSanPhamMain:
+                                                  ModelSanPhamMain(
+                                                      id: model[index].id,
+                                                      amount: 1,
+                                                      max: model[index]
+                                                          .amount)));
+                                        },
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(12),
+                                                bottomRight:
+                                                    Radius.circular(12),
+                                              ),
+                                              color: Colors.red),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(4.0),
+                                            child: Icon(
+                                              Icons.shopping_cart_outlined,
+                                              color: Colors.white,
+                                              size: 18,
+                                            ),
                                           ),
-                                          color: Colors.red),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Icon(
-                                          Icons.shopping_cart_outlined,
-                                          color: Colors.white,
-                                          size: 18,
                                         ),
                                       ),
                                     )
@@ -685,7 +731,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                           },
                           itemCount: model.length,
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                         ),
                         ItemLoadMore(
                           hasMore: hasMore,

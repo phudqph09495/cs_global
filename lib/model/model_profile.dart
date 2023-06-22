@@ -5,7 +5,7 @@ class ModelProfile {
 
   ModelProfile.fromJson(Map<String, dynamic> json) {
     profile =
-    json['profile'] != null ? new Profile.fromJson(json['profile']) : null;
+        json['profile'] != null ? new Profile.fromJson(json['profile']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -43,27 +43,27 @@ class Profile {
 
   Profile(
       {this.id,
-        this.code,
-        this.name,
-        this.email,
-        this.phone,
-        this.address,
-        this.password,
-        this.avatar,
-        this.banner,
-        this.slogan,
-        this.deviceToken,
-        this.score,
-        this.balance,
-        this.totalCost,
-        this.manageFee,
-        this.type,
-        this.dateActiveBussiness,
-        this.status,
-        this.createdAt,
-        this.updatedAt,
-        this.refer,
-        this.beRefered});
+      this.code,
+      this.name,
+      this.email,
+      this.phone,
+      this.address,
+      this.password,
+      this.avatar,
+      this.banner,
+      this.slogan,
+      this.deviceToken,
+      this.score,
+      this.balance,
+      this.totalCost,
+      this.manageFee,
+      this.type,
+      this.dateActiveBussiness,
+      this.status,
+      this.createdAt,
+      this.updatedAt,
+      this.refer,
+      this.beRefered});
 
   Profile.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -81,7 +81,7 @@ class Profile {
     balance = json['balance'];
     totalCost = json['total_cost'];
     manageFee = json['manage_fee'];
-    type = json['type'];
+
     dateActiveBussiness = json['date_active_bussiness'];
     status = json['status'];
     createdAt = json['created_at'];

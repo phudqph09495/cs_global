@@ -9,10 +9,8 @@ class ModelInfoPro {
         ? new Customer.fromJson(json['customer'])
         : null;
     product =
-    json['product'] != null ? new Product.fromJson(json['product']) : null;
+        json['product'] != null ? new Product.fromJson(json['product']) : null;
   }
-
-
 }
 
 class Customer {
@@ -55,34 +53,33 @@ class Product {
   String? createdAt;
   String? updatedAt;
   bool? isFlashSale;
-String? discountPrice;
+  String? discountPrice;
   List<ImagesShow>? imagesShow;
 
-
-  Product(
-      {this.id,
-        this.code,
-        this.name,
-        this.thumbnail,
-        this.originPrice,
-        this.price,
-        this.fsPrice,
-        this.discountCtv,
-        this.discountDl,
-        this.discountTnkd,
-        this.discountQlkd,
-        this.sold,
-        this.score,
-        this.hotProduct,
-        this.amount,
-        this.descript,
-        this.status,
-        this.createdAt,
-        this.updatedAt,
-        this.isFlashSale,
-this.discountPrice,
-        this.imagesShow,
-      });
+  Product({
+    this.id,
+    this.code,
+    this.name,
+    this.thumbnail,
+    this.originPrice,
+    this.price,
+    this.fsPrice,
+    this.discountCtv,
+    this.discountDl,
+    this.discountTnkd,
+    this.discountQlkd,
+    this.sold,
+    this.score,
+    this.hotProduct,
+    this.amount,
+    this.descript,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.isFlashSale,
+    this.discountPrice,
+    this.imagesShow,
+  });
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -105,14 +102,13 @@ this.discountPrice,
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     isFlashSale = json['is_flashSale'];
-discountPrice=json['discount_price'];
+    discountPrice = json['discount_price'].toString();
     if (json['images_show'] != null) {
       imagesShow = <ImagesShow>[];
       json['images_show'].forEach((v) {
         imagesShow!.add(new ImagesShow.fromJson(v));
       });
     }
-
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -144,7 +140,6 @@ discountPrice=json['discount_price'];
 
     return data;
   }
-
 }
 
 class ImagesShow {
@@ -157,11 +152,11 @@ class ImagesShow {
 
   ImagesShow(
       {this.id,
-        this.productId,
-        this.url,
-        this.status,
-        this.createdAt,
-        this.updatedAt});
+      this.productId,
+      this.url,
+      this.status,
+      this.createdAt,
+      this.updatedAt});
 
   ImagesShow.fromJson(Map<String, dynamic> json) {
     id = json['id'];
