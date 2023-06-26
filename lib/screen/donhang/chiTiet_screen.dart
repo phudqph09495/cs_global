@@ -206,20 +206,20 @@ class _ChiTietScreenState extends State<ChiTietScreen> {
                       SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        'Thời gian giao hàng',
-                        style: StyleApp.textStyle700(fontSize: 16),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        '',
-                        style: StyleApp.textStyle500(),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      // Text(
+                      //   'Thời gian giao hàng',
+                      //   style: StyleApp.textStyle700(fontSize: 16),
+                      // ),
+                      // SizedBox(
+                      //   height: 5,
+                      // ),
+                      // Text(
+                      //   '',
+                      //   style: StyleApp.textStyle500(),
+                      // ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
                       Text(
                         'Phương thức giao hàng',
                         style: StyleApp.textStyle700(fontSize: 16),
@@ -228,7 +228,7 @@ class _ChiTietScreenState extends State<ChiTietScreen> {
                         height: 5,
                       ),
                       Text(
-                        '',
+                        'COD',
                         style: StyleApp.textStyle500(),
                       ),
                       SizedBox(

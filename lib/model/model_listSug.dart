@@ -43,6 +43,7 @@ class ProductSugges {
   String? createdAt;
   String? updatedAt;
   String? discountPrice;
+  String? discount;
   List<Null>? flashSale;
   List<Category>? category;
 
@@ -54,6 +55,7 @@ class ProductSugges {
         this.originPrice,
         this.price,
         this.fsPrice,
+        this.discount,
         this.discountCtv,
         this.discountDl,
         this.discountTnkd,
@@ -83,6 +85,7 @@ class ProductSugges {
     discountTnkd = json['discount_tnkd'];
     discountQlkd = json['discount_qlkd'];
     sold = json['sold'];
+    discount=json['discount'];
     score = json['score'];
     hotProduct = json['hot_product'];
     amount = json['amount'];

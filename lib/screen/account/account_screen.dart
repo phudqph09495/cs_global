@@ -7,6 +7,8 @@ import 'package:cs_global/bloc/event_bloc.dart';
 import 'package:cs_global/config/const.dart';
 import 'package:cs_global/model/model_profile.dart';
 import 'package:cs_global/screen/account/profile_screen.dart';
+import 'package:cs_global/screen/account/vi/wallet_screen.dart';
+import 'package:cs_global/screen/account/vi/acc_bank_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -303,7 +305,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                         Container(
                           width: double.infinity,
-                          height: 60,
+                          height: 70,
                           decoration: BoxDecoration(
                               color: ColorApp.greyE6,
                               borderRadius: BorderRadius.circular(40)),
@@ -357,7 +359,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                         Container(
                           width: double.infinity,
-                          height: 60,
+                          height: 70,
                           decoration: BoxDecoration(
                               color: ColorApp.greyE6,
                               borderRadius: BorderRadius.circular(40)),
@@ -415,81 +417,86 @@ class _AccountScreenState extends State<AccountScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          width: double.infinity,
-                          height: 60,
-                          decoration: BoxDecoration(
-                              color: ColorApp.greyE6,
-                              borderRadius: BorderRadius.circular(40)),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 2),
-                            child: Row(
-                              children: [
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Image.asset(
-                                  'assets/images/vi.png',
-                                  width: 35,
-                                  height: 35,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Ví CS',
-                                      style: StyleApp.textStyle500(),
-                                    ),
-                                    Text(
-                                      modelProfile.profile!.name ?? '',
-                                      style: StyleApp.textStyle700(),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Số dư (VNĐ): ',
-                                          style: StyleApp.textStyle500(),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              showMoney2
-                                                  ? Const.formatPrice(
-                                                  modelProfile
-                                                      .profile!.balance)
-                                                  : '*******',
-                                              style: StyleApp.textStyle500(
-                                                  fontSize: 14),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    showMoney2 = !showMoney2;
-                                                  });
-                                                },
-                                                child: Icon(
-                                                  showMoney2
-                                                      ? CupertinoIcons.eye_slash
-                                                      : CupertinoIcons.eye,
-                                                  size: 18,
-                                                ))
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox()
-                              ],
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>WalletScreen()));
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 70,
+                            decoration: BoxDecoration(
+                                color: ColorApp.greyE6,
+                                borderRadius: BorderRadius.circular(40)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 2),
+                              child: Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Image.asset(
+                                    'assets/images/vi.png',
+                                    width: 35,
+                                    height: 35,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Ví CS',
+                                        style: StyleApp.textStyle500(),
+                                      ),
+                                      Text(
+                                        modelProfile.profile!.name ?? '',
+                                        style: StyleApp.textStyle700(),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Số dư (VNĐ): ',
+                                            style: StyleApp.textStyle500(),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                showMoney2
+                                                    ? Const.formatPrice(
+                                                    modelProfile
+                                                        .profile!.balance)
+                                                    : '*******',
+                                                style: StyleApp.textStyle500(
+                                                    fontSize: 14),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      showMoney2 = !showMoney2;
+                                                    });
+                                                  },
+                                                  child: Icon(
+                                                    showMoney2
+                                                        ? CupertinoIcons.eye_slash
+                                                        : CupertinoIcons.eye,
+                                                    size: 18,
+                                                  ))
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox()
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -507,7 +514,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           },
                           child: Container(
                             width: double.infinity,
-                            height: 60,
+                            height: 70,
                             decoration: BoxDecoration(
                                 color: ColorApp.greyE6,
                                 borderRadius: BorderRadius.circular(40)),
@@ -545,7 +552,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                         Container(
                           width: double.infinity,
-                          height: 60,
+                          height: 70,
                           decoration: BoxDecoration(
                               color: ColorApp.greyE6,
                               borderRadius: BorderRadius.circular(40)),
@@ -585,7 +592,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                         Container(
                           width: double.infinity,
-                          height: 60,
+                          height: 70,
                           decoration: BoxDecoration(
                               color: ColorApp.greyE6,
                               borderRadius: BorderRadius.circular(40)),
@@ -625,7 +632,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                         Container(
                           width: double.infinity,
-                          height: 60,
+                          height: 70,
                           decoration: BoxDecoration(
                               color: ColorApp.greyE6,
                               borderRadius: BorderRadius.circular(40)),
@@ -640,7 +647,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     const SizedBox(
                                       width: 5,
                                     ),
-                                    Image.asset('assets/images/splash.png'),
+                                    Image.asset('assets/images/LogoTrang.png'),
                                     const SizedBox(
                                       width: 10,
                                     ),
@@ -669,7 +676,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           },
                           child: Container(
                             width: double.infinity,
-                            height: 60,
+                            height: 70,
                             decoration: BoxDecoration(
                                 color: Colors.transparent,
                                 borderRadius: BorderRadius.circular(40)),
@@ -780,7 +787,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           },
                           child: Container(
                             width: double.infinity,
-                            height: 60,
+                            height: 70,
                             decoration: BoxDecoration(
                                 color: Colors.transparent,
                                 borderRadius: BorderRadius.circular(40)),
@@ -884,7 +891,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           },
                           child: Container(
                             width: double.infinity,
-                            height: 60,
+                            height: 70,
                             decoration: BoxDecoration(
                                 color: Colors.transparent,
                                 borderRadius: BorderRadius.circular(40)),

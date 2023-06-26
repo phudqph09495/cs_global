@@ -5,7 +5,7 @@ class StyleApp {
   static TextStyle textStyle400(
       {Color color = Colors.black,
       double fontSize = 14,
-        FontStyle fontStyle=FontStyle.normal,
+      FontStyle fontStyle = FontStyle.normal,
       TextDecoration decoration = TextDecoration.none}) {
     return GoogleFonts.montserrat(
       color: color,
@@ -19,10 +19,12 @@ class StyleApp {
   static TextStyle textStyle500(
       {Color color = Colors.black,
       double fontSize = 14,
+      FontStyle fontStyle = FontStyle.normal,
       TextDecoration decoration = TextDecoration.none}) {
     return GoogleFonts.montserrat(
       color: color,
       fontSize: fontSize,
+      fontStyle: fontStyle,
       fontWeight: FontWeight.w500,
       decoration: decoration,
     );
@@ -31,9 +33,11 @@ class StyleApp {
   static TextStyle textStyle600(
       {Color color = Colors.black,
       double fontSize = 14,
+      FontStyle fontStyle = FontStyle.normal,
       TextDecoration decoration = TextDecoration.none}) {
     return GoogleFonts.montserrat(
       color: color,
+      fontStyle: fontStyle,
       fontSize: fontSize,
       fontWeight: FontWeight.w600,
       decoration: decoration,
@@ -43,9 +47,11 @@ class StyleApp {
   static TextStyle textStyle700(
       {Color color = Colors.black,
       double fontSize = 14,
+      FontStyle fontStyle = FontStyle.normal,
       TextDecoration decoration = TextDecoration.none}) {
     return GoogleFonts.montserrat(
       color: color,
+      fontStyle: fontStyle,
       fontSize: fontSize,
       fontWeight: FontWeight.w700,
       decoration: decoration,
@@ -55,10 +61,12 @@ class StyleApp {
   static TextStyle textStyle900(
       {Color color = Colors.black,
       double fontSize = 14,
+      FontStyle fontStyle = FontStyle.normal,
       TextDecoration decoration = TextDecoration.none}) {
     return GoogleFonts.montserrat(
       color: color,
       fontSize: fontSize,
+      fontStyle: fontStyle,
       fontWeight: FontWeight.w900,
       decoration: decoration,
     );

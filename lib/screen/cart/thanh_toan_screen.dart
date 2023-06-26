@@ -515,7 +515,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            int checked = -1;
+                            int checked = 2;
                             Const.showScreen(
                                 Container(
                                   child: Padding(
@@ -561,18 +561,19 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                                     'Thanh toán qua VNPay',
                                                     style:
                                                         StyleApp.textStyle600(
+                                                          color: Colors.black.withOpacity(0.3),
                                                             fontSize: 16),
                                                   ),
-                                                  Radio(
-                                                      activeColor:
-                                                          ColorApp.green00,
-                                                      value: 0,
-                                                      groupValue: checked,
-                                                      onChanged: (val) {
-                                                        setState1(() {
-                                                          checked = val!;
-                                                        });
-                                                      }),
+                                                  // Radio(
+                                                  //     activeColor:
+                                                  //         ColorApp.green00,
+                                                  //     value: 0,
+                                                  //     groupValue: checked,
+                                                  //     onChanged: (val) {
+                                                  //       setState1(() {
+                                                  //         checked = val!;
+                                                  //       });
+                                                  //     }),
                                                 ],
                                               ),
                                               SizedBox(
@@ -619,6 +620,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                                                 ' ${Const.convertPrice(model.profile!.balance)} đ',
                                                                 style: StyleApp
                                                                     .textStyle600(
+                                                                  color: Colors.black.withOpacity(0.3),
                                                                         fontSize:
                                                                             16),
                                                               );
@@ -629,16 +631,16 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                                       ),
                                                     ],
                                                   ),
-                                                  Radio(
-                                                      activeColor:
-                                                          ColorApp.green00,
-                                                      value: 1,
-                                                      groupValue: checked,
-                                                      onChanged: (val) {
-                                                        setState1(() {
-                                                          checked = val!;
-                                                        });
-                                                      }),
+                                                  // Radio(
+                                                  //     activeColor:
+                                                  //         ColorApp.green00,
+                                                  //     value: 1,
+                                                  //     groupValue: checked,
+                                                  //     onChanged: (val) {
+                                                  //       setState1(() {
+                                                  //         checked = val!;
+                                                  //       });
+                                                  //     }),
                                                 ],
                                               ),
                                               SizedBox(

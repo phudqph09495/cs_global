@@ -532,7 +532,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                 height: 200,
                                 child: SingleChildScrollView(
                                   child: HtmlWidget(
-                                    '${modelInfoPro.product!.supplier_info}',
+                                    '${modelInfoPro.product!.legal_info}',
                                     customWidgetBuilder: (ele) {
                                       if (ele.attributes['src'] != null &&
                                           ele.attributes['src']!
@@ -552,7 +552,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                 height: 200,
                                 child: SingleChildScrollView(
                                   child: HtmlWidget(
-                                    '${modelInfoPro.product!.legal_info}',
+                                    '${modelInfoPro.product!.supplier_info}',
                                     customWidgetBuilder: (ele) {
                                       if (ele.attributes['src'] != null &&
                                           ele.attributes['src']!
@@ -705,11 +705,12 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                                         TextOverflow.ellipsis,
                                                   ),
                                                   Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                     children: [
                                                       Text(
-                                                        'Giá bán: ',
+                                                        '${model[index].discount} ',
                                                         style: StyleApp
-                                                            .textStyle500(),
+                                                            .textStyle500(decoration: TextDecoration.lineThrough),
                                                       ),
                                                       Text(
                                                         '${Const.ConvertPrice.format(int.parse('${model[index].discountPrice}'))}',

@@ -146,6 +146,7 @@ class Prod {
   String? status;
   String? createdAt;
   String? updatedAt;
+  String? discount;
   Pivot? pivot;
 
   Prod(
@@ -168,6 +169,7 @@ class Prod {
         this.hotProduct,
         this.amount,
         this.descript,
+        this.discount,
         this.status,
         this.createdAt,
         this.updatedAt,
@@ -191,6 +193,7 @@ class Prod {
     score = json['score'];
     discountPrice=json['discount_price'].toString();
     hotProduct = json['hot_product'];
+    discount=json['discount'];
     amount = json['amount'];
     descript = json['descript'];
     status = json['status'];

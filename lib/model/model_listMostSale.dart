@@ -45,6 +45,7 @@ class MostSaleProduct {
   String? discountPrice;
   List<Null>? flashSale;
   List<Category>? category;
+  String? discount;
 
   MostSaleProduct(
       {this.id,
@@ -68,6 +69,7 @@ class MostSaleProduct {
         this.updatedAt,
         this.discountPrice,
         this.flashSale,
+        this.discount,
         this.category});
 
   MostSaleProduct.fromJson(Map<String, dynamic> json) {
@@ -83,6 +85,7 @@ class MostSaleProduct {
     discountTnkd = json['discount_tnkd'];
     discountQlkd = json['discount_qlkd'];
     sold = json['sold'];
+    discount=json['discount'];
     score = json['score'];
     hotProduct = json['hot_product'];
     amount = json['amount'];

@@ -9,6 +9,7 @@ import '../../bloc/event_bloc.dart';
 import '../../bloc/state_bloc.dart';
 import '../../styles/init_style.dart';
 import '../../widget/loadPage/item_loadfaild.dart';
+import 'gioiThieu/ds_gioiThieu_screen.dart';
 
 class GioiThieuScreen extends StatefulWidget {
   const GioiThieuScreen({Key? key}) : super(key: key);
@@ -158,37 +159,40 @@ class _GioiThieuScreenState extends State<GioiThieuScreen> {
                       ),
                       ListView.builder(shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                        return     PhysicalModel(
-                          borderRadius: BorderRadius.circular(
-                            20,
-                          ),
-                          elevation: 5.0,
-                          shadowColor: ColorApp.pink,
-                          color: Colors.transparent,
-                          child: Container(
-                            height: 45,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
+                        return     Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: PhysicalModel(
+                            borderRadius: BorderRadius.circular(
+                              20,
                             ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: SizedBox(),
-                                ),
-                                Expanded(
-                                    flex: 10,
-                                    child: Text(
-                                      '${index+1}.${modelProfile.profile!.refer![index].name}' ,
-                                      textAlign: TextAlign.center,
-                                    )),
-                                Expanded(
-                                  flex: 1,
-                                  child: SizedBox(),
-                                ),
-                              ],
+                            elevation: 5.0,
+                            shadowColor: ColorApp.pink,
+                            color: Colors.transparent,
+                            child: Container(
+                              height: 45,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: SizedBox(),
+                                  ),
+                                  Expanded(
+                                      flex: 10,
+                                      child: Text(
+                                        '${index+1}.${modelProfile.profile!.refer![index].name}' ,style: StyleApp.textStyle500(),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                  Expanded(
+                                    flex: 1,
+                                    child: SizedBox(),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );
@@ -202,7 +206,9 @@ class _GioiThieuScreenState extends State<GioiThieuScreen> {
                       ),
                       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [SizedBox(),
-                          Text('Xem tất cả',style: StyleApp.textStyle500(decoration: TextDecoration.underline,color: ColorApp.dark500),),
+                          InkWell(onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>DSGTLogin()));
+                          },child: Text('Xem tất cả',style: StyleApp.textStyle500(decoration: TextDecoration.underline,color: ColorApp.dark500),)),
                         ],
                       )
                     ],

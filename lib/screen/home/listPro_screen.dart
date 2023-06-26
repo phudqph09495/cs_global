@@ -234,31 +234,17 @@ class _ListProScreenState extends State<ListProScreen> {
                                                 style: StyleApp.textStyle500(),
                                                 overflow: TextOverflow.ellipsis,
                                               ),
+                                         SizedBox(height: 5,),
                                               Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                 children: [
                                                   Text(
-                                                    'Giá gốc: ',
+                                                    '${model[index].discount} ',
                                                     style:
-                                                    StyleApp.textStyle500(),
+                                                        StyleApp.textStyle500(decoration: TextDecoration.lineThrough),
                                                   ),
                                                   Text(
-                                                    '${Const.ConvertPrice.format(int.parse('${model[index].price}'))}',
-                                                    style:
-                                                    StyleApp.textStyle700(
-                                                        color: ColorApp
-                                                            .dark500),
-                                                  )
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'Giá bán: ',
-                                                    style:
-                                                        StyleApp.textStyle500(),
-                                                  ),
-                                                  Text(
-                                                    '${Const.ConvertPrice.format(int.parse('${model[index].discountPrice}'))}',
+                                                    '${Const.ConvertPrice.format(int.parse('${model[index].discountPrice}'))} đ',
                                                     style:
                                                         StyleApp.textStyle700(
                                                             color: ColorApp

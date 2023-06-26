@@ -65,14 +65,12 @@ class _LoadImageState extends State<LoadImage> {
             Container(
               width: widget.width,
               height: widget.height,
-              color: Colors.white,
-              child: Center(
-                child: Image.network(
-                  'https://www.ncenet.com/wp-content/uploads/2020/04/no-image-png-2.png',
-                  width: widget.width,
-                  height: widget.height,
-                  fit: widget.fit,
-                ),
+
+              child: Image.asset(
+                'assets/images/img.png',
+                width: widget.width,
+                height: widget.height,
+                fit: BoxFit.cover,
               ),
             );
 

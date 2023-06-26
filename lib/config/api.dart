@@ -130,6 +130,7 @@ class Api {
     }
   }
 
+
   static deleteAsync({required String endPoint,}) async {
     try {
       Map<String, dynamic> headers = Map();
@@ -141,6 +142,63 @@ class Api {
 
       var res = await dio.delete(
         Const.api_host + endPoint,
+        options: Options(
+          headers: headers,
+        ),
+      );
+      return res.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static postAsync2(
+      {required String endPoint,
+        required Map<String, dynamic> req,
+
+
+        // bool user=false,
+        bool hasForm = true}) async {
+    try {
+      Map<String, dynamic> headers = Map();
+      headers['Content-Type'] = "application/json";
+      headers['x-client-id'] = "demo-dd58bc3f-7544-4d22-b8d6-ed77b03242baa";
+      headers['x-api-key'] = "demo-f5e14830-cab4-4d3a-93c7-926f937d5376a";
+
+
+      FormData formData = FormData.fromMap(req);
+      var req2 = jsonEncode(req);
+      var res = await dio.post(
+         endPoint,
+        data: hasForm ? formData : req2,
+        options: Options(
+          headers: headers,
+        ),
+      );
+
+      if (res.data['status'] == 'success') {
+        return res.data;
+      }
+      if (res.data['status'] == 'failed') {
+        // throw "Code: ${res.data['code']} => ${res.data['error']}";
+        throw res.data['messages'];
+      }
+      return res.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+  static getAsync2({
+    required String endPoint,
+
+  }) async {
+    try {
+      Map<String, dynamic> headers = Map();
+      headers['Content-Type'] = "application/json";
+
+
+      var res = await dio.get(
+         endPoint,
         options: Options(
           headers: headers,
         ),

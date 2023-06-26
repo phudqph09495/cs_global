@@ -11,6 +11,8 @@ class ApiPath {
   static const dangky="/customer/register?refercode=";
 static const firebase="/notification/fcmToken";
 static const upgrade="/customer/upgrade/account";
+static const gioiThieuLogin="/customer/current/refers";
+static const chiTietGT='/customer/refers/';
 
 
   /// product
@@ -41,4 +43,9 @@ static const notifi='/notification?per_page=10&page=';
   static const detailNews='/news/detail?news_id=';
 static const cateNews="/news/category";
 static const newsList='/news/index?category_id=';
+
+
+///bank
+static const updateBank="/customer/bank/update";
+static const profileWallet="/customer/wallet-profile";
   }

@@ -363,7 +363,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     crossAxisCount: 4,
                                     mainAxisSpacing: 10,
                                     crossAxisSpacing: 10.0,
-                                    mainAxisExtent: 160),
+                                    mainAxisExtent: 171),
                                 itemBuilder:
                                     (BuildContext context, int index) {
                                   return InkWell(
@@ -509,11 +509,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                               builder: (context) =>
                                                   InfoProdScreen(
                                                     id: model
-                                                        .mostSaleProduct![0]
+                                                        .mostSaleProduct![index]
                                                         .id
                                                         .toString(),
                                                     cateID: model
-                                                        .mostSaleProduct![0]
+                                                        .mostSaleProduct![index]
                                                         .category![0]
                                                         .id
                                                         .toString(),
@@ -566,7 +566,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     child: LoadImage(
                                                       fit: BoxFit.cover,
                                                       url:
-                                                      '${Const.image_host}${model.mostSaleProduct![0].thumbnail}',
+                                                      '${Const.image_host}${model.mostSaleProduct![index].thumbnail}',
                                                     ),
                                                   ),
                                                 ),
@@ -593,7 +593,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       //       .textStyle600(),
                                                       // ),
                                                       Text(
-                                                        model.mostSaleProduct![0]
+                                                        model.mostSaleProduct![index]
                                                             .name ??
                                                             '',
                                                         maxLines: 1,
@@ -602,31 +602,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                       ),
+                                                    SizedBox(height: 10,),
                                                       Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                         children: [
                                                           Text(
-                                                            'Giá gốc: ',
+                                                            '${model.mostSaleProduct![index].discount} ',
                                                             style: StyleApp
-                                                                .textStyle500(),
+                                                                .textStyle500(decoration: TextDecoration.lineThrough),
                                                           ),
                                                           Text(
-                                                            '${Const.ConvertPrice.format(int.parse('${model.mostSaleProduct![0].price}'))}',
-                                                            style: StyleApp
-                                                                .textStyle700(
-                                                                color: ColorApp
-                                                                    .dark500),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            'Giá bán: ',
-                                                            style: StyleApp
-                                                                .textStyle500(),
-                                                          ),
-                                                          Text(
-                                                            '${Const.ConvertPrice.format(int.parse('${model.mostSaleProduct![0].discountPrice}'))}',
+                                                            '${Const.ConvertPrice.format(int.parse('${model.mostSaleProduct![index].discountPrice}'))} đ',
                                                             style: StyleApp
                                                                 .textStyle700(
                                                                 color: ColorApp
@@ -664,12 +650,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     ModelSanPhamMain(
                                                         id: model
                                                             .mostSaleProduct![
-                                                        0]
+                                                        index]
                                                             .id,
                                                         amount: 1,
                                                         max: model
                                                             .mostSaleProduct![
-                                                        0]
+                                                        index]
                                                             .amount)));
                                               },
                                               child: Container(
@@ -704,7 +690,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                 },
                                 scrollDirection: Axis.horizontal,
-                                itemCount: 5,
+                                itemCount:  model
+                                    .mostSaleProduct!.length,
                                 physics:
                                 const AlwaysScrollableScrollPhysics(),
                                 shrinkWrap: true,
@@ -833,10 +820,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     //   style: StyleApp
                                                     //       .textStyle600(),
                                                     // ),
+
                                                     Text(
-                                                      model
-                                                          .productSugges![
-                                                      index]
+                                                      model.productSugges![index]
                                                           .name ??
                                                           '',
                                                       maxLines: 1,
@@ -845,31 +831,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       overflow: TextOverflow
                                                           .ellipsis,
                                                     ),
+                                                    SizedBox(height: 10,),
                                                     Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                       children: [
                                                         Text(
-                                                          'Giá gốc: ',
+                                                          '${model.productSugges![index].discount}',
                                                           style: StyleApp
-                                                              .textStyle500(),
+                                                              .textStyle500(decoration: TextDecoration.lineThrough),
                                                         ),
                                                         Text(
-                                                          '${Const.ConvertPrice.format(int.parse('${model.productSugges![0].price}'))}',
-                                                          style: StyleApp
-                                                              .textStyle700(
-                                                              color: ColorApp
-                                                                  .dark500),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          'Giá bán: ',
-                                                          style: StyleApp
-                                                              .textStyle500(),
-                                                        ),
-                                                        Text(
-                                                          '${Const.ConvertPrice.format(int.parse('${model.productSugges![index].discountPrice}'))}',
+                                                          '${Const.ConvertPrice.format(int.parse('${model.productSugges![index].discountPrice}'))} đ',
                                                           style: StyleApp
                                                               .textStyle700(
                                                               color: ColorApp
@@ -1047,11 +1019,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                               builder: (context) =>
                                                   InfoProdScreen(
                                                     id: model
-                                                        .mostSaleProduct![0]
+                                                        .mostSaleProduct![index]
                                                         .id
                                                         .toString(),
                                                     cateID: model
-                                                        .mostSaleProduct![0]
+                                                        .mostSaleProduct![index]
                                                         .category![0]
                                                         .id
                                                         .toString(),
@@ -1104,7 +1076,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     child: LoadImage(
                                                       fit: BoxFit.cover,
                                                       url:
-                                                      '${Const.image_host}${model.mostSaleProduct![0].thumbnail}',
+                                                      '${Const.image_host}${model.mostSaleProduct![index].thumbnail}',
                                                     ),
                                                   ),
                                                 ),
@@ -1140,31 +1112,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                       ),
+                                                      SizedBox(height: 10,),
                                                       Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                         children: [
                                                           Text(
-                                                            'Giá gốc: ',
+                                                            '${model.mostSaleProduct![index].discount} ',
                                                             style: StyleApp
-                                                                .textStyle500(),
+                                                                .textStyle500(decoration: TextDecoration.lineThrough),
                                                           ),
                                                           Text(
-                                                            '${Const.ConvertPrice.format(int.parse('${model.mostSaleProduct![0].price}'))}',
-                                                            style: StyleApp
-                                                                .textStyle700(
-                                                                color: ColorApp
-                                                                    .dark500),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            'Giá bán: ',
-                                                            style: StyleApp
-                                                                .textStyle500(),
-                                                          ),
-                                                          Text(
-                                                            '${Const.ConvertPrice.format(int.parse('${model.mostSaleProduct![0].discountPrice}'))}',
+                                                            '${Const.ConvertPrice.format(int.parse('${model.mostSaleProduct![index].discountPrice}'))} đ',
                                                             style: StyleApp
                                                                 .textStyle700(
                                                                 color: ColorApp
@@ -1202,12 +1160,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     ModelSanPhamMain(
                                                         id: model
                                                             .mostSaleProduct![
-                                                        0]
+                                                        index]
                                                             .id,
                                                         amount: 1,
                                                         max: model
                                                             .mostSaleProduct![
-                                                        0]
+                                                        index]
                                                             .amount)));
                                               },
                                               child: Container(
@@ -1242,7 +1200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                 },
                                 scrollDirection: Axis.horizontal,
-                                itemCount: 5,
+                                itemCount: model.mostSaleProduct!.length,
                                 physics:
                                 const AlwaysScrollableScrollPhysics(),
                                 shrinkWrap: true,
@@ -1383,31 +1341,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       overflow: TextOverflow
                                                           .ellipsis,
                                                     ),
+                                                    SizedBox(height: 10,),
                                                     Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                       children: [
                                                         Text(
-                                                          'Giá gốc: ',
+                                                          '${model.productSugges![index].discount}',
                                                           style: StyleApp
-                                                              .textStyle500(),
+                                                              .textStyle500(decoration: TextDecoration.lineThrough),
                                                         ),
                                                         Text(
-                                                          '${Const.ConvertPrice.format(int.parse('${model.productSugges![0].price}'))}',
-                                                          style: StyleApp
-                                                              .textStyle700(
-                                                              color: ColorApp
-                                                                  .dark500),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          'Giá bán: ',
-                                                          style: StyleApp
-                                                              .textStyle500(),
-                                                        ),
-                                                        Text(
-                                                          '${Const.ConvertPrice.format(int.parse('${model.productSugges![index].discountPrice}'))}',
+                                                          '${Const.ConvertPrice.format(int.parse('${model.productSugges![index].discountPrice}'))} đ',
                                                           style: StyleApp
                                                               .textStyle700(
                                                               color: ColorApp
