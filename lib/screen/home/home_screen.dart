@@ -1,5 +1,6 @@
 import 'package:cs_global/model/model_listMostSale.dart';
 import 'package:cs_global/model/model_listSug.dart';
+import 'package:cs_global/screen/home/search_screen.dart';
 import 'package:cs_global/widget/item/input/text_filed.dart';
 import 'package:cs_global/widget/item/input/text_filed2.dart';
 import 'package:flutter/material.dart';
@@ -101,6 +102,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: MediaQuery.of(context).size.width * 0.65,
                         child: InputText1(
                           readOnly: true,
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen()));
+                          },
                           colorShadow: Colors.transparent,
                           label: 'Tìm kiếm sản phẩm',
                           colorBg: Color(0xff019549),

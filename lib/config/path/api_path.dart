@@ -13,7 +13,9 @@ static const firebase="/notification/fcmToken";
 static const upgrade="/customer/upgrade/account";
 static const gioiThieuLogin="/customer/current/refers";
 static const chiTietGT='/customer/refers/';
-
+static const napTien="/customer/request/deposit/create";
+static const rutTien="/customer/request/withdraw/create";
+static const lsGD="/customer/request/history";
 
   /// product
 static const detailOrder='/customer/order/detail/';
@@ -25,7 +27,7 @@ static const category='/customer/category';
 static const phiVanCHuyen='/customer/order/shipment?districtId=';
 static const order="/customer/order/create";
 
-static const search="/product/search?keyword=";
+static const search="/customer/search?search=";
   static const listDonHang='/customer/order/list?search=';
   static const likeList="/product/favorite";
   static const rate="/product/rate";
@@ -48,4 +50,5 @@ static const newsList='/news/index?category_id=';
 ///bank
 static const updateBank="/customer/bank/update";
 static const profileWallet="/customer/wallet-profile";
+
   }

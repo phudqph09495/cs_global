@@ -276,7 +276,7 @@ bankAccName.text=modelProfileWallet.walletProfile!.account_name??'';
                         SizedBox(
                           height: 15,
                         ),
-                        Text('Hò và tên chủ tài khoản'),
+                        Text('Họ và tên chủ tài khoản'),
                         SizedBox(
                           height: 10,
                         ),

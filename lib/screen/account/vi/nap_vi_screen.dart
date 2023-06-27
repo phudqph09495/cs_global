@@ -13,19 +13,18 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../bloc/auth/bloc_profile.dart';
 import '../../../bloc/auth/bloc_upgradeAcc.dart';
+import '../../../bloc/bank/bloc_naptienVi.dart';
 import '../../../bloc/check_log_state.dart';
 import '../../../bloc/event_bloc.dart';
 import '../../../bloc/state_bloc.dart';
+import '../../../config/const.dart';
 import '../../../model/model_profile.dart';
 import '../../../styles/init_style.dart';
 import '../../../widget/item/grid_view_custom.dart';
+import '../../../widget/item/input/text_filed.dart';
 import '../../../widget/loadPage/item_loadfaild.dart';
 
-
-
 class NapViScreen extends StatefulWidget {
-
-
   @override
   State<NapViScreen> createState() => _NapViScreenState();
 }
@@ -36,14 +35,8 @@ class _NapViScreenState extends State<NapViScreen> {
   final ImagePicker _picker = ImagePicker();
   StreamController imagesController = StreamController.broadcast();
   Stream get imageStream => imagesController.stream;
-  BlocUpGrade blocUpGrade = BlocUpGrade();
-  String tien = '';
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-  }
+  BlocNapTieNVI blocNapTien = BlocNapTieNVI();
+  TextEditingController money = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +55,9 @@ class _NapViScreenState extends State<NapViScreen> {
           if (state is LoadFail) {
             return ItemLoadFaild(
               error: state.error,
-              onTap: () {},
+              onTap: () {
+                blocProfile.add(GetData());
+              },
             );
           }
           if (state is LoadSuccess) {
@@ -71,32 +66,39 @@ class _NapViScreenState extends State<NapViScreen> {
               bottomSheet: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: BlocListener(
-                  bloc: blocUpGrade,
+                  bloc: blocNapTien,
                   listener: (_, StateBloc state1) {
                     CheckLogState.check(context,
                         state: state1,
-                        msg: 'Thành công, chờ một chút để admin xác thực',
+                        msg: state1 is LoadSuccess? state1.mess:'Gửi yêu cầu nạp tiền thành công',
                         success: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MyHomePage()));
-                        });
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyHomePage()));
+                    });
                   },
                   child: InkWell(
                     onTap: () {
-
-                      if (imageFiles.length > 0) {
+                      if (imageFiles.length > 0 && money.text != '') {
                         print(imageFiles.length);
                         final bytes =
-                        File(imageFiles[0].path).readAsBytesSync();
+                            File(imageFiles[0].path).readAsBytesSync();
                         String img =
                             "data:image/png;base64," + base64Encode(bytes);
-
-                      } else {
+                        blocNapTien.add(napTien(
+                            price: int.parse(money.text.replaceAll('.', '')),
+                        img: img));
+                      } else if (imageFiles.length == 0) {
                         CustomToast.showToast(
                             context: context,
                             msg: 'Bạn phải gửi ảnh giao dịch',
+                            gravity: ToastGravity.BOTTOM,
+                            duration: 2);
+                      } else if (money.text == '') {
+                        CustomToast.showToast(
+                            context: context,
+                            msg: 'Bạn phải nhập số tiền cần nạp',
                             gravity: ToastGravity.BOTTOM,
                             duration: 2);
                       }
@@ -122,9 +124,9 @@ class _NapViScreenState extends State<NapViScreen> {
                 centerTitle: true,
                 backgroundColor: ColorApp.green00,
                 title: Text(
-                  'Thanh toán chuyển khoản',
+                  'Nạp tiền ',
                   style:
-                  StyleApp.textStyle500(fontSize: 20, color: Colors.white),
+                      StyleApp.textStyle500(fontSize: 20, color: Colors.white),
                 ),
               ),
               body: Padding(
@@ -152,13 +154,13 @@ class _NapViScreenState extends State<NapViScreen> {
                             children: [
                               LoadImage(
                                 url:
-                                'https://upload.wikimedia.org/wikipedia/commons/7/7c/Techcombank_logo.png',
+                                    'https://upload.wikimedia.org/wikipedia/commons/7/7c/Techcombank_logo.png',
                                 height: 30,
                                 fit: BoxFit.fitWidth,
                               ),
                               Container(
                                   width:
-                                  MediaQuery.of(context).size.width * 0.6,
+                                      MediaQuery.of(context).size.width * 0.6,
                                   child: Text(
                                     'Ngân hàng Thương mại cổ phần Kỹ Thương Việt Nam',
                                     style: StyleApp.textStyle500(),
@@ -197,9 +199,16 @@ class _NapViScreenState extends State<NapViScreen> {
                         'Số tiền :',
                         style: StyleApp.textStyle700(fontSize: 16),
                       ),
-                      Text(
-                        '${tien} đ',
-                        style: StyleApp.textStyle500(fontSize: 16),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      InputText1(
+                        height: 50,
+                        colorShadow: Colors.transparent,
+                        keyboardType: TextInputType.number,
+                        label: 'Nhập số tiền',
+                        controller: money,
+                        inputformater: [ThousandsSeparatorInputFormatter()],
                       ),
                       SizedBox(
                         height: 15,
@@ -209,7 +218,7 @@ class _NapViScreenState extends State<NapViScreen> {
                         style: StyleApp.textStyle700(fontSize: 16),
                       ),
                       Text(
-                        'CS03249820332723',
+                        'NapTienCS ${model.profile!.code}',
                         style: StyleApp.textStyle500(fontSize: 16),
                       ),
                       SizedBox(
@@ -233,7 +242,7 @@ class _NapViScreenState extends State<NapViScreen> {
                               ),
                               Container(
                                   width:
-                                  MediaQuery.of(context).size.width * 0.7,
+                                      MediaQuery.of(context).size.width * 0.7,
                                   child: Text(
                                     '''Chú ý: nếu thiếu nội dung chuyển khoản này,CS Global sẽ không nhận ra khoản tiền nạp vào ví của bạn. Vui lòng nhập đúng nội dung chuyển khoản''',
                                     style: StyleApp.textStyle500(fontSize: 14),

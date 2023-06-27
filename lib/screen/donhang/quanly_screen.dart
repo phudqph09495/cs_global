@@ -19,7 +19,7 @@ class QuanLyScreen extends StatefulWidget {
 
 class _QuanLyScreenState extends State<QuanLyScreen> {
   final controller = GroupButtonController();
-  List<String> name = ['Đơn hàng mới', 'Đơn hàng đã đặt', 'Đơn hàng đã mua'];
+  List<String> name = ['Đơn hàng mới', 'Đơn đã đặt', 'Đơn đã mua','Đơn bị huỷ'];
   int ind = 0;
   List<Color> colorName = [Colors.red, ColorApp.orangeF0, ColorApp.green00];
   BlocListDonhang blocListDonhang = BlocListDonhang();
@@ -36,51 +36,62 @@ class _QuanLyScreenState extends State<QuanLyScreen> {
     return Scaffold(
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GroupButton(
-                controller: controller,
-                isRadio: true,
-                onSelected: (index, isSelected, bool) {
-                  ind = isSelected;
+       Container(
+         height: 70,
+         child: ListView(
 
-                  setState(() {});
-                  switch (isSelected) {
-                    case 0:
-                      {
-                        blocListDonhang.add(GetData(param: 'new'));
-                      }
-                      break;
-                    case 1:
-                      {
-                        blocListDonhang.add(GetData(param: 'waiting'));
-                      }
-                      break;
-                    case 2:
-                      {
-                        blocListDonhang.add(GetData(param: 'done'));
-                      }
-                      break;
-                  }
-                },
-                buttons: [
-                  "Đơn hàng mới",
-                  "Đơn đã đặt",
-                  "Đơn đã mua",
-                ],
-                options: GroupButtonOptions(
-                    mainGroupAlignment: MainGroupAlignment.spaceBetween,
-                    unselectedBorderColor: ColorApp.green00,
-                    selectedTextStyle:
-                        StyleApp.textStyle500(color: Colors.white),
-                    selectedColor: ColorApp.green00,
-                    unselectedTextStyle:
-                        StyleApp.textStyle500(color: ColorApp.green00),
-                    borderRadius: BorderRadius.circular(20),
-                    spacing: (MediaQuery.of(context).size.width - 16) * 0.02,
-                    buttonWidth:
-                        (MediaQuery.of(context).size.width - 16) * 0.32)),
-          ),
+           scrollDirection: Axis.horizontal,
+           children: [
+             Padding(
+               padding: const EdgeInsets.all(8.0),
+               child: GroupButton(
+                   controller: controller,
+                   isRadio: true,
+                   onSelected: (index, isSelected, bool) {
+                     ind = isSelected;
+
+                     setState(() {});
+                     switch (isSelected) {
+                       case 0:
+                         {
+                           blocListDonhang.add(GetData(param: 'new'));
+                         }
+                         break;
+                       case 1:
+                         {
+                           blocListDonhang.add(GetData(param: 'waiting'));
+                         }
+                         break;
+                       case 2:
+                         {
+                           blocListDonhang.add(GetData(param: 'done'));
+                         }
+                         break;
+                       case 3:
+                         {
+                           blocListDonhang.add(GetData(param: 'denied'));
+                         }
+                         break;
+                     }
+                   },
+                   buttons: List.generate(name.length, (i) => '${name[i]}'),
+                   options: GroupButtonOptions(
+
+
+                       unselectedBorderColor: ColorApp.green00,
+                       selectedTextStyle:
+                       StyleApp.textStyle500(color: Colors.white),
+                       selectedColor: ColorApp.green00,
+                       unselectedTextStyle:
+                       StyleApp.textStyle500(color: ColorApp.green00),
+                       borderRadius: BorderRadius.circular(20),
+                       spacing: (MediaQuery.of(context).size.width ) * 0.02,
+                       buttonWidth:
+                       (MediaQuery.of(context).size.width ) * 0.32)),
+             ),
+           ],
+         ),
+       ),
           Container(
             height: 5,
             color: ColorApp.greyBD.withOpacity(0.7),

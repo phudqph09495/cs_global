@@ -46,6 +46,8 @@ class _InfoProdScreenState extends State<InfoProdScreen>
   BlocListPro blocListPro = BlocListPro();
   int page = 1;
   BlocCartLocal blocCartLocal = BlocCartLocal();
+  BlocCartLocal blocCartLocal2 = BlocCartLocal();
+
   BlocProfile blocProfile = BlocProfile()..add(GetData());
 
   ScrollController _controller = ScrollController();
@@ -163,37 +165,32 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                         ),
                         Expanded(
                           flex: 20,
-                          child: BlocListener(
-                            bloc: blocCartLocal,
-                            listener: (_, StateBloc state) {
+                          child: InkWell(
+                            onTap: () {
+                              blocCartLocal2.add(AddData(
+                                  modelSanPhamMain: ModelSanPhamMain(
+                                      id: int.parse('${widget.id}'),
+                                      amount: value,
+                                      max: modelInfoPro.product!.amount)));
                               context.read<BlocCartLocal>().add(GetCart());
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const GioHangScreen()));
                             },
-                            child: InkWell(
-                              onTap: () {
-                                blocCartLocal.add(AddData(
-                                    modelSanPhamMain: ModelSanPhamMain(
-                                        id: int.parse('${widget.id}'),
-                                        amount: value,
-                                        max: modelInfoPro.product!.amount)));
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const GioHangScreen()));
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: ColorApp.redText),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
-                                  child: Text(
-                                    'Mua ngay',
-                                    style: StyleApp.textStyle500(
-                                        color: ColorApp.whiteF0),
-                                    textAlign: TextAlign.center,
-                                  ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: ColorApp.redText),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 12),
+                                child: Text(
+                                  'Mua ngay',
+                                  style: StyleApp.textStyle500(
+                                      color: ColorApp.whiteF0),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),

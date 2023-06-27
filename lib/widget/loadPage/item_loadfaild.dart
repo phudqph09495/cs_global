@@ -11,7 +11,7 @@ class ItemLoadFaild extends StatelessWidget {
   ItemLoadFaild(
       {required this.error,
       this.onTap,
-      this.titleButton = "Tải lại",
+      this.titleButton = "Quay lại",
       this.width = 100});
 
   @override
@@ -30,7 +30,10 @@ class ItemLoadFaild extends StatelessWidget {
             height: 10,
           ),
           OutlinedButton(
-            onPressed: onTap,
+            onPressed: () {
+              Navigator.pop(context);
+
+            },
             style: OutlinedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),

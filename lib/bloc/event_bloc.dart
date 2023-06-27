@@ -91,6 +91,15 @@ class upgrade extends EventBloc {
     this.img,
   });
 }
+class napTien extends EventBloc {
+  int? price;
+  String? img;
+
+  napTien({
+    this.price,
+    this.img,
+  });
+}
 
 class CreateAcc extends EventBloc {
   String? name;

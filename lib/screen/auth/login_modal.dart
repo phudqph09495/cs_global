@@ -81,21 +81,21 @@ class _LoginState extends State<Login> {
                     ),
                     Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(),
-                            InkWell(
-                              onTap: () {
-                                Const.showScreen(ForgetModal(), context);
-                              },
-                              child: Text(
-                                'Quên mật khẩu',
-                                style: StyleApp.textStyle500(),
-                              ),
-                            )
-                          ],
-                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     SizedBox(),
+                        //     InkWell(
+                        //       onTap: () {
+                        //         Const.showScreen(ForgetModal(), context);
+                        //       },
+                        //       child: Text(
+                        //         'Quên mật khẩu',
+                        //         style: StyleApp.textStyle500(),
+                        //       ),
+                        //     )
+                        //   ],
+                        // ),
                         SizedBox(
                           height: 5,
                         ),
@@ -168,40 +168,7 @@ class _LoginState extends State<Login> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Text(
-                            'Hoặc đăng nhập',
-                            style: StyleApp.textStyle500(),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SvgPicture.asset(
-                                    'assets/svg/gmail.svg',
-                                    height: 20,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SvgPicture.asset(
-                                      'assets/svg/face.svg',
-                                      height: 25,
-                                    ),
-                                  ))
-                            ],
-                          ),
+                         SizedBox(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
