@@ -1,3 +1,4 @@
+import 'package:cs_global/screen/auth/sign_up_screen.dart';
 import 'package:cs_global/screen/auth/signup_modal.dart';
 import 'package:cs_global/widget/item/button.dart';
 import 'package:cs_global/widget/item/input/text_filed.dart';
@@ -10,6 +11,7 @@ import '../../config/const.dart';
 import '../../styles/init_style.dart';
 import '../../widget/item/input/text_filed2.dart';
 import 'login_modal.dart';
+import 'login_screen.dart';
 
 
 
@@ -40,7 +42,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 Image.asset('assets/images/logo.png'),
                 Button1(
                   ontap: () {
-                   Const.showScreen(Login(),context);
+                   // Const.showScreen(Login(),context);
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
                   },
                   colorButton: ColorApp.whiteF7,
                   textColor: Colors.green,
@@ -87,7 +90,8 @@ class _AuthScreenState extends State<AuthScreen> {
                               InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
-                                  Const.showScreen(SignUp(),context);
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpScreen()));
+
                                 },
                                 child: Container(
                                     width: double.infinity,

@@ -1,6 +1,14 @@
 import 'package:cs_global/widget/item/input/text_filed2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../bloc/OTP/bloc_getOTP.dart';
+import '../../bloc/auth/bloc_changePass.dart';
+import '../../bloc/check_log_state.dart';
+import '../../bloc/event_bloc.dart';
+import '../../bloc/state_bloc.dart';
+import '../../config/share_pref.dart';
 import '../../styles/init_style.dart';
 import '../../validator.dart';
 import '../../widget/item/input/text_filed.dart';
@@ -17,6 +25,13 @@ class _ChangePassProfileState extends State<ChangePassProfile> {
   TextEditingController oldPass=TextEditingController();
   TextEditingController newPass=TextEditingController();
   TextEditingController rePass=TextEditingController();
+  TextEditingController code=TextEditingController();
+  BlocGetOTP blocGetOTP = BlocGetOTP();
+  Future<String> phone()async{
+    return await SharedPrefs.readString('phone');
+  }
+
+  BlocChangePass blocChangePass=BlocChangePass();
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -79,6 +94,42 @@ controller: rePass,
                 SizedBox(
                   height: 15,
                 ),
+                InputText1(
+                  controller: code,
+                  label: 'Mã OTP',
+                  iconPreFix: Icon(FontAwesomeIcons.key),
+                  hasLeading: false,
+                  Wsuffix: BlocListener(
+                    bloc: blocGetOTP,
+                    listener: (_, StateBloc state) {
+                      CheckLogState.check(
+                        context,
+                        state: state,
+                        msg: state is LoadSuccess
+                            ? state.mess
+                            : 'Đã gửi lại OTP',
+                      );
+                    },
+                    child: InkWell(
+                      onTap: ()async {
+                        blocGetOTP.add(getOTP(
+                            phone: await phone(), type: 'doi_mat_khau'));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(13.0),
+                        child: Text(
+                          'Gửi OTP',
+                          style: StyleApp.textStyle700(
+                              fontSize: 16, color: ColorApp.redText),
+                        ),
+                      ),
+                    ),
+                  ),
+                  validator: (val) {
+                    return ValidatorApp.checkNull(
+                        isTextFiled: true, text: val);
+                  },
+                ),
               ],
             ),
           ),
@@ -86,19 +137,34 @@ controller: rePass,
       ),
       bottomSheet: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: InkWell(
-          onTap: (){
-            if(key.currentState!.validate()){}
+        child: BlocListener(
+          bloc: blocChangePass,
+          listener: (_,StateBloc state) {
+            CheckLogState.check(context, state: state,msg: state is LoadSuccess? state.mess:'Đổi mật khẩu thành công',
+            success: (){
+              oldPass.clear();
+              newPass.clear();
+              rePass.clear();
+              code.clear();
+            });
           },
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: ColorApp.green00,
-              borderRadius: BorderRadius.circular(20)
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Text('ĐỔI MẬT KHẨU',style: StyleApp.textStyle500(color: Colors.white,fontSize: 16),textAlign: TextAlign.center,),
+          child: InkWell(
+            onTap: (){
+
+              if(key.currentState!.validate()){
+                blocChangePass.add(changePass(currentPassword: oldPass.text,newPassword: newPass.text,rePassword: rePass.text,otp: code.text));
+              }
+            },
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: ColorApp.green00,
+                borderRadius: BorderRadius.circular(20)
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text('ĐỔI MẬT KHẨU',style: StyleApp.textStyle500(color: Colors.white,fontSize: 16),textAlign: TextAlign.center,),
+              ),
             ),
           ),
         ),

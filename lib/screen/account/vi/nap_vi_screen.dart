@@ -9,8 +9,10 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../bloc/OTP/bloc_getOTP.dart';
 import '../../../bloc/auth/bloc_profile.dart';
 import '../../../bloc/auth/bloc_upgradeAcc.dart';
 import '../../../bloc/bank/bloc_naptienVi.dart';
@@ -18,8 +20,10 @@ import '../../../bloc/check_log_state.dart';
 import '../../../bloc/event_bloc.dart';
 import '../../../bloc/state_bloc.dart';
 import '../../../config/const.dart';
+import '../../../config/share_pref.dart';
 import '../../../model/model_profile.dart';
 import '../../../styles/init_style.dart';
+import '../../../validator.dart';
 import '../../../widget/item/grid_view_custom.dart';
 import '../../../widget/item/input/text_filed.dart';
 import '../../../widget/loadPage/item_loadfaild.dart';
@@ -37,6 +41,12 @@ class _NapViScreenState extends State<NapViScreen> {
   Stream get imageStream => imagesController.stream;
   BlocNapTieNVI blocNapTien = BlocNapTieNVI();
   TextEditingController money = TextEditingController();
+
+  TextEditingController code = TextEditingController();
+  BlocGetOTP blocGetOTP = BlocGetOTP();
+  Future<String> phone() async {
+    return await SharedPrefs.readString('phone');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +80,9 @@ class _NapViScreenState extends State<NapViScreen> {
                   listener: (_, StateBloc state1) {
                     CheckLogState.check(context,
                         state: state1,
-                        msg: state1 is LoadSuccess? state1.mess:'Gửi yêu cầu nạp tiền thành công',
-                        success: () {
+                        msg: state1 is LoadSuccess
+                            ? state1.mess
+                            : 'Gửi yêu cầu nạp tiền thành công', success: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -88,7 +99,7 @@ class _NapViScreenState extends State<NapViScreen> {
                             "data:image/png;base64," + base64Encode(bytes);
                         blocNapTien.add(napTien(
                             price: int.parse(money.text.replaceAll('.', '')),
-                        img: img));
+                            img: img,code: code.text));
                       } else if (imageFiles.length == 0) {
                         CustomToast.showToast(
                             context: context,
@@ -220,6 +231,54 @@ class _NapViScreenState extends State<NapViScreen> {
                       Text(
                         'NapTienCS ${model.profile!.code}',
                         style: StyleApp.textStyle500(fontSize: 16),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        'Mã OTP',
+                        style: StyleApp.textStyle700(fontSize: 16),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      InputText1(
+                        colorError: ColorApp.redText,
+                        controller: code,
+                        label: 'Mã OTP',
+                        colorShadow: Colors.transparent,
+                        iconPreFix: Icon(FontAwesomeIcons.key),
+                        hasLeading: false,
+                        Wsuffix: BlocListener(
+                          bloc: blocGetOTP,
+                          listener: (_, StateBloc state) {
+                            CheckLogState.check(
+                              context,
+                              state: state,
+                              msg: state is LoadSuccess
+                                  ? state.mess
+                                  : 'Đã gửi lại OTP',
+                            );
+                          },
+                          child: InkWell(
+                            onTap: () async {
+                              blocGetOTP.add(getOTP(
+                                  phone: await phone(), type: 'nap_tien'));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(13.0),
+                              child: Text(
+                                'Gửi OTP',
+                                style: StyleApp.textStyle700(
+                                    fontSize: 16, color: ColorApp.redText),
+                              ),
+                            ),
+                          ),
+                        ),
+                        validator: (val) {
+                          return ValidatorApp.checkNull(
+                              isTextFiled: true, text: val);
+                        },
                       ),
                       SizedBox(
                         height: 25,

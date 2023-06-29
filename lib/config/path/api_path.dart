@@ -1,6 +1,5 @@
 class ApiPath {
   static const login="/customer/login";
-  static const getOTP="/user/submitphone?phone=";
   static const vertifyOTP="/user/verifyotp";
   static const profile="/customer/profile-user";
   static const lichSu='/order?per_page=10&page=';
@@ -16,6 +15,9 @@ static const chiTietGT='/customer/refers/';
 static const napTien="/customer/request/deposit/create";
 static const rutTien="/customer/request/withdraw/create";
 static const lsGD="/customer/request/history";
+static const getOTP="/customer/get-otp?phone=";
+static const forgetPass="/customer/forgot-pass";
+static const changepass="/customer/password/change";
 
   /// product
 static const detailOrder='/customer/order/detail/';

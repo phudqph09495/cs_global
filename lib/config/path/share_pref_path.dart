@@ -20,7 +20,7 @@ static String expired_at="expired_at";
 
 SharedPrefs.saveBool(SharePrefsKeys.login, true);
     SharedPrefs.saveString(SharePrefsKeys.user_token,model.token!.data!.token);
-
+SharedPrefs.saveString('phone', model.customer!.phone);
 
   }
 

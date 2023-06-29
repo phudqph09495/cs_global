@@ -91,13 +91,37 @@ class upgrade extends EventBloc {
     this.img,
   });
 }
+
+class changePass extends EventBloc {
+  String? phone;
+  String? currentPassword;
+  String? newPassword;
+  String? rePassword;
+  String? otp;
+
+  changePass({
+    this.phone,
+    this.currentPassword,
+    this.newPassword,
+    this.rePassword,
+    this.otp,
+  });
+}
+
+class getOTP extends EventBloc{
+  String phone;
+  String type;
+  getOTP({this.phone='',this.type=''});
+}
 class napTien extends EventBloc {
   int? price;
   String? img;
+  String? code;
 
   napTien({
     this.price,
     this.img,
+    this.code
   });
 }
 

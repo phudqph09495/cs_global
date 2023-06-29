@@ -47,7 +47,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
   int page = 1;
   BlocCartLocal blocCartLocal = BlocCartLocal();
   BlocCartLocal blocCartLocal2 = BlocCartLocal();
-
+double height=200;
   BlocProfile blocProfile = BlocProfile()..add(GetData());
 
   ScrollController _controller = ScrollController();
@@ -296,7 +296,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                     },
                                     initialPage: pageIMG,
                                     height: MediaQuery.of(context).size.height *
-                                        0.27,
+                                        0.5,
                                     width: double.infinity,
                                     indicatorBackgroundColor:
                                         Colors.transparent,
@@ -485,24 +485,36 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                 ],
                               ),
                               tab == 0
-                                  ? Container(
-                                      height: 200,
-                                      child: SingleChildScrollView(
-                                        child: HtmlWidget(
-                                          '${modelInfoPro.product!.descript}',
-                                          customWidgetBuilder: (ele) {
-                                            if (ele.attributes['src'] != null &&
-                                                ele.attributes['src']!
-                                                    .startsWith("/media")) {
-                                              return LoadImage(
-                                                  url:
-                                                      '${Const.image_host}${ele.attributes['src']}');
-                                            }
-                                          },
-                                          onTapUrl: (url) => _launchURL(url),
+                                  ? Column(
+                                    children: [
+                                      Container(
+                                          height: height,
+                                          child: SingleChildScrollView(
+                                            child: HtmlWidget(
+                                              '${modelInfoPro.product!.descript}',
+                                              textStyle: TextStyle(
+
+                                              ),
+                                              customWidgetBuilder: (ele) {
+                                                if (ele.attributes['src'] != null &&
+                                                    ele.attributes['src']!
+                                                        .startsWith("/media")) {
+                                                  return LoadImage(
+                                                      url:
+                                                          '${Const.image_host}${ele.attributes['src']}');
+                                                }
+                                              },
+                                              onTapUrl: (url) => _launchURL(url),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    )
+                                      InkWell(onTap: (){
+                                        setState(() {
+                                          height=500;
+                                        });
+                                      },child: Text('Xem thêm',style: StyleApp.textStyle500(color: ColorApp.green),))
+                                    ],
+                                  )
                                   : SizedBox(),
                               tab == 1
                                   ? Container(
@@ -650,76 +662,132 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            height: MediaQuery.of(context)
+                                          Stack(
+                                            alignment: Alignment.topRight,
+                                            children: [
+                                              SizedBox(
+                                                height: MediaQuery.of(
+                                                    context)
                                                     .size
                                                     .height *
-                                                0.24,
-                                            width: MediaQuery.of(context)
+                                                    0.24,
+                                                width: MediaQuery.of(
+                                                    context)
                                                     .size
                                                     .width *
-                                                0.45,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                      topLeft:
-                                                          Radius.circular(12),
-                                                      topRight:
-                                                          Radius.circular(12)),
-                                              child: LoadImage(
-                                                fit: BoxFit.cover,
-                                                url:
-                                                    '${Const.image_host}${model[index].thumbnail}',
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.08,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8,
-                                                      vertical: 4),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  // Text(
-                                                  //   model[index].code ?? '',
-                                                  //   style: StyleApp.textStyle600(),
-                                                  // ),
-                                                  Text(
-                                                    model[index].name ?? '',
-                                                    style:
-                                                        StyleApp.textStyle500(),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                    0.43,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                  const BorderRadius
+                                                      .only(
+                                                      topLeft: Radius
+                                                          .circular(
+                                                          12),
+                                                      topRight: Radius
+                                                          .circular(
+                                                          12)),
+                                                  child: LoadImage(
+                                                    fit: BoxFit.cover,
+                                                    url:
+                                                    '${Const.image_host}${model![index].thumbnail}',
                                                   ),
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                ),
+                                              ),
+                                              Container(
+
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                    const BorderRadius
+                                                        .only(
+
+                                                        topRight: Radius
+                                                            .circular(
+                                                            12)),
+                                                    image: DecorationImage(scale: 0.2,
+                                                        image: ExactAssetImage(
+                                                            'assets/images/giam.png',scale: 0.2),
+                                                        fit: BoxFit.fill)),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.symmetric(vertical: 4),
+                                                  child: Column(
                                                     children: [
                                                       Text(
-                                                        '${model[index].discount} ',
-                                                        style: StyleApp
-                                                            .textStyle500(decoration: TextDecoration.lineThrough),
+                                                        ' - ${model[index].discount} ',
+                                                        style: StyleApp.textStyle700(
+                                                            color: ColorApp.redText),
                                                       ),
                                                       Text(
-                                                        '${Const.ConvertPrice.format(int.parse('${model[index].discountPrice}'))}',
-                                                        style: StyleApp
-                                                            .textStyle700(
-                                                                color: ColorApp
-                                                                    .redText),
+                                                        'GIẢM',
+                                                        style: StyleApp.textStyle700(
+                                                            color: Colors.white),
                                                       )
                                                     ],
-                                                  )
-                                                ],
-                                              ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets
+                                                .symmetric(
+                                                horizontal: 8,
+                                                vertical: 4),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment
+                                                  .start,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                // Text(
+                                                //   model
+                                                //           .productSugges![
+                                                //               index]
+                                                //           .code ??
+                                                //       '',
+                                                //   style: StyleApp
+                                                //       .textStyle600(),
+                                                // ),
+
+                                                Text(
+                                                  model
+                                                  [
+                                                  index]
+                                                      .name ??
+                                                      '',
+                                                  maxLines: 1,
+                                                  style: StyleApp
+                                                      .textStyle500(),
+                                                  overflow: TextOverflow
+                                                      .ellipsis,
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceAround,
+                                                  children: [
+                                                    Text(
+                                                      '${Const.ConvertPrice.format(int.parse('${model[index].price}'))} đ',
+                                                      style: StyleApp
+                                                          .textStyle500(
+                                                          decoration:
+                                                          TextDecoration
+                                                              .lineThrough),
+                                                    ),
+                                                    Text(
+                                                      '${Const.ConvertPrice.format(int.parse('${model[index].discountPrice}'))} đ',
+                                                      style: StyleApp
+                                                          .textStyle700(
+                                                          color: ColorApp
+                                                              .redText),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
                                             ),
                                           ),
                                         ],

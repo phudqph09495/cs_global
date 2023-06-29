@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,33 +8,24 @@ import '../../model/model_login.dart';
 import '../event_bloc.dart';
 import '../state_bloc.dart';
 
-class BlocNapTieNVI extends Bloc<EventBloc, StateBloc> {
-  BlocNapTieNVI() : super(StateBloc());
+class BlocGetOTP extends Bloc<EventBloc, StateBloc> {
+  BlocGetOTP() : super(StateBloc());
 
   @override
   Stream<StateBloc> mapEventToState(EventBloc event) async* {
-    if (event is napTien) {
+    if (event is getOTP) {
       yield Loading();
       try {
-        Map<String, dynamic> req = Map();
-        req['price'] = event.price;
-        req['image'] = event.img;
-req['otp']=event.code;
+        var res = await Api.getAsync(
+            endPoint: ApiPath.getOTP + event.phone + '&type=' + event.type,
+            isToken: false);
 
-        var res = await Api.postAsync(endPoint: ApiPath.napTien, req: req,);
-print(res);
         // yield LoadSuccess(
         // );
-        if (res['status'] == 'success'){
-
-
-
-
-          yield LoadSuccess(
-mess: res['message']
-          );
+        print(res);
+        if (res['status'] == 'success') {
+          yield LoadSuccess(mess: res['message']);
         } else if (res['status'] == 'error') {
-
           yield LoadFail(error: res['message'] ?? "Lỗi kết nối");
         }
       } on DioError catch (e) {

@@ -595,7 +595,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                                         'Thanh toán qua ví CS',
                                                         style: StyleApp
                                                             .textStyle600(
-                                                                fontSize: 16),
+                                                                fontSize: 16,  color: Colors.black.withOpacity(0.3),),
                                                       ),
                                                       Row(
                                                         children: [
@@ -604,7 +604,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                                             style: StyleApp
                                                                 .textStyle600(
                                                                     fontSize:
-                                                                        16),
+                                                                        16 , color: Colors.black.withOpacity(0.3),),
                                                           ),
                                                           BlocBuilder(
                                                             builder: (_,

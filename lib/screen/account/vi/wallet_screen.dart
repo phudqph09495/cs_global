@@ -227,10 +227,21 @@ class _WalletScreenState extends State<WalletScreen> {
                             Expanded(
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => NapViScreen()));
+                                  if(modelProfile
+                                      .walletProfile!.statusBank!.key==false){
+                                    CustomToast.showToast(
+                                        context: context,
+                                        msg: 'Bạn phải xác thực tài khoản ngân hàng trước',
+                                        gravity: ToastGravity.BOTTOM,
+                                        duration: 2);
+
+                                  }else{
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => NapViScreen()))
+                                        .then((value) => blocProfile.add(GetData()));                                  }
+
                                 },
                                 child: const ButtonPay(
                                     icon: Icons.credit_card,

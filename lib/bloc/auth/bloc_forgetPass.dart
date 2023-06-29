@@ -9,20 +9,22 @@ import '../../model/model_login.dart';
 import '../event_bloc.dart';
 import '../state_bloc.dart';
 
-class BlocNapTieNVI extends Bloc<EventBloc, StateBloc> {
-  BlocNapTieNVI() : super(StateBloc());
+class BlocForgetPass extends Bloc<EventBloc, StateBloc> {
+  BlocForgetPass() : super(StateBloc());
 
   @override
   Stream<StateBloc> mapEventToState(EventBloc event) async* {
-    if (event is napTien) {
+    if (event is changePass) {
       yield Loading();
       try {
         Map<String, dynamic> req = Map();
-        req['price'] = event.price;
-        req['image'] = event.img;
-req['otp']=event.code;
+        req['currentPassword'] = event.currentPassword;
+        req['newPassword'] = event.newPassword;
+        req['re_newPassword'] = event.rePassword;
+        req['otp'] = event.otp;
+print(req);
 
-        var res = await Api.postAsync(endPoint: ApiPath.napTien, req: req,);
+        var res = await Api.postAsync(endPoint: ApiPath.forgetPass, req: req,isToken: false);
 print(res);
         // yield LoadSuccess(
         // );

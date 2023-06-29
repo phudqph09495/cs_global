@@ -85,9 +85,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.3,
                   width: double.infinity,
-                  child: Image.asset('assets/images/img.png'),
+                  child: Image.asset(
+                    'assets/images/img.png',
+                    fit: BoxFit.fill,
+                  ),
                 ),
-                Container(color: Colors.transparent,
+                Container(
+                  color: Colors.transparent,
                   height: MediaQuery.of(context).size.height * 0.02,
                 )
               ],
@@ -102,8 +106,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: MediaQuery.of(context).size.width * 0.65,
                         child: InputText1(
                           readOnly: true,
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen()));
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SearchScreen()));
                           },
                           colorShadow: Colors.transparent,
                           label: 'Tìm kiếm sản phẩm',
@@ -131,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                      const GioHangScreen()));
+                                          const GioHangScreen()));
                             },
                             child: Stack(
                               children: [
@@ -155,9 +162,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                             StateBloc>(
                                           builder: (context, StateBloc state) {
                                             List<ModelSanPhamMain> list =
-                                            state is LoadSuccess
-                                                ? state.data
-                                                : [];
+                                                state is LoadSuccess
+                                                    ? state.data
+                                                    : [];
 
                                             return Text(
                                               list.length.toString(),
@@ -232,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             FaIcon(listIcon[index],
                                 size: 12,
                                 color:
-                                selected ? Colors.white : ColorApp.green),
+                                    selected ? Colors.white : ColorApp.green),
                             Text(
                               listButton[index],
                               style: StyleApp.textStyle700(
@@ -248,10 +255,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   controller: controller,
                   options: GroupButtonOptions(
                     selectedTextStyle:
-                    StyleApp.textStyle500(color: Colors.white),
+                        StyleApp.textStyle500(color: Colors.white),
                     selectedColor: ColorApp.red1,
                     unselectedTextStyle:
-                    StyleApp.textStyle500(color: ColorApp.green1),
+                        StyleApp.textStyle500(color: ColorApp.green1),
                     buttonHeight: 50,
                     borderRadius: BorderRadius.circular(12),
                     spacing: 2,
@@ -289,12 +296,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                        const StartScreen()));
+                                            const StartScreen()));
                               },
                               child: Container(
                                   width: double.infinity,
                                   decoration:
-                                  const BoxDecoration(color: Colors.green),
+                                      const BoxDecoration(color: Colors.green),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
@@ -322,186 +329,476 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           tab == 0
               ? Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Nhóm sản phẩm',
-                        style: StyleApp.textStyle700(
-                            color: ColorApp.darkGreen, fontSize: 18),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      BlocBuilder(
-                          bloc: blocListCate,
-                          builder: (_, StateBloc state) {
-                            if (state is Loading) {
-                              return const Center(
-                                child: CircularProgressIndicator(
-                                  color: ColorApp.main,
-                                ),
-                              );
-                            }
-                            if (state is LoadFail) {
-                              return ItemLoadFaild(
-                                error: state.error,
-                                onTap: () {},
-                              );
-                            }
-                            if (state is LoadSuccess) {
-                              ModelListCate model = state.data;
-                              return GridView.builder(
-                                padding: EdgeInsets.zero,
-                                itemCount: model.categories!.length,
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 4,
-                                    mainAxisSpacing: 10,
-                                    crossAxisSpacing: 10.0,
-                                    mainAxisExtent: 171),
-                                itemBuilder:
-                                    (BuildContext context, int index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ListProScreen(
-                                                    id: model
-                                                        .categories![index]
-                                                        .id!,
-                                                    title: model
-                                                        .categories![index]
-                                                        .name!,
-                                                  ))).then((value) => context
-                                          .read<BlocCartLocal>()
-                                          .add(GetCart()));
-                                    },
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                              .size
-                                              .width *
-                                              0.2,
-                                          height: 100,
-                                          child: LoadImage(
-                                            fit: BoxFit.contain,
-                                            url: model.categories![index]
-                                                .image !=
-                                                null
-                                                ? '${Const.image_host}${model.categories![index].image}'
-                                                : '',
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text(
-                                            model.categories![index].name ??
-                                                '',
-                                            style: StyleApp.textStyle500(),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                            }
-                            return Container();
-                          }),
-                      SizedBox(
-                        height: Const.size(context).width * 0.25 + 10,
-                        child: ListView.separated(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return Stack(
-                                fit: StackFit.loose,
-                                clipBehavior: Clip.none,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Image.network(
-                                      'https://cdn.chanhtuoi.com/uploads/2023/04/lazada-sale-5-5.jpg',
-                                      width: Const.size(context).width * 0.4,
-                                      height:
-                                      Const.size(context).width * 0.25,
-                                      fit: BoxFit.cover,
-                                    ),
+                  child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'Nhóm sản phẩm',
+                          style: StyleApp.textStyle700(
+                              color: ColorApp.darkGreen, fontSize: 18),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        BlocBuilder(
+                            bloc: blocListCate,
+                            builder: (_, StateBloc state) {
+                              if (state is Loading) {
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    color: ColorApp.main,
                                   ),
-                                  Positioned(
-                                      bottom: 0,
-                                      left: 0,
-                                      right: 0,
-                                      child: Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 15),
-                                        decoration: BoxDecoration(
-                                            color: ColorApp.background,
-                                            borderRadius:
-                                            BorderRadius.circular(10),
-                                            border: Border.all(
-                                                color: Colors.grey)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 5,
+                                );
+                              }
+                              if (state is LoadFail) {
+                                return ItemLoadFaild(
+                                  error: state.error,
+                                  onTap: () {},
+                                );
+                              }
+                              if (state is LoadSuccess) {
+                                ModelListCate model = state.data;
+                                return GridView.builder(
+                                  padding: EdgeInsets.zero,
+                                  itemCount: model.categories!.length,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 4,
+                                          mainAxisSpacing: 10,
+                                          crossAxisSpacing: 10.0,
+                                          mainAxisExtent: 171),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ListProScreen(
+                                                      id: model
+                                                          .categories![index]
+                                                          .id!,
+                                                      title: model
+                                                          .categories![index]
+                                                          .name!,
+                                                    ))).then((value) => context
+                                            .read<BlocCartLocal>()
+                                            .add(GetCart()));
+                                      },
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.2,
+                                            height: 100,
+                                            child: LoadImage(
+                                              fit: BoxFit.contain,
+                                              url: model.categories![index]
+                                                          .image !=
+                                                      null
+                                                  ? '${Const.image_host}${model.categories![index].image}'
+                                                  : '',
+                                            ),
                                           ),
-                                          child: Center(
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
                                             child: Text(
-                                              'Xem ngay',
-                                              style: StyleApp.textStyle700(
-                                                fontSize: 12,
-                                                color: ColorApp.green1,
+                                              model.categories![index].name ??
+                                                  '',
+                                              style: StyleApp.textStyle500(),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
+                              return Container();
+                            }),
+                        SizedBox(
+                          height: Const.size(context).width * 0.25 + 10,
+                          child: ListView.separated(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Stack(
+                                  fit: StackFit.loose,
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Image.network(
+                                        'https://cdn.chanhtuoi.com/uploads/2023/04/lazada-sale-5-5.jpg',
+                                        width: Const.size(context).width * 0.4,
+                                        height:
+                                            Const.size(context).width * 0.25,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Positioned(
+                                        bottom: 0,
+                                        left: 0,
+                                        right: 0,
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          decoration: BoxDecoration(
+                                              color: ColorApp.background,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              border: Border.all(
+                                                  color: Colors.grey)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 5,
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                'Xem ngay',
+                                                style: StyleApp.textStyle700(
+                                                  fontSize: 12,
+                                                  color: ColorApp.green1,
+                                                ),
                                               ),
                                             ),
                                           ),
+                                        ))
+                                  ],
+                                );
+                              },
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                              itemCount: 10),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'Sản phẩm mua nhiều nhất',
+                          style: StyleApp.textStyle700(
+                              color: ColorApp.darkGreen, fontSize: 18),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        BlocBuilder(
+                          builder: (_, StateBloc state) {
+                            if (state is LoadSuccess) {
+                              ModelListMostSale model = state.data;
+                              return SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.34,
+                                child: ListView.builder(
+                                  itemBuilder: (context, index) {
+                                    BlocCartLocal blocCartLocal =
+                                        BlocCartLocal();
+                                    return InkWell(
+                                      onTap: () {
+                                        context
+                                            .read<BlocCartLocal>()
+                                            .add(GetCart());
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    InfoProdScreen(
+                                                      id: model
+                                                          .mostSaleProduct![
+                                                              index]
+                                                          .id
+                                                          .toString(),
+                                                      cateID: model
+                                                          .mostSaleProduct![
+                                                              index]
+                                                          .category![0]
+                                                          .id
+                                                          .toString(),
+                                                    )));
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5),
+                                        child: Stack(
+                                          alignment: Alignment.bottomRight,
+                                          children: [
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.34,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.43,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12)),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Stack(
+alignment: Alignment.topRight,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.24,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.43,
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              const BorderRadius
+                                                                      .only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          12),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          12)),
+                                                          child: LoadImage(
+                                                            fit: BoxFit.cover,
+                                                            url:
+                                                                '${Const.image_host}${model.mostSaleProduct![index].thumbnail}',
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      // CircleAvatar(
+                                                      //   backgroundColor: Color(
+                                                      //             0xffCD2027),
+                                                      //   child: Text(
+                                                      //     ' - ${model.mostSaleProduct![index].discount} ',
+                                                      //     style: StyleApp
+                                                      //         .textStyle500(
+                                                      //         color: Colors
+                                                      //             .white),
+                                                      //   ),
+                                                      // ),
+                                                      Container(
+
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                            const BorderRadius
+                                                                .only(
+
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                    12)),
+                                                            image: DecorationImage(scale: 0.2,
+                                                                image: ExactAssetImage(
+                                                                    'assets/images/giam.png',scale: 0.2),
+                                                                fit: BoxFit.fill)),
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.symmetric(vertical: 4),
+                                                          child: Column(
+                                                            children: [
+                                                              Text(
+                                                                ' - ${model.mostSaleProduct![index].discount} ',
+                                                                style: StyleApp.textStyle700(
+                                                                    color: ColorApp.redText),
+                                                              ),
+                                                              Text(
+                                                                'GIẢM',
+                                                                style: StyleApp.textStyle700(
+                                                                    color: Colors.white),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 8,
+                                                        vertical: 4),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        // Text(
+                                                        //   model
+                                                        //           .mostSaleProduct![
+                                                        //               index]
+                                                        //           .code ??
+                                                        //       '',
+                                                        //   style: StyleApp
+                                                        //       .textStyle600(),
+                                                        // ),
+                                                        Text(
+                                                          model
+                                                                  .mostSaleProduct![
+                                                                      index]
+                                                                  .name ??
+                                                              '',
+                                                          maxLines: 1,
+                                                          style: StyleApp
+                                                              .textStyle500(),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
+                                                        SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              '${Const.convertPrice('${'${model.mostSaleProduct![index].price}'}')} đ',
+                                                              style: StyleApp
+                                                                  .textStyle500(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .lineThrough),
+                                                            ),
+                                                            Text(
+                                                              '${Const.ConvertPrice.format(int.parse('${model.mostSaleProduct![index].discountPrice}'))} đ',
+                                                              style: StyleApp
+                                                                  .textStyle700(
+                                                                      color: ColorApp
+                                                                          .redText),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            BlocListener(
+                                              bloc: blocCartLocal,
+                                              listener:
+                                                  (context, StateBloc state) {
+                                                if (state is LoadSuccess) {
+                                                  context
+                                                      .read<BlocCartLocal>()
+                                                      .add(GetCart());
+                                                  CustomToast.showToast(
+                                                      context: context,
+                                                      msg:
+                                                          'Đã thêm vào giỏ hàng thành công',
+                                                      duration: 1,
+                                                      gravity:
+                                                          ToastGravity.BOTTOM);
+                                                }
+                                              },
+                                              child: InkWell(
+                                                onTap: () {
+                                                  blocCartLocal.add(AddData(
+                                                      modelSanPhamMain:
+                                                          ModelSanPhamMain(
+                                                              id: model
+                                                                  .mostSaleProduct![
+                                                                      index]
+                                                                  .id,
+                                                              amount: 1,
+                                                              max: model
+                                                                  .mostSaleProduct![
+                                                                      index]
+                                                                  .amount)));
+                                                },
+                                                child: Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    12),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    12),
+                                                          ),
+                                                          color: Colors.red),
+                                                  child: const Padding(
+                                                    padding:
+                                                        EdgeInsets.all(4.0),
+                                                    child: Icon(
+                                                      Icons
+                                                          .shopping_cart_outlined,
+                                                      color: Colors.white,
+                                                      size: 18,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                      ))
-                                ],
+                                      ),
+                                    );
+                                  },
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: model.mostSaleProduct!.length,
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                ),
                               );
-                            },
-                            separatorBuilder: (context, index) =>
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            itemCount: 10),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Sản phẩm mua nhiều nhất',
-                        style: StyleApp.textStyle700(
-                            color: ColorApp.darkGreen, fontSize: 18),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      BlocBuilder(
-                        builder: (_, StateBloc state) {
-                          if (state is LoadSuccess) {
-                            ModelListMostSale model = state.data;
-                            return SizedBox(
-                              height:
-                              MediaQuery.of(context).size.height * 0.34,
-                              child: ListView.builder(
+                            }
+                            return const SizedBox();
+                          },
+                          bloc: blocListMostSale,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Sản phẩm E - commerce đề xuất',
+                          style: StyleApp.textStyle700(
+                              color: ColorApp.darkGreen, fontSize: 18),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        BlocBuilder(
+                          builder: (_, StateBloc state) {
+                            if (state is LoadSuccess) {
+                              ModelListSugg model = state.data;
+                              return GridView.builder(
+                                padding: EdgeInsets.zero,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        mainAxisSpacing: 10,
+                                        crossAxisSpacing: 10,
+                                        mainAxisExtent:
+                                            MediaQuery.of(context).size.height *
+                                                0.34),
                                 itemBuilder: (context, index) {
-                                  BlocCartLocal blocCartLocal =
-                                  BlocCartLocal();
+                                  BlocCartLocal blocCartLocal = BlocCartLocal();
                                   return InkWell(
                                     onTap: () {
                                       context
@@ -513,11 +810,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                               builder: (context) =>
                                                   InfoProdScreen(
                                                     id: model
-                                                        .mostSaleProduct![index]
+                                                        .productSugges![index]
                                                         .id
                                                         .toString(),
                                                     cateID: model
-                                                        .mostSaleProduct![index]
+                                                        .productSugges![index]
                                                         .category![0]
                                                         .id
                                                         .toString(),
@@ -531,74 +828,114 @@ class _HomeScreenState extends State<HomeScreen> {
                                         children: [
                                           Container(
                                             height: MediaQuery.of(context)
-                                                .size
-                                                .height *
+                                                    .size
+                                                    .height *
                                                 0.34,
                                             width: MediaQuery.of(context)
-                                                .size
-                                                .width *
+                                                    .size
+                                                    .width *
                                                 0.43,
                                             decoration: BoxDecoration(
                                                 border: Border.all(),
                                                 borderRadius:
-                                                BorderRadius.circular(
-                                                    12)),
+                                                    BorderRadius.circular(12)),
                                             child: Column(
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                SizedBox(
-                                                  height:
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                      0.24,
-                                                  width:
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                      0.43,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                    const BorderRadius
-                                                        .only(
-                                                        topLeft: Radius
-                                                            .circular(12),
-                                                        topRight: Radius
-                                                            .circular(
-                                                            12)),
-                                                    child: LoadImage(
-                                                      fit: BoxFit.cover,
-                                                      url:
-                                                      '${Const.image_host}${model.mostSaleProduct![index].thumbnail}',
+                                                Stack(
+                                                  alignment: Alignment.topRight,
+                                                  children: [
+                                                    SizedBox(
+                                                      height: MediaQuery.of(
+                                                          context)
+                                                          .size
+                                                          .height *
+                                                          0.24,
+                                                      width: MediaQuery.of(
+                                                          context)
+                                                          .size
+                                                          .width *
+                                                          0.43,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                        const BorderRadius
+                                                            .only(
+                                                            topLeft: Radius
+                                                                .circular(
+                                                                12),
+                                                            topRight: Radius
+                                                                .circular(
+                                                                12)),
+                                                        child: LoadImage(
+                                                          fit: BoxFit.cover,
+                                                          url:
+                                                          '${Const.image_host}${model.productSugges![index].thumbnail}',
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                    Container(
+
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                  12)),
+                                                          image: DecorationImage(scale: 0.2,
+                                                              image: ExactAssetImage(
+                                                                  'assets/images/giam.png',scale: 0.2),
+                                                              fit: BoxFit.fill)),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.symmetric(vertical: 4),
+                                                        child: Column(
+                                                          children: [
+                                                            Text(
+                                                              ' - ${model.productSugges ![index].discount} ',
+                                                              style: StyleApp.textStyle700(
+                                                                  color: ColorApp.redText),
+                                                            ),
+                                                            Text(
+                                                              'GIẢM',
+                                                              style: StyleApp.textStyle700(
+                                                                  color: Colors.white),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets
-                                                      .symmetric(
+                                                          .symmetric(
                                                       horizontal: 8,
                                                       vertical: 4),
                                                   child: Column(
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     children: [
                                                       // Text(
                                                       //   model
-                                                      //           .mostSaleProduct![
+                                                      //           .productSugges![
                                                       //               index]
                                                       //           .code ??
                                                       //       '',
                                                       //   style: StyleApp
                                                       //       .textStyle600(),
                                                       // ),
+
                                                       Text(
-                                                        model.mostSaleProduct![index]
-                                                            .name ??
+                                                        model
+                                                                .productSugges![
+                                                                    index]
+                                                                .name ??
                                                             '',
                                                         maxLines: 1,
                                                         style: StyleApp
@@ -606,21 +943,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                       ),
-                                                    SizedBox(height: 10,),
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
                                                       Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceAround,
                                                         children: [
                                                           Text(
-                                                            '${model.mostSaleProduct![index].discount} ',
+                                                            '${Const.ConvertPrice.format(int.parse('${model.productSugges![index].price}'))} đ',
                                                             style: StyleApp
-                                                                .textStyle500(decoration: TextDecoration.lineThrough),
+                                                                .textStyle500(
+                                                                    decoration:
+                                                                        TextDecoration
+                                                                            .lineThrough),
                                                           ),
                                                           Text(
-                                                            '${Const.ConvertPrice.format(int.parse('${model.mostSaleProduct![index].discountPrice}'))} đ',
+                                                            '${Const.ConvertPrice.format(int.parse('${model.productSugges![index].discountPrice}'))} đ',
                                                             style: StyleApp
                                                                 .textStyle700(
-                                                                color: ColorApp
-                                                                    .redText),
+                                                                    color: ColorApp
+                                                                        .redText),
                                                           )
                                                         ],
                                                       )
@@ -641,43 +985,39 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 CustomToast.showToast(
                                                     context: context,
                                                     msg:
-                                                    'Đã thêm vào giỏ hàng thành công',
+                                                        'Đã thêm vào giỏ hàng thành công',
                                                     duration: 1,
                                                     gravity:
-                                                    ToastGravity.BOTTOM);
+                                                        ToastGravity.BOTTOM);
                                               }
                                             },
                                             child: InkWell(
                                               onTap: () {
                                                 blocCartLocal.add(AddData(
                                                     modelSanPhamMain:
-                                                    ModelSanPhamMain(
-                                                        id: model
-                                                            .mostSaleProduct![
-                                                        index]
-                                                            .id,
-                                                        amount: 1,
-                                                        max: model
-                                                            .mostSaleProduct![
-                                                        index]
-                                                            .amount)));
+                                                        ModelSanPhamMain(
+                                                            id: model
+                                                                .productSugges![
+                                                                    index]
+                                                                .id,
+                                                            amount: 1,
+                                                            max: model
+                                                                .productSugges![
+                                                                    index]
+                                                                .amount)));
                                               },
                                               child: Container(
-                                                decoration:
-                                                const BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                     borderRadius:
-                                                    BorderRadius.only(
+                                                        BorderRadius.only(
                                                       topLeft:
-                                                      Radius.circular(
-                                                          12),
+                                                          Radius.circular(12),
                                                       bottomRight:
-                                                      Radius.circular(
-                                                          12),
+                                                          Radius.circular(12),
                                                     ),
                                                     color: Colors.red),
                                                 child: const Padding(
-                                                  padding:
-                                                  EdgeInsets.all(4.0),
+                                                  padding: EdgeInsets.all(4.0),
                                                   child: Icon(
                                                     Icons
                                                         .shopping_cart_outlined,
@@ -693,325 +1033,338 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   );
                                 },
-                                scrollDirection: Axis.horizontal,
-                                itemCount:  model
-                                    .mostSaleProduct!.length,
-                                physics:
-                                const AlwaysScrollableScrollPhysics(),
+                                itemCount: model.productSugges!.length,
                                 shrinkWrap: true,
-                              ),
-                            );
-                          }
-                          return const SizedBox();
-                        },
-                        bloc: blocListMostSale,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'Sản phẩm E - commerce đề xuất',
-                        style: StyleApp.textStyle700(
-                            color: ColorApp.darkGreen, fontSize: 18),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      BlocBuilder(
-                        builder: (_, StateBloc state) {
-                          if (state is LoadSuccess) {
-                            ModelListSugg model = state.data;
-                            return GridView.builder(
-                              padding: EdgeInsets.zero,
-                              gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10,
-                                  mainAxisExtent:
-                                  MediaQuery.of(context).size.height *
-                                      0.34),
-                              itemBuilder: (context, index) {
-                                BlocCartLocal blocCartLocal = BlocCartLocal();
-                                return InkWell(
-                                  onTap: () {
-                                    context
-                                        .read<BlocCartLocal>()
-                                        .add(GetCart());
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                InfoProdScreen(
-                                                  id: model
-                                                      .productSugges![index]
-                                                      .id
-                                                      .toString(),
-                                                  cateID: model
-                                                      .productSugges![index]
-                                                      .category![0]
-                                                      .id
-                                                      .toString(),
-                                                )));
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5),
-                                    child: Stack(
-                                      alignment: Alignment.bottomRight,
-                                      children: [
-                                        Container(
-                                          height: MediaQuery.of(context)
-                                              .size
-                                              .height *
-                                              0.34,
-                                          width: MediaQuery.of(context)
-                                              .size
-                                              .width *
-                                              0.43,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(),
-                                              borderRadius:
-                                              BorderRadius.circular(12)),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                    0.24,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                    0.43,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                  const BorderRadius.only(
-                                                      topLeft:
-                                                      Radius.circular(
-                                                          12),
-                                                      topRight:
-                                                      Radius.circular(
-                                                          12)),
-                                                  child: LoadImage(
-                                                    fit: BoxFit.cover,
-                                                    url:
-                                                    '${Const.image_host}${model.productSugges![index].thumbnail}',
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets
-                                                    .symmetric(
-                                                    horizontal: 8,
-                                                    vertical: 4),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                                  children: [
-                                                    // Text(
-                                                    //   model
-                                                    //           .productSugges![
-                                                    //               index]
-                                                    //           .code ??
-                                                    //       '',
-                                                    //   style: StyleApp
-                                                    //       .textStyle600(),
-                                                    // ),
-
-                                                    Text(
-                                                      model.productSugges![index]
-                                                          .name ??
-                                                          '',
-                                                      maxLines: 1,
-                                                      style: StyleApp
-                                                          .textStyle500(),
-                                                      overflow: TextOverflow
-                                                          .ellipsis,
-                                                    ),
-                                                    SizedBox(height: 10,),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                      children: [
-                                                        Text(
-                                                          '${model.productSugges![index].discount}',
-                                                          style: StyleApp
-                                                              .textStyle500(decoration: TextDecoration.lineThrough),
-                                                        ),
-                                                        Text(
-                                                          '${Const.ConvertPrice.format(int.parse('${model.productSugges![index].discountPrice}'))} đ',
-                                                          style: StyleApp
-                                                              .textStyle700(
-                                                              color: ColorApp
-                                                                  .redText),
-                                                        )
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        BlocListener(
-                                          bloc: blocCartLocal,
-                                          listener:
-                                              (context, StateBloc state) {
-                                            if (state is LoadSuccess) {
-                                              context
-                                                  .read<BlocCartLocal>()
-                                                  .add(GetCart());
-                                              CustomToast.showToast(
-                                                  context: context,
-                                                  msg:
-                                                  'Đã thêm vào giỏ hàng thành công',
-                                                  duration: 1,
-                                                  gravity:
-                                                  ToastGravity.BOTTOM);
-                                            }
-                                          },
-                                          child: InkWell(
-                                            onTap: () {
-                                              blocCartLocal.add(AddData(
-                                                  modelSanPhamMain:
-                                                  ModelSanPhamMain(
-                                                      id: model
-                                                          .productSugges![
-                                                      index]
-                                                          .id,
-                                                      amount: 1,
-                                                      max: model
-                                                          .productSugges![
-                                                      index]
-                                                          .amount)));
-                                            },
-                                            child: Container(
-                                              decoration: const BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius.only(
-                                                    topLeft:
-                                                    Radius.circular(12),
-                                                    bottomRight:
-                                                    Radius.circular(12),
-                                                  ),
-                                                  color: Colors.red),
-                                              child: const Padding(
-                                                padding: EdgeInsets.all(4.0),
-                                                child: Icon(
-                                                  Icons
-                                                      .shopping_cart_outlined,
-                                                  color: Colors.white,
-                                                  size: 18,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                              itemCount: model.productSugges!.length,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                            );
-                          }
-                          return const SizedBox();
-                        },
-                        bloc: blocListSuggest,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
+                                physics: const NeverScrollableScrollPhysics(),
+                              );
+                            }
+                            return const SizedBox();
+                          },
+                          bloc: blocListSuggest,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ))
+                ))
               : const SizedBox(),
           tab == 3
               ? Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Nhóm sản phẩm',
-                        style: StyleApp.textStyle700(
-                            color: ColorApp.darkGreen, fontSize: 18),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      GridView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: htLand.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10.0,
-                            mainAxisExtent: 160),
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            onTap: () {},
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SizedBox(
-                                  width:
-                                  MediaQuery.of(context).size.width * 0.2,
-                                  height: 100,
-                                  child: SvgPicture.asset(
-                                      'assets/svg/htland${index}.svg'),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10),
-                                  child: Text(
-                                    htLand[index],
-                                    style: StyleApp.textStyle500(),
-                                    textAlign: TextAlign.center,
+                  child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'Nhóm sản phẩm',
+                          style: StyleApp.textStyle700(
+                              color: ColorApp.darkGreen, fontSize: 18),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        GridView.builder(
+                          padding: EdgeInsets.zero,
+                          itemCount: htLand.length,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 4,
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 10.0,
+                                  mainAxisExtent: 160),
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              onTap: () {},
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.2,
+                                    height: 100,
+                                    child: SvgPicture.asset(
+                                        'assets/svg/htland${index}.svg'),
                                   ),
-                                )
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-
-                      Text(
-                        'Sản phẩm mua nhiều nhất',
-                        style: StyleApp.textStyle700(
-                            color: ColorApp.darkGreen, fontSize: 18),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      BlocBuilder(
-                        builder: (_, StateBloc state) {
-                          if (state is LoadSuccess) {
-                            ModelListMostSale model = state.data;
-                            return SizedBox(
-                              height:
-                              MediaQuery.of(context).size.height * 0.34,
-                              child: ListView.builder(
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text(
+                                      htLand[index],
+                                      style: StyleApp.textStyle500(),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        Text(
+                          'Sản phẩm mua nhiều nhất',
+                          style: StyleApp.textStyle700(
+                              color: ColorApp.darkGreen, fontSize: 18),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        BlocBuilder(
+                          builder: (_, StateBloc state) {
+                            if (state is LoadSuccess) {
+                              ModelListMostSale model = state.data;
+                              return SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.34,
+                                child: ListView.builder(
+                                  itemBuilder: (context, index) {
+                                    BlocCartLocal blocCartLocal =
+                                        BlocCartLocal();
+                                    return InkWell(
+                                      onTap: () {
+                                        context
+                                            .read<BlocCartLocal>()
+                                            .add(GetCart());
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    InfoProdScreen(
+                                                      id: model
+                                                          .mostSaleProduct![
+                                                              index]
+                                                          .id
+                                                          .toString(),
+                                                      cateID: model
+                                                          .mostSaleProduct![
+                                                              index]
+                                                          .category![0]
+                                                          .id
+                                                          .toString(),
+                                                    )));
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5),
+                                        child: Stack(
+                                          alignment: Alignment.bottomRight,
+                                          children: [
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.34,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.43,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12)),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.24,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.43,
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .only(
+                                                              topLeft: Radius
+                                                                  .circular(12),
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                      12)),
+                                                      child: LoadImage(
+                                                        fit: BoxFit.cover,
+                                                        url:
+                                                            '${Const.image_host}${model.mostSaleProduct![index].thumbnail}',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 8,
+                                                        vertical: 4),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        // Text(
+                                                        //   model
+                                                        //           .mostSaleProduct![
+                                                        //               index]
+                                                        //           .code ??
+                                                        //       '',
+                                                        //   style: StyleApp
+                                                        //       .textStyle600(),
+                                                        // ),
+                                                        Text(
+                                                          model.mostSaleProduct![0]
+                                                                  .name ??
+                                                              '',
+                                                          maxLines: 1,
+                                                          style: StyleApp
+                                                              .textStyle500(),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
+                                                        SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                          children: [
+                                                            Text(
+                                                              '${model.mostSaleProduct![index].discount} ',
+                                                              style: StyleApp
+                                                                  .textStyle500(
+                                                                      decoration:
+                                                                          TextDecoration
+                                                                              .lineThrough),
+                                                            ),
+                                                            Text(
+                                                              '${Const.ConvertPrice.format(int.parse('${model.mostSaleProduct![index].discountPrice}'))} đ',
+                                                              style: StyleApp
+                                                                  .textStyle700(
+                                                                      color: ColorApp
+                                                                          .redText),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            BlocListener(
+                                              bloc: blocCartLocal,
+                                              listener:
+                                                  (context, StateBloc state) {
+                                                if (state is LoadSuccess) {
+                                                  context
+                                                      .read<BlocCartLocal>()
+                                                      .add(GetCart());
+                                                  CustomToast.showToast(
+                                                      context: context,
+                                                      msg:
+                                                          'Đã thêm vào giỏ hàng thành công',
+                                                      duration: 1,
+                                                      gravity:
+                                                          ToastGravity.BOTTOM);
+                                                }
+                                              },
+                                              child: InkWell(
+                                                onTap: () {
+                                                  blocCartLocal.add(AddData(
+                                                      modelSanPhamMain:
+                                                          ModelSanPhamMain(
+                                                              id: model
+                                                                  .mostSaleProduct![
+                                                                      index]
+                                                                  .id,
+                                                              amount: 1,
+                                                              max: model
+                                                                  .mostSaleProduct![
+                                                                      index]
+                                                                  .amount)));
+                                                },
+                                                child: Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    12),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    12),
+                                                          ),
+                                                          color: Colors.red),
+                                                  child: const Padding(
+                                                    padding:
+                                                        EdgeInsets.all(4.0),
+                                                    child: Icon(
+                                                      Icons
+                                                          .shopping_cart_outlined,
+                                                      color: Colors.white,
+                                                      size: 18,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: model.mostSaleProduct!.length,
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                ),
+                              );
+                            }
+                            return const SizedBox();
+                          },
+                          bloc: blocListMostSale,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Sản phẩm E - commerce đề xuất',
+                          style: StyleApp.textStyle700(
+                              color: ColorApp.darkGreen, fontSize: 18),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        BlocBuilder(
+                          builder: (_, StateBloc state) {
+                            if (state is LoadSuccess) {
+                              ModelListSugg model = state.data;
+                              return GridView.builder(
+                                padding: EdgeInsets.zero,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        mainAxisSpacing: 10,
+                                        crossAxisSpacing: 10,
+                                        mainAxisExtent:
+                                            MediaQuery.of(context).size.height *
+                                                0.34),
                                 itemBuilder: (context, index) {
-                                  BlocCartLocal blocCartLocal =
-                                  BlocCartLocal();
+                                  BlocCartLocal blocCartLocal = BlocCartLocal();
                                   return InkWell(
                                     onTap: () {
                                       context
@@ -1023,11 +1376,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                               builder: (context) =>
                                                   InfoProdScreen(
                                                     id: model
-                                                        .mostSaleProduct![index]
+                                                        .productSugges![index]
                                                         .id
                                                         .toString(),
                                                     cateID: model
-                                                        .mostSaleProduct![index]
+                                                        .productSugges![index]
                                                         .category![0]
                                                         .id
                                                         .toString(),
@@ -1041,65 +1394,62 @@ class _HomeScreenState extends State<HomeScreen> {
                                         children: [
                                           Container(
                                             height: MediaQuery.of(context)
-                                                .size
-                                                .height *
+                                                    .size
+                                                    .height *
                                                 0.34,
                                             width: MediaQuery.of(context)
-                                                .size
-                                                .width *
+                                                    .size
+                                                    .width *
                                                 0.43,
                                             decoration: BoxDecoration(
                                                 border: Border.all(),
                                                 borderRadius:
-                                                BorderRadius.circular(
-                                                    12)),
+                                                    BorderRadius.circular(12)),
                                             child: Column(
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 SizedBox(
-                                                  height:
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .height *
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
                                                       0.24,
-                                                  width:
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .width *
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
                                                       0.43,
                                                   child: ClipRRect(
                                                     borderRadius:
-                                                    const BorderRadius
-                                                        .only(
-                                                        topLeft: Radius
-                                                            .circular(12),
-                                                        topRight: Radius
-                                                            .circular(
-                                                            12)),
+                                                        const BorderRadius.only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    12),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    12)),
                                                     child: LoadImage(
                                                       fit: BoxFit.cover,
                                                       url:
-                                                      '${Const.image_host}${model.mostSaleProduct![index].thumbnail}',
+                                                          '${Const.image_host}${model.productSugges![index].thumbnail}',
                                                     ),
                                                   ),
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets
-                                                      .symmetric(
+                                                          .symmetric(
                                                       horizontal: 8,
                                                       vertical: 4),
                                                   child: Column(
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     children: [
                                                       // Text(
                                                       //   model
-                                                      //           .mostSaleProduct![
+                                                      //           .productSugges![
                                                       //               index]
                                                       //           .code ??
                                                       //       '',
@@ -1107,8 +1457,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       //       .textStyle600(),
                                                       // ),
                                                       Text(
-                                                        model.mostSaleProduct![0]
-                                                            .name ??
+                                                        model
+                                                                .productSugges![
+                                                                    index]
+                                                                .name ??
                                                             '',
                                                         maxLines: 1,
                                                         style: StyleApp
@@ -1116,21 +1468,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                       ),
-                                                      SizedBox(height: 10,),
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
                                                       Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceAround,
                                                         children: [
                                                           Text(
-                                                            '${model.mostSaleProduct![index].discount} ',
+                                                            '${model.productSugges![index].discount}',
                                                             style: StyleApp
-                                                                .textStyle500(decoration: TextDecoration.lineThrough),
+                                                                .textStyle500(
+                                                                    decoration:
+                                                                        TextDecoration
+                                                                            .lineThrough),
                                                           ),
                                                           Text(
-                                                            '${Const.ConvertPrice.format(int.parse('${model.mostSaleProduct![index].discountPrice}'))} đ',
+                                                            '${Const.ConvertPrice.format(int.parse('${model.productSugges![index].discountPrice}'))} đ',
                                                             style: StyleApp
                                                                 .textStyle700(
-                                                                color: ColorApp
-                                                                    .redText),
+                                                                    color: ColorApp
+                                                                        .redText),
                                                           )
                                                         ],
                                                       )
@@ -1151,43 +1510,39 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 CustomToast.showToast(
                                                     context: context,
                                                     msg:
-                                                    'Đã thêm vào giỏ hàng thành công',
+                                                        'Đã thêm vào giỏ hàng thành công',
                                                     duration: 1,
                                                     gravity:
-                                                    ToastGravity.BOTTOM);
+                                                        ToastGravity.BOTTOM);
                                               }
                                             },
                                             child: InkWell(
                                               onTap: () {
                                                 blocCartLocal.add(AddData(
                                                     modelSanPhamMain:
-                                                    ModelSanPhamMain(
-                                                        id: model
-                                                            .mostSaleProduct![
-                                                        index]
-                                                            .id,
-                                                        amount: 1,
-                                                        max: model
-                                                            .mostSaleProduct![
-                                                        index]
-                                                            .amount)));
+                                                        ModelSanPhamMain(
+                                                            id: model
+                                                                .productSugges![
+                                                                    index]
+                                                                .id,
+                                                            amount: 1,
+                                                            max: model
+                                                                .productSugges![
+                                                                    index]
+                                                                .amount)));
                                               },
                                               child: Container(
-                                                decoration:
-                                                const BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                     borderRadius:
-                                                    BorderRadius.only(
+                                                        BorderRadius.only(
                                                       topLeft:
-                                                      Radius.circular(
-                                                          12),
+                                                          Radius.circular(12),
                                                       bottomRight:
-                                                      Radius.circular(
-                                                          12),
+                                                          Radius.circular(12),
                                                     ),
                                                     color: Colors.red),
                                                 child: const Padding(
-                                                  padding:
-                                                  EdgeInsets.all(4.0),
+                                                  padding: EdgeInsets.all(4.0),
                                                   child: Icon(
                                                     Icons
                                                         .shopping_cart_outlined,
@@ -1203,247 +1558,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   );
                                 },
-                                scrollDirection: Axis.horizontal,
-                                itemCount: model.mostSaleProduct!.length,
-                                physics:
-                                const AlwaysScrollableScrollPhysics(),
+                                itemCount: model.productSugges!.length,
                                 shrinkWrap: true,
-                              ),
-                            );
-                          }
-                          return const SizedBox();
-                        },
-                        bloc: blocListMostSale,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'Sản phẩm E - commerce đề xuất',
-                        style: StyleApp.textStyle700(
-                            color: ColorApp.darkGreen, fontSize: 18),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      BlocBuilder(
-                        builder: (_, StateBloc state) {
-                          if (state is LoadSuccess) {
-                            ModelListSugg model = state.data;
-                            return GridView.builder(
-                              padding: EdgeInsets.zero,
-                              gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10,
-                                  mainAxisExtent:
-                                  MediaQuery.of(context).size.height *
-                                      0.34),
-                              itemBuilder: (context, index) {
-                                BlocCartLocal blocCartLocal = BlocCartLocal();
-                                return InkWell(
-                                  onTap: () {
-                                    context
-                                        .read<BlocCartLocal>()
-                                        .add(GetCart());
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                InfoProdScreen(
-                                                  id: model
-                                                      .productSugges![index]
-                                                      .id
-                                                      .toString(),
-                                                  cateID: model
-                                                      .productSugges![index]
-                                                      .category![0]
-                                                      .id
-                                                      .toString(),
-                                                )));
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5),
-                                    child: Stack(
-                                      alignment: Alignment.bottomRight,
-                                      children: [
-                                        Container(
-                                          height: MediaQuery.of(context)
-                                              .size
-                                              .height *
-                                              0.34,
-                                          width: MediaQuery.of(context)
-                                              .size
-                                              .width *
-                                              0.43,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(),
-                                              borderRadius:
-                                              BorderRadius.circular(12)),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                    0.24,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                    0.43,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                  const BorderRadius.only(
-                                                      topLeft:
-                                                      Radius.circular(
-                                                          12),
-                                                      topRight:
-                                                      Radius.circular(
-                                                          12)),
-                                                  child: LoadImage(
-                                                    fit: BoxFit.cover,
-                                                    url:
-                                                    '${Const.image_host}${model.productSugges![index].thumbnail}',
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets
-                                                    .symmetric(
-                                                    horizontal: 8,
-                                                    vertical: 4),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                                  children: [
-                                                    // Text(
-                                                    //   model
-                                                    //           .productSugges![
-                                                    //               index]
-                                                    //           .code ??
-                                                    //       '',
-                                                    //   style: StyleApp
-                                                    //       .textStyle600(),
-                                                    // ),
-                                                    Text(
-                                                      model
-                                                          .productSugges![
-                                                      index]
-                                                          .name ??
-                                                          '',
-                                                      maxLines: 1,
-                                                      style: StyleApp
-                                                          .textStyle500(),
-                                                      overflow: TextOverflow
-                                                          .ellipsis,
-                                                    ),
-                                                    SizedBox(height: 10,),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                      children: [
-                                                        Text(
-                                                          '${model.productSugges![index].discount}',
-                                                          style: StyleApp
-                                                              .textStyle500(decoration: TextDecoration.lineThrough),
-                                                        ),
-                                                        Text(
-                                                          '${Const.ConvertPrice.format(int.parse('${model.productSugges![index].discountPrice}'))} đ',
-                                                          style: StyleApp
-                                                              .textStyle700(
-                                                              color: ColorApp
-                                                                  .redText),
-                                                        )
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        BlocListener(
-                                          bloc: blocCartLocal,
-                                          listener:
-                                              (context, StateBloc state) {
-                                            if (state is LoadSuccess) {
-                                              context
-                                                  .read<BlocCartLocal>()
-                                                  .add(GetCart());
-                                              CustomToast.showToast(
-                                                  context: context,
-                                                  msg:
-                                                  'Đã thêm vào giỏ hàng thành công',
-                                                  duration: 1,
-                                                  gravity:
-                                                  ToastGravity.BOTTOM);
-                                            }
-                                          },
-                                          child: InkWell(
-                                            onTap: () {
-                                              blocCartLocal.add(AddData(
-                                                  modelSanPhamMain:
-                                                  ModelSanPhamMain(
-                                                      id: model
-                                                          .productSugges![
-                                                      index]
-                                                          .id,
-                                                      amount: 1,
-                                                      max: model
-                                                          .productSugges![
-                                                      index]
-                                                          .amount)));
-                                            },
-                                            child: Container(
-                                              decoration: const BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius.only(
-                                                    topLeft:
-                                                    Radius.circular(12),
-                                                    bottomRight:
-                                                    Radius.circular(12),
-                                                  ),
-                                                  color: Colors.red),
-                                              child: const Padding(
-                                                padding: EdgeInsets.all(4.0),
-                                                child: Icon(
-                                                  Icons
-                                                      .shopping_cart_outlined,
-                                                  color: Colors.white,
-                                                  size: 18,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                              itemCount: model.productSugges!.length,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                            );
-                          }
-                          return const SizedBox();
-                        },
-                        bloc: blocListSuggest,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
+                                physics: const NeverScrollableScrollPhysics(),
+                              );
+                            }
+                            return const SizedBox();
+                          },
+                          bloc: blocListSuggest,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ))
+                ))
               : const SizedBox()
         ],
       ),

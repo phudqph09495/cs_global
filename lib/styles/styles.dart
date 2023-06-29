@@ -7,7 +7,7 @@ class StyleApp {
       double fontSize = 14,
       FontStyle fontStyle = FontStyle.normal,
       TextDecoration decoration = TextDecoration.none}) {
-    return GoogleFonts.montserrat(
+    return GoogleFonts.quicksand(
       color: color,
       fontSize: fontSize,
       fontStyle: fontStyle,
@@ -21,7 +21,7 @@ class StyleApp {
       double fontSize = 14,
       FontStyle fontStyle = FontStyle.normal,
       TextDecoration decoration = TextDecoration.none}) {
-    return GoogleFonts.montserrat(
+    return GoogleFonts.quicksand(
       color: color,
       fontSize: fontSize,
       fontStyle: fontStyle,
@@ -35,7 +35,7 @@ class StyleApp {
       double fontSize = 14,
       FontStyle fontStyle = FontStyle.normal,
       TextDecoration decoration = TextDecoration.none}) {
-    return GoogleFonts.montserrat(
+    return GoogleFonts.quicksand(
       color: color,
       fontStyle: fontStyle,
       fontSize: fontSize,
@@ -49,7 +49,7 @@ class StyleApp {
       double fontSize = 14,
       FontStyle fontStyle = FontStyle.normal,
       TextDecoration decoration = TextDecoration.none}) {
-    return GoogleFonts.montserrat(
+    return GoogleFonts.quicksand(
       color: color,
       fontStyle: fontStyle,
       fontSize: fontSize,
@@ -63,7 +63,7 @@ class StyleApp {
       double fontSize = 14,
       FontStyle fontStyle = FontStyle.normal,
       TextDecoration decoration = TextDecoration.none}) {
-    return GoogleFonts.montserrat(
+    return GoogleFonts.quicksand(
       color: color,
       fontSize: fontSize,
       fontStyle: fontStyle,

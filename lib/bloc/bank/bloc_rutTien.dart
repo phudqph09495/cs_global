@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,23 +18,19 @@ class BlocRutTien extends Bloc<EventBloc, StateBloc> {
       try {
         Map<String, dynamic> req = Map();
         req['price'] = event.price;
+        req['otp'] = event.code;
 
 
-
-        var res = await Api.postAsync(endPoint: ApiPath.rutTien, req: req,);
+        var res = await Api.postAsync(
+          endPoint: ApiPath.rutTien,
+          req: req,
+        );
         print(res);
         // yield LoadSuccess(
         // );
-        if (res['status'] == 'success'){
-
-
-
-
-          yield LoadSuccess(
-              mess: res['message']
-          );
+        if (res['status'] == 'success') {
+          yield LoadSuccess(mess: res['message']);
         } else if (res['status'] == 'error') {
-
           yield LoadFail(error: res['message'] ?? "Lỗi kết nối");
         }
       } on DioError catch (e) {

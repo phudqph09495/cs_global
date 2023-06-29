@@ -9,6 +9,7 @@ class InputText1 extends StatefulWidget {
   IconData? suffix;
   bool obscureText;
   bool hasSuffix;
+  Widget? Wsuffix;
   bool hasLeading;
   String label;
   GlobalKey? globalKey;
@@ -26,6 +27,7 @@ Widget? iconPreFix;
   Function()? search;
   bool readOnly;
 Color colorShadow;
+Color colorError;
   String? initVal;
 Color suffixColor;
 int maxLine;
@@ -39,6 +41,7 @@ int maxLine;
       this.keyboardType,
       this.controller,
       this.onChanged,
+        this.Wsuffix,
       this.iconData,
       this.suffix,
         this.globalKey,
@@ -58,6 +61,7 @@ int maxLine;
       this.inputformater,
       this.onComplete,
         this.search,
+        this.colorError= Colors.white,
 this.colorShadow=ColorApp.pink,
       this.onTap});
 
@@ -91,7 +95,7 @@ key: widget.globalKey,
         textAlign: TextAlign.left,
         style: StyleApp.textStyle400(),
         decoration: InputDecoration(
-          errorStyle: StyleApp.textStyle500(color: Colors.white, fontSize: 14),
+          errorStyle: StyleApp.textStyle500(color: widget.colorError, fontSize: 14),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.radius),
             // borderSide:
@@ -134,7 +138,7 @@ key: widget.globalKey,
                     color: widget.suffixColor,
                   ),
                 )
-              : null,
+              : widget.Wsuffix,
           errorText: null,
         ),
         validator: (val) {
