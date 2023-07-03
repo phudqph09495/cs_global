@@ -446,47 +446,60 @@ double height=200;
                               const SizedBox(
                                 height: 20,
                               ),
-                              TabBar(
-                                isScrollable: true,
-                                controller: _tabController,
-                                onTap: (value) {
-                                  print(value);
-                                  tab = value;
-                                  setState(() {});
-                                },
-                                labelPadding:
-                                    const EdgeInsets.symmetric(horizontal: 30),
-                                labelStyle: StyleApp.textStyle700(fontSize: 16),
-                                indicatorColor: ColorApp.redText,
-                                unselectedLabelStyle:
-                                    StyleApp.textStyle500(fontSize: 14),
-                                labelColor: ColorApp.redText,
-                                unselectedLabelColor: ColorApp.dark500,
-                                tabs: const <Widget>[
-                                  Tab(
-                                    child: Text(
-                                      'Chi tiết',
-                                    ),
-                                  ),
-                                  Tab(
-                                    child: Text('Hướng dẫn sử dụng'),
+                              Container(
 
-                                  ),
-                                  Tab(
-                                    child: Text(
-                                      'Pháp lý',
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: ColorApp.grey4F,
+                                      width:1 ,
                                     ),
                                   ),
-                                  Tab(
-                                    child: Text(
-                                      'Nhà cung cấp',
+                                ),
+                                child: TabBar(
+                                  isScrollable: true,
+                                  controller: _tabController,
+                                  onTap: (value) {
+                                    print(value);
+                                    tab = value;
+                                    setState(() {});
+                                  },
+
+                                  labelPadding:
+                                      const EdgeInsets.symmetric(horizontal: 30),
+                                  labelStyle: StyleApp.textStyle700(fontSize: 16),
+                                  indicatorColor: ColorApp.redText,
+                                  unselectedLabelStyle:
+                                      StyleApp.textStyle500(fontSize: 14),
+                                  labelColor: ColorApp.redText,
+                                  unselectedLabelColor: ColorApp.dark500,
+                                  tabs: const <Widget>[
+                                    Tab(
+                                      child: Text(
+                                        'Chi tiết',
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                    Tab(
+                                      child: Text('Hướng dẫn sử dụng'),
+
+                                    ),
+                                    Tab(
+                                      child: Text(
+                                        'Pháp lý',
+                                      ),
+                                    ),
+                                    Tab(
+                                      child: Text(
+                                        'Nhà cung cấp',
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                               tab == 0
                                   ? Column(
                                     children: [
+                                      Container(height: 15,),
                                       Container(
                                           height: height,
                                           child: SingleChildScrollView(
@@ -512,7 +525,26 @@ double height=200;
                                         setState(() {
                                           height=500;
                                         });
-                                      },child: Text('Xem thêm',style: StyleApp.textStyle500(color: ColorApp.green),))
+                                      },child: Padding(
+                                        padding: const EdgeInsets.only(top: 15),
+                                        child: Container(
+                                          width: MediaQuery.of(context).size.width*0.35,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(color: ColorApp.green),
+                                            borderRadius: BorderRadius.circular(25)
+                                          ),
+                                          child: Padding(
+                                            padding:  EdgeInsets.symmetric(horizontal: 12,vertical: 4),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Text('Xem Thêm ',style: StyleApp.textStyle500(color: ColorApp.green),),
+                                                Icon(Icons.keyboard_arrow_down_rounded,color: ColorApp.green,size: 20,),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ))
                                     ],
                                   )
                                   : SizedBox(),
@@ -687,7 +719,7 @@ double height=200;
                                                           .circular(
                                                           12)),
                                                   child: LoadImage(
-                                                    fit: BoxFit.cover,
+                                                    fit: BoxFit.fill,
                                                     url:
                                                     '${Const.image_host}${model![index].thumbnail}',
                                                   ),
@@ -757,6 +789,7 @@ double height=200;
                                                       .name ??
                                                       '',
                                                   maxLines: 1,
+                                                  textAlign: TextAlign.center,
                                                   style: StyleApp
                                                       .textStyle500(),
                                                   overflow: TextOverflow
@@ -768,7 +801,7 @@ double height=200;
                                                 Row(
                                                   mainAxisAlignment:
                                                   MainAxisAlignment
-                                                      .spaceAround,
+                                                      .spaceEvenly,
                                                   children: [
                                                     Text(
                                                       '${Const.ConvertPrice.format(int.parse('${model[index].price}'))} đ',

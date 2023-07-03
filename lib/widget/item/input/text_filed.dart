@@ -74,6 +74,7 @@ class _InputText1State extends State<InputText1> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return PhysicalModel(
+
       borderRadius: BorderRadius.circular(
         widget.radius,
       ),
@@ -81,6 +82,7 @@ class _InputText1State extends State<InputText1> {
       elevation: 5.0,
       shadowColor: widget.colorShadow,
       child: TextFormField(
+
         maxLines: widget.maxLine,
 key: widget.globalKey,
         initialValue:widget.initVal ,

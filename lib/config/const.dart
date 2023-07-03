@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:time_elapsed/time_elapsed.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'path/share_pref_path.dart';
 import 'share_pref.dart';
@@ -26,13 +27,20 @@ class Const {
   }
 
   static double sizeHeight(BuildContext context, double size) {
-    return MediaQuery.of(context).size.height * size / 844;
+    return MediaQuery.of(context).size.height * size / 838;
   }
 
   static double sizeWidth(BuildContext context, double size) {
-    return MediaQuery.of(context).size.width * size / 390;
+    return MediaQuery.of(context).size.width * size / 392.8;
   }
 
+  static   launchURL(url) async {
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Đã có lỗi , vui lòng quay lại sau';
+    }
+  }
   static showScreen(
     Widget widget,
     BuildContext context,

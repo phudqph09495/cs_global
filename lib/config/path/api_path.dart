@@ -18,6 +18,8 @@ static const lsGD="/customer/request/history";
 static const getOTP="/customer/get-otp?phone=";
 static const forgetPass="/customer/forgot-pass";
 static const changepass="/customer/password/change";
+static const checkCode="/customer/check/refer-code?referCode=";
+static const banner="/customer/banner";
 
   /// product
 static const detailOrder='/customer/order/detail/';
@@ -45,12 +47,13 @@ static const notifi='/notification?per_page=10&page=';
 
 /// news
   static const detailNews='/news/detail?news_id=';
-static const cateNews="/news/category";
+static const cateNews="/customer/news/category";
 static const newsList='/news/index?category_id=';
 
 
 ///bank
 static const updateBank="/customer/bank/update";
 static const profileWallet="/customer/wallet-profile";
+
 
   }

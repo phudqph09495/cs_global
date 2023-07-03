@@ -18,7 +18,8 @@ import '../../widget/item/input/text_filed2.dart';
 import 'login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+ String code;
+ SignUpScreen({required this.code});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -76,6 +77,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
           ),
+          Positioned(top: 30,left: 10,child: InkWell(onTap: (){
+            Navigator.pop(context);
+          },child: Icon(Icons.arrow_back_ios_new))),
           Padding(
             padding: EdgeInsets.only( left: 12, right: 12),
             child: Center(
@@ -153,21 +157,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(
                         height: 10,
                       ),
-                      InputText2(
-                        controller: code,
-                        label: 'Mã giới thiệu',
-                        iconData: FontAwesomeIcons.rotate,
-                        hasLeading: true,
-                        obscureText: true,
-                        hasPass: true,
-                        validator: (val) {
-                          return ValidatorApp.checkNull(
-                              isTextFiled: true, text: val);
-                        },
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -192,7 +182,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       pass: pass.text,
                                       rePass: rePass.text,
                                       phone: phone.text,
-                                      code: code.text));
+                                      code: widget.code));
                                 }
                               },
                               child: Row(

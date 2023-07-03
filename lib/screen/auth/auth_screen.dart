@@ -10,6 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../config/const.dart';
 import '../../styles/init_style.dart';
 import '../../widget/item/input/text_filed2.dart';
+import 'check_code_screen.dart';
 import 'login_modal.dart';
 import 'login_screen.dart';
 
@@ -90,7 +91,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpScreen()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckCodeScreen()));
 
                                 },
                                 child: Container(

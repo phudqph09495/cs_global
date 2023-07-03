@@ -79,9 +79,14 @@ class _SanPhamScreenState extends State<SanPhamScreen> {
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                       color: choose == index
-                                          ? ColorApp.green.withOpacity(0.3)
-                                          : ColorApp.pink.withOpacity(0.5),
-                                      border: Border.all()),
+                                          ? ColorApp.green
+                                          : ColorApp.whiteF0,
+                                      border: Border(
+                                        top: BorderSide(color:Color(0xffDDDDDD),width: 2 ),
+
+                                      )),
+                                      // border:
+                                      //     Border.all(color: Color(0xffDDDDDD))),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
@@ -97,7 +102,9 @@ class _SanPhamScreenState extends State<SanPhamScreen> {
                                         ),
                                         Text(
                                           model.categories![index].name ?? '',
-                                          style: StyleApp.textStyle700(),
+                                          style: StyleApp.textStyle700(
+                                            color:choose == index?Colors.white:Colors.black
+                                          ),
                                           textAlign: TextAlign.center,
                                         ),
                                       ],
@@ -136,43 +143,58 @@ class _SanPhamScreenState extends State<SanPhamScreen> {
                       }
                       if (state is LoadSuccess) {
                         ModelChild modelChild = state.data;
-                        return GridView.builder(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          itemCount: modelChild.child!.length,
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10.0,
-                                  mainAxisExtent: 150),
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ListProScreen(
-                                            title:
-                                                '${modelChild.child![index].name}',
-                                            id: modelChild.child![index].id!)));
-                              },
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  LoadImage(
-                                      url:
-                                          '${Const.image_host}${modelChild.child![index].image}'),
-                                  Text(
-                                    '${modelChild.child![index].name}',
-                                    style: StyleApp.textStyle700(),
-                                  ),
-                                ],
+                        return Stack(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              height: MediaQuery.of(context).size.height * 3,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("assets/images/bg.png"),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                            );
-                          },
+                            ),
+                            GridView.builder(
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              itemCount: modelChild.child!.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      mainAxisSpacing: 10,
+                                      crossAxisSpacing: 10.0,
+                                      mainAxisExtent: 150),
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ListProScreen(
+                                                title:
+                                                    '${modelChild.child![index].name}',
+                                                id: modelChild
+                                                    .child![index].id!)));
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      LoadImage(
+                                          url:
+                                              '${Const.image_host}${modelChild.child![index].image}'),
+                                      Text(
+                                        '${modelChild.child![index].name}',
+                                        style: StyleApp.textStyle700(),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            )
+                          ],
                         );
                       }
                       return Container();

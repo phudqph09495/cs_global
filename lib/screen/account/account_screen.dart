@@ -64,7 +64,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       alignment: Alignment.bottomCenter,
                       children: [
                         SizedBox(
-                          height: Const.size(context).height * 0.25,
+                          height: Const.size(context).height * 0.5,
                           width: double.infinity,
                           child: LoadImage(
                             url:
@@ -321,21 +321,12 @@ class _AccountScreenState extends State<AccountScreen> {
                                   horizontal: 8, vertical: 2),
                               child: Row(
                                 children: [
-                                  Image.asset('assets/images/rank.png'),
+                                  Transform.scale(child: Image.asset('assets/images/rank.png'),scale: 0.7,),
                                   const SizedBox(
                                     width: 10,
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Text('Hạng tài khoản'),
-                                      Text(
-                                          'Hạng: ${modelProfile.profile!.type!.name}')
-                                    ],
-                                  ),
+                                  Text(
+                                      'Hạng: ${modelProfile.profile!.type!.name}'),
                                   const SizedBox()
                                 ],
                               ),
@@ -392,7 +383,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Text(
                                         'Người giới thiệu:',
@@ -400,23 +391,27 @@ class _AccountScreenState extends State<AccountScreen> {
                                       ),
                                       (modelProfile.profile!.beRefered!.length >
                                               0)
-                                          ? Column(
+                                          ? Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
+                                             
                                               children: [
                                                 Text(
                                                   modelProfile.profile!
                                                           .beRefered![0].name ??
                                                       '',
                                                   style:
-                                                      StyleApp.textStyle700(),
+                                                      StyleApp.textStyle500(),
                                                 ),
+Text(' - '),
                                                 Text(
                                                   modelProfile.profile!
                                                           .beRefered![0].code ??
                                                       '',
                                                   style:
-                                                      StyleApp.textStyle500(),
+                                                      StyleApp.textStyle700(
+                                                        color: ColorApp.darkGreen
+                                                      ),
                                                 ),
                                               ],
                                             )
@@ -463,16 +458,13 @@ class _AccountScreenState extends State<AccountScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Text(
                                           'Ví CS',
                                           style: StyleApp.textStyle500(),
                                         ),
-                                        Text(
-                                          modelProfile.profile!.name ?? '',
-                                          style: StyleApp.textStyle700(),
-                                        ),
+
                                         Row(
                                           children: [
                                             Text(
@@ -546,10 +538,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   children: [
                                     Row(
                                       children: [
-                                        const FaIcon(
-                                          FontAwesomeIcons.person,
-                                          color: ColorApp.yellow,
-                                        ),
+                                         Transform.scale(child: Image.asset('assets/images/tttk.png'),scale: 0.7,),
                                         const SizedBox(
                                           width: 10,
                                         ),

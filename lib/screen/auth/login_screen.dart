@@ -14,6 +14,7 @@ import '../../styles/styles.dart';
 import '../../validator.dart';
 import '../../widget/item/input/text_filed.dart';
 import '../../widget/item/input/text_filed2.dart';
+import 'check_code_screen.dart';
 import 'forget_pass_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -214,7 +215,7 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgetPassScreen()
                                             actions: [
                                               InkWell(
                                                 onTap: () {
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpScreen()));
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckCodeScreen()));
 
                                                 },
                                                 child: Container(

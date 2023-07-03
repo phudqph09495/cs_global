@@ -188,7 +188,9 @@ class _ListProScreenState extends State<ListProScreen> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.45,
                                   decoration: BoxDecoration(
-                                      border: Border.all(),
+                                      border: Border.all(
+                                        color: ColorApp.grey4F
+                                      ),
                                       borderRadius: BorderRadius.circular(12)),
                                   child: Column(
                                     crossAxisAlignment:
@@ -207,7 +209,7 @@ class _ListProScreenState extends State<ListProScreen> {
                                                 context)
                                                 .size
                                                 .width *
-                                                0.43,
+                                                0.45,
                                             child: ClipRRect(
                                               borderRadius:
                                               const BorderRadius
@@ -219,7 +221,7 @@ class _ListProScreenState extends State<ListProScreen> {
                                                       .circular(
                                                       12)),
                                               child: LoadImage(
-                                                fit: BoxFit.cover,
+                                                fit: BoxFit.fill,
                                                 url:
                                                 '${Const.image_host}${model![index].thumbnail}',
                                               ),
@@ -289,6 +291,7 @@ class _ListProScreenState extends State<ListProScreen> {
                                                   .name ??
                                                   '',
                                               maxLines: 1,
+                                              textAlign: TextAlign.center,
                                               style: StyleApp
                                                   .textStyle500(),
                                               overflow: TextOverflow
@@ -300,7 +303,7 @@ class _ListProScreenState extends State<ListProScreen> {
                                             Row(
                                               mainAxisAlignment:
                                               MainAxisAlignment
-                                                  .spaceAround,
+                                                  .spaceEvenly,
                                               children: [
                                                 Text(
                                                   '${Const.ConvertPrice.format(int.parse('${model[index].price}'))} đ',

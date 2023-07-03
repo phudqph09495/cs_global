@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(top: 3),
-                child: Icon(Icons.home_outlined),
+                child: Image.asset('assets/images/trangchu.png',height: 25,width: 25,color: index==0?ColorApp.green:ColorApp.black,),
               ), label: "TRANG CHỦ"),
           BottomNavigationBarItem(
               icon: Padding(
@@ -82,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
           BottomNavigationBarItem(
-              icon: SvgPicture.asset('assets/svg/acc.svg',color: index==3?ColorApp.green:ColorApp.black,), label: "TÀI KHOẢN",),
+              icon: Image.asset('assets/images/taikhoan.png',height: 25,width: 25,color: index==3?ColorApp.green:ColorApp.black,), label: "TÀI KHOẢN",),
           // BottomNavigationBarItem(
           //     icon:ImageIcon(AssetImage(ImagePath.bottomBarAccount)), label: "Tài khoản"),
         ],
