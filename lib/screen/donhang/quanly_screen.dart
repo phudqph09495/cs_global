@@ -1,5 +1,8 @@
 import 'package:cs_global/bloc/event_bloc.dart';
+import 'package:cs_global/home.dart';
 import 'package:cs_global/model/model_listDonHang.dart';
+import 'package:cs_global/screen/auth/auth_screen.dart';
+import 'package:cs_global/screen/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:group_button/group_button.dart';
@@ -8,6 +11,7 @@ import '../../bloc/donHang/bloc_listDOnHang.dart';
 import '../../bloc/state_bloc.dart';
 import '../../config/const.dart';
 import '../../styles/init_style.dart';
+import '../../widget/loadPage/item_loadfaild.dart';
 import 'chiTiet_screen.dart';
 
 class QuanLyScreen extends StatefulWidget {
@@ -104,7 +108,7 @@ class _QuanLyScreenState extends State<QuanLyScreen> {
                 child: Column(
                   children: [
                     BlocBuilder(
-                      builder: (_, StateBloc state) {
+                      builder: (context, StateBloc state) {
                         if (state is Loading) {
                           return Center(
                             child: CircularProgressIndicator(
@@ -186,6 +190,39 @@ class _QuanLyScreenState extends State<QuanLyScreen> {
                             itemCount: model.orders!.length,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
+                          );
+                        }
+                        if (state is LoadFail) {
+                    return      Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            alignment: Alignment.center,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  state.error,
+                                  style: StyleApp.textStyle400(),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+
+                                OutlinedButton(
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>AuthScreen()));
+
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(5),
+                                          side: const BorderSide(color: ColorApp.main, width: 1))),
+                                  child: Text(
+                                    'Đăng nhập',
+                                    style: StyleApp.textStyle400(),
+                                  ),
+                                ),
+                              ],
+                            ),
                           );
                         }
                         return SizedBox();

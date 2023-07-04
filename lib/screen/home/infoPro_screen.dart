@@ -1,5 +1,6 @@
 import 'package:cs_global/bloc/cart/event_bloc2.dart';
 import 'package:cs_global/bloc/cart/model_sp.dart';
+import 'package:cs_global/home.dart';
 import 'package:cs_global/screen/cart/gio_hang_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,7 +49,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
   BlocCartLocal blocCartLocal = BlocCartLocal();
   BlocCartLocal blocCartLocal2 = BlocCartLocal();
 double height=200;
-  BlocProfile blocProfile = BlocProfile()..add(GetData());
+
 
   ScrollController _controller = ScrollController();
   Future<void> onRefresh() async {
@@ -211,58 +212,7 @@ double height=200;
         controller: _controller,
         child: Column(
           children: [
-            BlocBuilder(
-              builder: (_, StateBloc statePro) {
-                if (statePro is LoadFail) {
-                  Future.delayed(const Duration(seconds: 1), () async {
-                    showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text(
-                              statePro.error,
-                              style: StyleApp.textStyle500(),
-                            ),
-                            actions: [
-                              InkWell(
-                                onTap: () async {
-                                  await SharePrefsKeys.removeAllKey();
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const StartScreen()));
-                                },
-                                child: Container(
-                                    width: double.infinity,
-                                    decoration: const BoxDecoration(
-                                        color: Colors.green),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Quay lại trang đăng nhập',
-                                        textAlign: TextAlign.center,
-                                        style: StyleApp.textStyle500(
-                                            color: Colors.white),
-                                      ),
-                                    )),
-                              )
-                            ],
-                          );
-                        });
-                    // await SharePrefsKeys.removeAllKey();
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => StartScreen()));
-                  });
-                  return const SizedBox();
-                }
-                return const SizedBox();
-              },
-              bloc: blocProfile,
-            ),
+
             BlocBuilder(
                 bloc: blocInfoPro,
                 builder: (_, StateBloc state) {
@@ -553,7 +503,7 @@ double height=200;
                                 height: 200,
                                 child: SingleChildScrollView(
                                   child: HtmlWidget(
-                                    '${modelInfoPro.product!.manual_user}',
+                                    '${modelInfoPro.product!.manualUser}',
                                     customWidgetBuilder: (ele) {
                                       if (ele.attributes['src'] != null &&
                                           ele.attributes['src']!
@@ -573,7 +523,7 @@ double height=200;
                                 height: 200,
                                 child: SingleChildScrollView(
                                   child: HtmlWidget(
-                                    '${modelInfoPro.product!.legal_info}',
+                                    '${modelInfoPro.product!.legalInfo}',
                                     customWidgetBuilder: (ele) {
                                       if (ele.attributes['src'] != null &&
                                           ele.attributes['src']!
@@ -593,7 +543,7 @@ double height=200;
                                 height: 200,
                                 child: SingleChildScrollView(
                                   child: HtmlWidget(
-                                    '${modelInfoPro.product!.supplier_info}',
+                                    '${modelInfoPro.product!.supplierInfo}',
                                     customWidgetBuilder: (ele) {
                                       if (ele.attributes['src'] != null &&
                                           ele.attributes['src']!
@@ -707,7 +657,7 @@ double height=200;
                                                     context)
                                                     .size
                                                     .width *
-                                                    0.43,
+                                                    0.45,
                                                 child: ClipRRect(
                                                   borderRadius:
                                                   const BorderRadius

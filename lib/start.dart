@@ -24,16 +24,13 @@ class _StartScreenState extends State<StartScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<BlocCheckLogin>().add(GetData());
+
     initialization();
 
   }
   @override
   Widget build(BuildContext context) {
 
-    return BlocBuilder<BlocCheckLogin, StateBloc>(builder: (_,StateBloc state){
-      final check = state is LoadSuccess ? state.data as bool : false;
-      return check?MyHomePage():AuthScreen();
-    });
+    return MyHomePage();
   }
 }

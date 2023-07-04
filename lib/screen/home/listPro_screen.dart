@@ -1,5 +1,6 @@
 import 'package:cs_global/bloc/cart/event_bloc2.dart';
 import 'package:cs_global/bloc/cart/model_sp.dart';
+import 'package:cs_global/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -35,7 +36,6 @@ class _ListProScreenState extends State<ListProScreen> {
   int page = 1;
   ScrollController _controller = ScrollController();
 
-  BlocProfile blocProfile = BlocProfile()..add(GetData());
   Future<void> onRefresh() async {
     page = 1;
     blocListPro.add(
@@ -103,59 +103,7 @@ class _ListProScreenState extends State<ListProScreen> {
                 controller: _controller,
                 child: Column(
                   children: [
-                    BlocBuilder(
-                      builder: (_, StateBloc statePro) {
-                        if (statePro is LoadFail) {
-                          Future.delayed(Duration(seconds: 1), () async {
-                            showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text(
-                                      statePro.error,
-                                      style: StyleApp.textStyle500(),
-                                    ),
-                                    actions: [
-                                      InkWell(
-                                        onTap: () async {
-                                          await SharePrefsKeys.removeAllKey();
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      StartScreen()));
-                                        },
-                                        child: Container(
-                                            width: double.infinity,
-                                            decoration: BoxDecoration(
-                                                color: Colors.green),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                'Quay lại trang đăng nhập',
-                                                textAlign: TextAlign.center,
-                                                style: StyleApp.textStyle500(
-                                                    color: Colors.white),
-                                              ),
-                                            )),
-                                      )
-                                    ],
-                                  );
-                                });
-                            // await SharePrefsKeys.removeAllKey();
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => StartScreen()));
-                          });
-                          return SizedBox();
-                        }
-                        return SizedBox();
-                      },
-                      bloc: blocProfile,
-                    ),
+
                     GridView.builder(
                       padding: EdgeInsets.symmetric(vertical: 20),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

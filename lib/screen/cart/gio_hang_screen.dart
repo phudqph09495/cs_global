@@ -1,10 +1,14 @@
+import 'package:cs_global/bloc/auth/bloc_profile.dart';
 import 'package:cs_global/bloc/cart/event_bloc2.dart';
+import 'package:cs_global/bloc/event_bloc.dart';
+import 'package:cs_global/screen/auth/auth_screen.dart';
 import 'package:cs_global/screen/cart/thanh_toan_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/cart/bloc_cart.dart';
 import '../../bloc/cart/model_sp.dart';
+import '../../bloc/check_log_state.dart';
 import '../../bloc/state_bloc.dart';
 import '../../config/const.dart';
 import '../../model/model_infoPro.dart';
@@ -19,9 +23,8 @@ class GioHangScreen extends StatefulWidget {
 }
 
 class _GioHangScreenState extends State<GioHangScreen> {
-
   BlocCartLocal blocCartLocal = BlocCartLocal();
-
+  BlocProfile blocProfile = BlocProfile();
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BlocCartLocal, StateBloc>(
@@ -128,10 +131,10 @@ class _GioHangScreenState extends State<GioHangScreen> {
                                                   onTap: () {
                                                     blocCartLocal.add(Reduce(
                                                         modelSanPhamMain:
-                                                        ModelSanPhamMain(
-                                                            id: list[index]
-                                                                .id,
-                                                            amount: 1)));
+                                                            ModelSanPhamMain(
+                                                                id: list[index]
+                                                                    .id,
+                                                                amount: 1)));
                                                   },
                                                   child: Icon(
                                                     Icons.remove_circle,
@@ -241,8 +244,8 @@ class _GioHangScreenState extends State<GioHangScreen> {
                         Expanded(
                           flex: 20,
                           child: InkWell(
-                            onTap: ()async {
-Navigator.pop(context);
+                            onTap: () async {
+                              Navigator.pop(context);
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -267,22 +270,38 @@ Navigator.pop(context);
                         ),
                         Expanded(
                           flex: 20,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ThanhToanScreen()));
+                          child: BlocListener(
+                            bloc: blocProfile,
+                            listener: (_, StateBloc state) {
+                              CheckLogState.check(context,
+                                  state: state, isShowMsg: false, success: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ThanhToanScreen()));
+                              });
+                              if(state is LoadFail){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>AuthScreen()));
+                              }
                             },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: ColorApp.redText),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 12),
-                                child: Text(
-                                  'Thanh Toán',
-                                  style: StyleApp.textStyle500(
-                                      color: ColorApp.whiteF0),
-                                  textAlign: TextAlign.center,
+                            child: InkWell(
+                              onTap: () {
+                                blocProfile.add(GetData());
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: ColorApp.redText),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                  child: Text(
+                                    'Thanh Toán',
+                                    style: StyleApp.textStyle500(
+                                        color: ColorApp.whiteF0),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                             ),

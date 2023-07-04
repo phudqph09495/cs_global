@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
   BlocListServiceCate blocListService = BlocListServiceCate()..add(GetData());
   BlocListBanner banner = BlocListBanner()..add(GetData());
   BlocListNewsCate blocListNewsCate = BlocListNewsCate()..add(GetData());
-  BlocProfile blocProfile = BlocProfile();
+
 
   List<IconData> listIcon = [
     FontAwesomeIcons.boxArchive,
@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     controller.selectIndex(0);
-    blocProfile.add(GetData());
+
     context.read<BlocCartLocal>().add(GetCart());
   }
 
@@ -320,58 +320,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ]),
-            BlocBuilder(
-              builder: (_, StateBloc state) {
-                if (state is LoadFail) {
-                  Future.delayed(const Duration(seconds: 1), () async {
-                    showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text(
-                              state.error,
-                              style: StyleApp.textStyle500(),
-                            ),
-                            actions: [
-                              InkWell(
-                                onTap: () async {
-                                  await SharePrefsKeys.removeAllKey();
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const StartScreen()));
-                                },
-                                child: Container(
-                                    width: double.infinity,
-                                    decoration: const BoxDecoration(
-                                        color: Colors.green),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Quay lại trang đăng nhập',
-                                        textAlign: TextAlign.center,
-                                        style: StyleApp.textStyle500(
-                                            color: Colors.white),
-                                      ),
-                                    )),
-                              )
-                            ],
-                          );
-                        });
-                    // await SharePrefsKeys.removeAllKey();
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => StartScreen()));
-                  });
-                  return const SizedBox();
-                }
-                return const SizedBox();
-              },
-              bloc: blocProfile,
-            ),
+
             tab == 0
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),

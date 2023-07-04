@@ -5,6 +5,7 @@ import 'package:cs_global/bloc/auth/bloc_profile.dart';
 import 'package:cs_global/bloc/check_log_state.dart';
 import 'package:cs_global/bloc/event_bloc.dart';
 import 'package:cs_global/config/const.dart';
+import 'package:cs_global/home.dart';
 import 'package:cs_global/model/model_profile.dart';
 import 'package:cs_global/screen/account/profile_screen.dart';
 import 'package:cs_global/screen/account/vi/wallet_screen.dart';
@@ -25,6 +26,7 @@ import '../../start.dart';
 import '../../styles/init_style.dart';
 import '../../widget/item/load_image.dart';
 import '../../widget/loadPage/item_loadfaild.dart';
+import '../auth/auth_screen.dart';
 import 'changPass_screen.dart';
 import 'package:flutter_exit_app/flutter_exit_app.dart';
 
@@ -745,11 +747,7 @@ Text(' - '),
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                const StartScreen()))
-                                                    .then((value) {
-                                                  FlutterExitApp.exitApp(
-                                                      iosForceExit: true);
-                                                });
+                                                                 MyHomePage()));
                                               });
                                             },
                                             child: InkWell(
@@ -862,11 +860,7 @@ Text(' - '),
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const StartScreen()))
-                                                  .then((value) {
-                                                FlutterExitApp.exitApp(
-                                                    iosForceExit: true);
-                                              });
+                                                               AuthScreen()));
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(
@@ -948,16 +942,36 @@ Text(' - '),
             );
           }
           if (state is LoadFail) {
-            return ItemLoadFaild(
-              error: state.error,
-              titleButton: 'Đăng nhập lại',
-              onTap: () async {
-                await SharePrefsKeys.removeAllKey();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const StartScreen()));
-              },
+            return      Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    state.error,
+                    style: StyleApp.textStyle400(),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  OutlinedButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>AuthScreen()));
+
+                    },
+                    style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            side: const BorderSide(color: ColorApp.main, width: 1))),
+                    child: Text(
+                      'Đăng nhập',
+                      style: StyleApp.textStyle400(),
+                    ),
+                  ),
+                ],
+              ),
             );
           }
           return const SizedBox();

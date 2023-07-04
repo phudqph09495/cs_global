@@ -22,13 +22,17 @@ import 'bloc/auth/bloc_profile.dart';
 
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  int index;
+  MyHomePage({this.index=0});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  void initialization() {
+    FlutterNativeSplash.remove();
+  }
   _launchURL(url) async {
     if (await canLaunchUrl(url)) {
       await launchUrl(url, mode: LaunchMode.externalApplication);
@@ -38,17 +42,22 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
-  int index = 0;
 
 
 
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initialization();
+  }
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
 
       body: IndexedStack(
-        index: index,
+        index: widget.index,
         children: [
           // HomeScreen(),
           HomeScreen(),
@@ -67,27 +76,27 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(top: 3),
-                child: Image.asset('assets/images/trangchu.png',height: 25,width: 25,color: index==0?ColorApp.green:ColorApp.black,),
+                child: Image.asset('assets/images/trangchu.png',height: 25,width: 25,color: widget.index==0?ColorApp.green:ColorApp.black,),
               ), label: "TRANG CHỦ"),
           BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(top: 3),
-                child: SvgPicture.asset('assets/svg/product.svg',color: index==1?ColorApp.green:ColorApp.black,),
+                child: SvgPicture.asset('assets/svg/product.svg',color: widget.index==1?ColorApp.green:ColorApp.black,),
               ), label: "SẢN PHẨM"),
           BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(top: 3),
-                child: SvgPicture.asset('assets/svg/donHang.svg',color: index==2?ColorApp.green:ColorApp.black,),
+                child: SvgPicture.asset('assets/svg/donHang.svg',color: widget.index==2?ColorApp.green:ColorApp.black,),
               ), label: "ĐƠN HÀNG"),
 
 
           BottomNavigationBarItem(
-              icon: Image.asset('assets/images/taikhoan.png',height: 25,width: 25,color: index==3?ColorApp.green:ColorApp.black,), label: "TÀI KHOẢN",),
+              icon: Image.asset('assets/images/taikhoan.png',height: 25,width: 25,color: widget.index==3?ColorApp.green:ColorApp.black,), label: "TÀI KHOẢN",),
           // BottomNavigationBarItem(
           //     icon:ImageIcon(AssetImage(ImagePath.bottomBarAccount)), label: "Tài khoản"),
         ],
         onTap: (val) {
-          index = val;
+          widget.index = val;
           setState(() {});
           // if(index==1){
           //   _launchURL(Uri.parse('https://www.messenger.com/t/khohangnhat.vn'));
@@ -95,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // }
         },
         backgroundColor: Colors.white,
-        currentIndex: index,
+        currentIndex: widget.index,
         type: BottomNavigationBarType.fixed,
         selectedItemColor: ColorApp.green,
         selectedLabelStyle:

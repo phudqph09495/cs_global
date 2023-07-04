@@ -11,6 +11,7 @@ import '../../model/model_listPro.dart';
 import '../../styles/init_style.dart';
 import '../../widget/item/load_image.dart';
 import '../../widget/loadPage/item_loadfaild.dart';
+import '../auth/auth_screen.dart';
 import 'infoPro_screen.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -68,9 +69,36 @@ class _SearchScreenState extends State<SearchScreen> {
                 );
               }
               if (state is LoadFail) {
-                return ItemLoadFaild(
-                  error: state.error,
-                  onTap: () {},
+                return      Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        state.error,
+                        style: StyleApp.textStyle400(),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>AuthScreen()));
+
+                        },
+                        style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                                side: const BorderSide(color: ColorApp.main, width: 1))),
+                        child: Text(
+                          'Đăng nhập',
+                          style: StyleApp.textStyle400(),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               }
               if (state is LoadSuccess) {

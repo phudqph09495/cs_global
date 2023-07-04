@@ -102,7 +102,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => StartScreen()));
+                                                builder: (context) => MyHomePage()));
                                       },
                                       child: Container(
                                           width: double.infinity,

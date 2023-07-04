@@ -40,6 +40,9 @@ class _LoginScreenState extends State<LoginScreen> {
               image: DecorationImage(image: AssetImage("assets/images/bg.png"), fit: BoxFit.cover,),
             ),
           ),
+          Positioned(top: 30,left: 10,child: InkWell(onTap: (){
+            Navigator.pop(context);
+          },child: Icon(Icons.arrow_back_ios_new))),
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Form(
