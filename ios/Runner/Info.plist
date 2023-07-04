@@ -22,6 +22,8 @@
 		<string>????</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>The app needs image permissions to upload profile pictures.</string>
+		<key>NSMicrophoneUsageDescription</key>
+        <string>This app uses your microphone to enable voice search for faster and easier shopping</string>
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>LSRequiresIPhoneOS</key>

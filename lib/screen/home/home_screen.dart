@@ -23,6 +23,8 @@ import '../../bloc/news/bloc_listCateNews.dart';
 import '../../bloc/product/bloc_listCate.dart';
 import '../../bloc/product/bloc_listMostSale.dart';
 import '../../bloc/product/bloc_listSuggest.dart';
+import '../../bloc/service/bloc_listServiceCate.dart';
+import '../../bloc/service/model_listServiceCate.dart';
 import '../../bloc/state_bloc.dart';
 import '../../config/const.dart';
 import '../../config/path/share_pref_path.dart';
@@ -37,6 +39,7 @@ import 'infoPro_screen.dart';
 import 'item/product_item.dart';
 import 'listPro_screen.dart';
 import 'list_new_screen.dart';
+import 'list_ser_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -53,13 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int tab = 0;
   BlocListMostSale blocListMostSale = BlocListMostSale()..add(GetData());
 
-  List<String> htLand = [
-    'Giới thiệu HT LAND',
-    'Sự kiện',
-    'Khoá đào tạo BĐS',
-    'Tin Tức',
-    'Đối Tác'
-  ];
+  BlocListServiceCate blocListService = BlocListServiceCate()..add(GetData());
   BlocListBanner banner = BlocListBanner()..add(GetData());
   BlocListNewsCate blocListNewsCate = BlocListNewsCate()..add(GetData());
   BlocProfile blocProfile = BlocProfile();
@@ -103,11 +100,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             indicatorBackgroundColor: Colors.transparent,
                             indicatorColor: Colors.transparent,
                             isLoop: true,
-                            autoPlayInterval: 2000,
+                            autoPlayInterval: 5000,
                             children: List.generate(
                                 model.banners!.length,
                                 (index) => LoadImage(
-                                      fit: BoxFit.fill,
+                                      fit: BoxFit.cover,
                                       url:
                                           '${Const.image_host}${model.banners![index].image}',
                                     )),
@@ -147,8 +144,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                               colorShadow: Colors.transparent,
                               label: 'Tìm kiếm sản phẩm',
-                              colorBg: Color(0xff019549),
+                              colorBg: Colors.white.withOpacity(0.5),
                               colorLabel: Colors.white,
+                              borderColor: Colors.white,
                               hasLeading: true,
                               iconPreFix: const Icon(
                                 Icons.search_outlined,
@@ -539,6 +537,104 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   )
                 : const SizedBox(),
+            tab == 1
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        // Text(
+                        //   'Nhóm sản phẩm',
+                        //   style: StyleApp.textStyle700(
+                        //       color: ColorApp.darkGreen, fontSize: 18),
+                        // ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        BlocBuilder(
+                          builder: (_, StateBloc state) {
+                            if (state is LoadSuccess) {
+                              ModelListServiceCate model = state.data;
+                              return GridView.builder(
+                                padding: EdgeInsets.zero,
+                                itemCount: model.serviceCate!.length,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 4,
+                                        mainAxisSpacing: 10,
+                                        crossAxisSpacing: 10.0,
+                                        mainAxisExtent: 160),
+                                itemBuilder: (BuildContext context, int index) {
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ListSerScreen(
+                                                    initIndex: index,
+                                                    id: model
+                                                        .serviceCate![index].id
+                                                        .toString(),
+                                                  )));
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) =>
+                                      //             ListNewsScreen(
+                                      //               initIndex: index,
+                                      //               id: model
+                                      //                   .serviceCate![index].id
+                                      //                   .toString(),
+                                      //             )));
+                                    },
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.2,
+                                          height: 100,
+                                          child: LoadImage(
+                                            url:
+                                                '${Const.image_host}${model.serviceCate![index].image}',
+                                            fit: BoxFit.fitWidth,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10),
+                                          child: Text(
+                                            model.serviceCate![index].name ??
+                                                '',
+                                            style: StyleApp.textStyle500(),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                            return SizedBox();
+                          },
+                          bloc: blocListService,
+                        )
+                      ],
+                    ),
+                  )
+                : const SizedBox(),
+            tab==2? Padding(padding: EdgeInsets.all(8),child: Center(
+              child: Text('Chức năng đang phát triển vui lòng quay lại sau',style: StyleApp.textStyle500(),),
+            ),):SizedBox(),
             tab == 3
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
+import 'package:upgrader/upgrader.dart';
 
 import 'bloc/auth/bloc_checkLogin.dart';
 import 'bloc/bloc_counter.dart';
@@ -17,19 +18,18 @@ import 'config/share_pref.dart';
 import 'home.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main()async {
-  WidgetsBinding widgetsBinding =  WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   Bloc.observer = CounterObserver();
   await SharedPrefs.init();
   runApp(
-    // DevicePreview(
-    //   enabled: !kReleaseMode,
-    //   builder: (context) => MyApp(), // Wrap your app
-    // ),
-      MyApp()
-  );
+      // DevicePreview(
+      //   enabled: !kReleaseMode,
+      //   builder: (context) => MyApp(), // Wrap your app
+      // ),
+      MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -43,7 +43,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => CounterCubit()),
         BlocProvider(create: (_) => BlocCheckLogin()..add(GetData())),
         BlocProvider(create: (_) => BlocCartLocal()..add(GetCart())),
-
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -57,7 +56,7 @@ class MyApp extends StatelessWidget {
         // builder: DevicePreview.appBuilder,
         // theme: ThemeData.light(),
         // darkTheme: ThemeData.dark(),
-        home: StartScreen(),
+        home: UpgradeAlert(child: StartScreen()),
       ),
     );
   }

@@ -321,7 +321,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   horizontal: 8, vertical: 2),
                               child: Row(
                                 children: [
-                                  Transform.scale(child: Image.asset('assets/images/rank.png'),scale: 0.7,),
+                                  Image.asset('assets/images/rank.png',height: 30,width: 30,),
                                   const SizedBox(
                                     width: 10,
                                   ),
@@ -368,13 +368,10 @@ class _AccountScreenState extends State<AccountScreen> {
                                   horizontal: 8, vertical: 2),
                               child: Row(
                                 children: [
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
+
                                   Image.asset(
                                     'assets/images/meeting.png',
-                                    width: 35,
-                                    height: 35,
+                                    height: 30,width: 30,
                                   ),
                                   const SizedBox(
                                     width: 10,
@@ -443,13 +440,9 @@ Text(' - '),
                                     horizontal: 8, vertical: 2),
                                 child: Row(
                                   children: [
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
+
                                     Image.asset(
-                                      'assets/images/vi.png',
-                                      width: 35,
-                                      height: 35,
+                                      'assets/images/vi.png',height: 30,width: 30,
                                     ),
                                     const SizedBox(
                                       width: 10,
@@ -538,7 +531,7 @@ Text(' - '),
                                   children: [
                                     Row(
                                       children: [
-                                         Transform.scale(child: Image.asset('assets/images/tttk.png'),scale: 0.7,),
+                                         Image.asset('assets/images/tttk.png',height: 30,width: 30,),
                                         const SizedBox(
                                           width: 10,
                                         ),
@@ -578,9 +571,7 @@ Text(' - '),
                                         width: 5,
                                       ),
                                       Image.asset(
-                                        'assets/images/quydinh.png',
-                                        width: 35,
-                                        height: 35,
+                                        'assets/images/quydinh.png',height: 30,width: 30,
                                       ),
                                       const SizedBox(
                                         width: 10,
@@ -619,9 +610,8 @@ Text(' - '),
                                         width: 5,
                                       ),
                                       Image.asset(
-                                        'assets/images/htkh.png',
-                                        width: 35,
-                                        height: 35,
+                                        'assets/images/htkh.png'
+                                        ,height: 30,width: 30,
                                       ),
                                       const SizedBox(
                                         width: 10,

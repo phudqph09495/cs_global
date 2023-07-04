@@ -97,6 +97,9 @@ key: widget.globalKey,
         textAlign: TextAlign.left,
         style: StyleApp.textStyle400(),
         decoration: InputDecoration(
+border: OutlineInputBorder(
+  borderSide: BorderSide(color: widget.borderColor, width: 0.5)
+),
           errorStyle: StyleApp.textStyle500(color: widget.colorError, fontSize: 14),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.radius),

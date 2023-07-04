@@ -45,8 +45,8 @@ class _ListNewsScreenState extends State<ListNewsScreen>
           backgroundColor: ColorApp.green00,
           centerTitle: true,
           title: Text(
-            'Tin tức',
-            style: StyleApp.textStyle400(color: Colors.black, fontSize: 22),
+            'HT Land',
+            style: StyleApp.textStyle500(color: Colors.white, fontSize: 22),
           ),
         ),
         body: SingleChildScrollView(

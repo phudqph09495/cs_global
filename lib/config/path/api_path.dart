@@ -49,7 +49,8 @@ static const notifi='/notification?per_page=10&page=';
   static const detailNews='/news/detail?news_id=';
 static const cateNews="/customer/news/category";
 static const newsList='/news/index?category_id=';
-
+/// service
+  static const serviceCate="/customer/service/category";
 
 ///bank
 static const updateBank="/customer/bank/update";

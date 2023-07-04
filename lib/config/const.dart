@@ -35,8 +35,8 @@ class Const {
   }
 
   static   launchURL(url) async {
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
     } else {
       throw 'Đã có lỗi , vui lòng quay lại sau';
     }
