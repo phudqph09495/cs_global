@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -20,7 +21,11 @@ class Const {
   static const domain = "";
 
   static const key = '';
+ static Image imageFromBase64String(String base64String,
+     {double? height, double? width, BoxFit? fit}) {
 
+    return Image.memory(base64Decode(base64String.split(',').last),height: height,width: width,fit: fit,);
+  }
   static const int debug = 1;
   static Size size(BuildContext context) {
     return MediaQuery.of(context).size;

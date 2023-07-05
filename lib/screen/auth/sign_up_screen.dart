@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../bloc/OTP/bloc_getOTP.dart';
 import '../../bloc/auth/bloc_login.dart';
 import '../../bloc/auth/bloc_register.dart';
 import '../../bloc/check_log_state.dart';
@@ -30,7 +31,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController name = TextEditingController();
   TextEditingController pass = TextEditingController();
   final GlobalKey _key = GlobalKey();
-
+BlocGetOTP blocGetOTP=BlocGetOTP();
   TextEditingController rePass = TextEditingController();
   TextEditingController code = TextEditingController();
   final keyFormSignUp = GlobalKey<FormState>();
@@ -157,7 +158,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(
                         height: 10,
                       ),
-
+                      InputText1(
+                        controller: code,
+                        label: 'Mã OTP',
+                        iconPreFix: Icon(FontAwesomeIcons.key),
+                        hasLeading: false,
+                        Wsuffix: BlocListener(
+                          bloc: blocGetOTP,
+                          listener: (_, StateBloc state) {
+                            CheckLogState.check(
+                              context,
+                              state: state,
+                              msg: state is LoadSuccess
+                                  ? state.mess
+                                  : 'Đã gửi lại OTP',
+                            );
+                          },
+                          child: InkWell(
+                            onTap: ()async {
+                              blocGetOTP.add(getOTP(
+                                  phone: phone.text, type: 'dang_ky'));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(13.0),
+                              child: Text(
+                                'Gửi OTP',
+                                style: StyleApp.textStyle700(
+                                    fontSize: 16, color: ColorApp.redText),
+                              ),
+                            ),
+                          ),
+                        ),
+                        validator: (val) {
+                          return ValidatorApp.checkNull(
+                              isTextFiled: true, text: val);
+                        },
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -182,6 +221,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       pass: pass.text,
                                       rePass: rePass.text,
                                       phone: phone.text,
+                                      otp: code.text,
                                       code: widget.code));
                                 }
                               },

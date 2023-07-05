@@ -1,18 +1,21 @@
 import 'package:cs_global/bloc/cart/event_bloc2.dart';
 import 'package:cs_global/bloc/cart/model_sp.dart';
+import 'package:cs_global/bloc/check_log_state.dart';
 import 'package:cs_global/home.dart';
 import 'package:cs_global/screen/cart/gio_hang_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../bloc/auth/bloc_profile.dart';
 import '../../bloc/cart/bloc_cart.dart';
 import '../../bloc/event_bloc.dart';
+import '../../bloc/product/bloc_comment.dart';
 import '../../bloc/product/bloc_infoPro.dart';
 import '../../bloc/product/bloc_listPro.dart';
 import '../../bloc/state_bloc.dart';
@@ -22,10 +25,13 @@ import '../../model/model_infoPro.dart';
 import '../../model/model_listPro.dart';
 import '../../start.dart';
 import '../../styles/init_style.dart';
+// import 'package:flutter_quill/flutter_quill.dart' as Quill;
 import '../../widget/item/custom_toast.dart';
 import '../../widget/item/load_image.dart';
 import '../../widget/loadPage/item_loadfaild.dart';
 import '../../widget/loadPage/item_loadmore.dart';
+// import 'package:quill_html_editor/quill_html_editor.dart';
+import 'package:html_editor_enhanced/html_editor.dart';
 
 class InfoProdScreen extends StatefulWidget {
   String id;
@@ -48,10 +54,16 @@ class _InfoProdScreenState extends State<InfoProdScreen>
   int page = 1;
   BlocCartLocal blocCartLocal = BlocCartLocal();
   BlocCartLocal blocCartLocal2 = BlocCartLocal();
-double height=200;
-
+  double height = 200;
+  double rate = 1.0;
+  bool isLog = false;
+  BlocProfile blocProfile = BlocProfile()..add(GetData());
+  // final QuillEditorController Qcontroller = QuillEditorController();
+  // Quill.QuillController _Qcontroller = Quill.QuillController.basic();
+  final HtmlEditorController Hcontroller = HtmlEditorController();
 
   ScrollController _controller = ScrollController();
+  BlocComment blocComment = BlocComment();
   Future<void> onRefresh() async {
     page = 1;
     blocListPro.add(LoadMoreEvent(
@@ -80,7 +92,7 @@ double height=200;
   void initState() {
     super.initState();
     blocInfoPro.add(GetData(param: widget.id));
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
     onRefresh();
     loadmore();
   }
@@ -212,7 +224,14 @@ double height=200;
         controller: _controller,
         child: Column(
           children: [
-
+            BlocBuilder(
+                bloc: blocProfile,
+                builder: (_, StateBloc state) {
+                  if (state is LoadSuccess) {
+                    isLog = true;
+                  }
+                  return SizedBox();
+                }),
             BlocBuilder(
                 bloc: blocInfoPro,
                 builder: (_, StateBloc state) {
@@ -397,12 +416,11 @@ double height=200;
                                 height: 20,
                               ),
                               Container(
-
                                 decoration: BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(
                                       color: ColorApp.grey4F,
-                                      width:1 ,
+                                      width: 1,
                                     ),
                                   ),
                                 ),
@@ -414,10 +432,10 @@ double height=200;
                                     tab = value;
                                     setState(() {});
                                   },
-
-                                  labelPadding:
-                                      const EdgeInsets.symmetric(horizontal: 30),
-                                  labelStyle: StyleApp.textStyle700(fontSize: 16),
+                                  labelPadding: const EdgeInsets.symmetric(
+                                      horizontal: 30),
+                                  labelStyle:
+                                      StyleApp.textStyle700(fontSize: 16),
                                   indicatorColor: ColorApp.redText,
                                   unselectedLabelStyle:
                                       StyleApp.textStyle500(fontSize: 14),
@@ -431,7 +449,6 @@ double height=200;
                                     ),
                                     Tab(
                                       child: Text('Hướng dẫn sử dụng'),
-
                                     ),
                                     Tab(
                                       child: Text(
@@ -443,23 +460,29 @@ double height=200;
                                         'Nhà cung cấp',
                                       ),
                                     ),
+                                    Tab(
+                                      child: Text(
+                                        'Bình Luận',
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                               tab == 0
                                   ? Column(
-                                    children: [
-                                      Container(height: 15,),
-                                      Container(
+                                      children: [
+                                        Container(
+                                          height: 15,
+                                        ),
+                                        Container(
                                           height: height,
                                           child: SingleChildScrollView(
                                             child: HtmlWidget(
                                               '${modelInfoPro.product!.descript}',
-                                              textStyle: TextStyle(
-
-                                              ),
+                                              textStyle: TextStyle(),
                                               customWidgetBuilder: (ele) {
-                                                if (ele.attributes['src'] != null &&
+                                                if (ele.attributes['src'] !=
+                                                        null &&
                                                     ele.attributes['src']!
                                                         .startsWith("/media")) {
                                                   return LoadImage(
@@ -467,100 +490,423 @@ double height=200;
                                                           '${Const.image_host}${ele.attributes['src']}');
                                                 }
                                               },
-                                              onTapUrl: (url) => _launchURL(url),
+                                              onTapUrl: (url) =>
+                                                  _launchURL(url),
                                             ),
                                           ),
                                         ),
-                                      InkWell(onTap: (){
-                                        setState(() {
-                                          height=500;
-                                        });
-                                      },child: Padding(
-                                        padding: const EdgeInsets.only(top: 15),
-                                        child: Container(
-                                          width: MediaQuery.of(context).size.width*0.35,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(color: ColorApp.green),
-                                            borderRadius: BorderRadius.circular(25)
-                                          ),
-                                          child: Padding(
-                                            padding:  EdgeInsets.symmetric(horizontal: 12,vertical: 4),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Text('Xem Thêm ',style: StyleApp.textStyle500(color: ColorApp.green),),
-                                                Icon(Icons.keyboard_arrow_down_rounded,color: ColorApp.green,size: 20,),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ))
-                                    ],
-                                  )
+                                        InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                height = 500;
+                                              });
+                                            },
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 15),
+                                              child: Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.35,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: ColorApp.green),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25)),
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 4),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      Text(
+                                                        'Xem Thêm ',
+                                                        style: StyleApp
+                                                            .textStyle500(
+                                                                color: ColorApp
+                                                                    .green),
+                                                      ),
+                                                      Icon(
+                                                        Icons
+                                                            .keyboard_arrow_down_rounded,
+                                                        color: ColorApp.green,
+                                                        size: 20,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ))
+                                      ],
+                                    )
                                   : SizedBox(),
                               tab == 1
                                   ? Container(
-                                height: 200,
-                                child: SingleChildScrollView(
-                                  child: HtmlWidget(
-                                    '${modelInfoPro.product!.manualUser}',
-                                    customWidgetBuilder: (ele) {
-                                      if (ele.attributes['src'] != null &&
-                                          ele.attributes['src']!
-                                              .startsWith("/media")) {
-                                        return LoadImage(
-                                            url:
-                                            '${Const.image_host}${ele.attributes['src']}');
-                                      }
-                                    },
-                                    onTapUrl: (url) => _launchURL(url),
-                                  ),
-                                ),
-                              )
+                                      height: 200,
+                                      child: SingleChildScrollView(
+                                        child: HtmlWidget(
+                                          '${modelInfoPro.product!.manualUser}',
+                                          customWidgetBuilder: (ele) {
+                                            if (ele.attributes['src'] != null &&
+                                                ele.attributes['src']!
+                                                    .startsWith("/media")) {
+                                              return LoadImage(
+                                                  url:
+                                                      '${Const.image_host}${ele.attributes['src']}');
+                                            }
+                                          },
+                                          onTapUrl: (url) => _launchURL(url),
+                                        ),
+                                      ),
+                                    )
                                   : SizedBox(),
                               tab == 2
                                   ? Container(
-                                height: 200,
-                                child: SingleChildScrollView(
-                                  child: HtmlWidget(
-                                    '${modelInfoPro.product!.legalInfo}',
-                                    customWidgetBuilder: (ele) {
-                                      if (ele.attributes['src'] != null &&
-                                          ele.attributes['src']!
-                                              .startsWith("/media")) {
-                                        return LoadImage(
-                                            url:
-                                            '${Const.image_host}${ele.attributes['src']}');
-                                      }
-                                    },
-                                    onTapUrl: (url) => _launchURL(url),
-                                  ),
-                                ),
-                              )
+                                      height: 200,
+                                      child: SingleChildScrollView(
+                                        child: HtmlWidget(
+                                          '${modelInfoPro.product!.legalInfo}',
+                                          customWidgetBuilder: (ele) {
+                                            if (ele.attributes['src'] != null &&
+                                                ele.attributes['src']!
+                                                    .startsWith("/media")) {
+                                              return LoadImage(
+                                                  url:
+                                                      '${Const.image_host}${ele.attributes['src']}');
+                                            }
+                                          },
+                                          onTapUrl: (url) => _launchURL(url),
+                                        ),
+                                      ),
+                                    )
                                   : SizedBox(),
                               tab == 3
                                   ? Container(
-                                height: 200,
-                                child: SingleChildScrollView(
-                                  child: HtmlWidget(
-                                    '${modelInfoPro.product!.supplierInfo}',
-                                    customWidgetBuilder: (ele) {
-                                      if (ele.attributes['src'] != null &&
-                                          ele.attributes['src']!
-                                              .startsWith("/media")) {
-                                        return LoadImage(
-                                            url:
-                                            '${Const.image_host}${ele.attributes['src']}');
-                                      }
-                                    },
-                                    onTapUrl: (url) => _launchURL(url),
-                                  ),
-                                ),
-                              )
+                                      height: 200,
+                                      child: SingleChildScrollView(
+                                        child: HtmlWidget(
+                                          '${modelInfoPro.product!.supplierInfo}',
+                                          customWidgetBuilder: (ele) {
+                                            if (ele.attributes['src'] != null &&
+                                                ele.attributes['src']!
+                                                    .startsWith("/media")) {
+                                              return LoadImage(
+                                                  url:
+                                                      '${Const.image_host}${ele.attributes['src']}');
+                                            }
+                                          },
+                                          onTapUrl: (url) => _launchURL(url),
+                                        ),
+                                      ),
+                                    )
                                   : SizedBox(),
                               const SizedBox(
                                 height: 10,
                               ),
+                              tab == 4
+                                  ? Column(
+                                      children: [
+                                        Text(
+                                          'Đánh giá của bạn',
+                                          style: StyleApp.textStyle700(),
+                                        ),
+                                        RatingBar.builder(
+                                          initialRating: rate,
+                                          itemCount: 5,
+                                          itemBuilder: (context, index) => Icon(
+                                            Icons.star,
+                                            color: ColorApp.red,
+                                          ),
+                                          onRatingUpdate: (rating) {
+                                            print(rating);
+                                            rate = rating;
+                                          },
+                                        ),
+                                        HtmlEditor(
+                                          htmlToolbarOptions: HtmlToolbarOptions(
+                                            toolbarType: ToolbarType.nativeScrollable,
+                                            defaultToolbarButtons: [
+
+                                              FontSettingButtons(),
+                                              FontButtons(),
+                                              ColorButtons(),
+
+
+                                              InsertButtons(),
+
+                                            ],
+                                          ),
+                                          controller: Hcontroller, //required
+                                          htmlEditorOptions: HtmlEditorOptions(
+                                            hint: "Nhập bình luận của bạn",
+                                            //initalText: "text content initial, if any",
+                                          ),
+                                          otherOptions: OtherOptions(
+                                            height: 200,
+                                          ),
+                                        ),
+                                        BlocListener(
+                                          bloc: blocComment,
+                                          listener: (_, StateBloc state) {
+                                            CheckLogState.check(context,
+                                                state: state,
+                                                msg: state is LoadSuccess
+                                                    ? state.mess
+                                                    : 'Thành công',
+                                            success: (){
+                                              blocInfoPro.add(GetData(param: widget.id));
+                                            });
+                                          },
+                                          child: InkWell(
+                                            onTap: () async {
+
+                                              String? htmlText =
+                                                  await Hcontroller.getText();
+                                              if (isLog == false) {
+                                                CustomToast.showToast(
+                                                    context: context,
+                                                    msg:
+                                                        'Bạn phải đăng nhập để bình luận');
+                                              } else {
+
+                                                blocComment.add(Comment(
+                                                    productID:
+                                                        int.parse(widget.id),
+                                                    star: rate.round(),
+                                                    comment: htmlText));
+                                              }
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: ColorApp.blue3D,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 30,
+                                                        vertical: 8),
+                                                child: Text(
+                                                  'Gửi',
+                                                  style: StyleApp.textStyle500(
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        // ToolBar.scroll(
+                                        //     toolBarColor: Colors.cyan.shade50,
+                                        //     activeIconColor: Colors.green,
+                                        //     padding: const EdgeInsets.all(8),
+                                        //     iconSize: 20,
+                                        //     controller: Qcontroller,
+                                        //     toolBarConfig: [
+                                        //       ToolBarStyle.bold,
+                                        //       ToolBarStyle.italic,
+                                        //       ToolBarStyle.align,
+                                        //       ToolBarStyle.color,
+                                        //       ToolBarStyle.size,
+                                        //       ToolBarStyle.image
+                                        //     ]),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        // Container(
+                                        //   decoration: BoxDecoration(
+                                        //     border: Border.all(),
+                                        //   ),
+                                        //   child: QuillHtmlEditor(
+                                        //       hintText:
+                                        //           ' Nhập bình luận của bạn',
+                                        //       controller: Qcontroller,
+                                        //       isEnabled: true,
+                                        //       minHeight: 100,
+                                        //       hintTextStyle:
+                                        //           StyleApp.textStyle500(
+                                        //               color: ColorApp.dark500),
+                                        //       hintTextAlign: TextAlign.start,
+                                        //       padding: const EdgeInsets.only(
+                                        //           left: 10, top: 5),
+                                        //       hintTextPadding: EdgeInsets.zero,
+                                        //       onFocusChanged: (hasFocus) =>
+                                        //           debugPrint(
+                                        //               'has focus $hasFocus'),
+                                        //       onTextChanged: (text) => debugPrint(
+                                        //           'widget text change $text'),
+                                        //       onEditorCreated: () => debugPrint(
+                                        //           'Editor has been loaded'),
+                                        //       onEditorResized: (height) =>
+                                        //           debugPrint(
+                                        //               'Editor resized $height'),
+                                        //       onSelectionChanged: (sel) =>
+                                        //           debugPrint(
+                                        //               '${sel.index},${sel.length}')),
+                                        // ),
+                                        // SizedBox(
+                                        //   height: 20,
+                                        // ),
+                                        // BlocListener(
+                                        //   bloc: blocComment,
+                                        //   listener: (_, StateBloc state) {
+                                        //     CheckLogState.check(context,
+                                        //         state: state,
+                                        //         msg: state is LoadSuccess
+                                        //             ? state.mess
+                                        //             : 'Thành công',
+                                        //     success: (){
+                                        //       blocInfoPro.add(GetData(param: widget.id));
+                                        //     });
+                                        //   },
+                                        //   child: InkWell(
+                                        //     onTap: () async {
+                                        //       Qcontroller.clearHistory();
+                                        //       String? htmlText =
+                                        //           await Qcontroller.getText();
+                                        //       if (isLog == false) {
+                                        //         CustomToast.showToast(
+                                        //             context: context,
+                                        //             msg:
+                                        //                 'Bạn phải đăng nhập để bình luận');
+                                        //       } else {
+                                        //         print(htmlText);
+                                        //         // blocComment.add(Comment(
+                                        //         //     productID:
+                                        //         //         int.parse(widget.id),
+                                        //         //     star: rate.round(),
+                                        //         //     comment: htmlText));
+                                        //       }
+                                        //     },
+                                        //     child: Container(
+                                        //       decoration: BoxDecoration(
+                                        //           color: ColorApp.blue3D,
+                                        //           borderRadius:
+                                        //               BorderRadius.circular(
+                                        //                   20)),
+                                        //       child: Padding(
+                                        //         padding:
+                                        //             const EdgeInsets.symmetric(
+                                        //                 horizontal: 30,
+                                        //                 vertical: 8),
+                                        //         child: Text(
+                                        //           'Gửi',
+                                        //           style: StyleApp.textStyle500(
+                                        //               color: Colors.white),
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        ListView.builder(
+                                          itemBuilder: (context, index) {
+                                            return Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                ClipOval(
+                                                  child: SizedBox.fromSize(
+                                                    size: Size.fromRadius(
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.05),
+                                                    child: LoadImage(
+                                                      url:
+                                                          '${Const.image_host}${modelInfoPro.product!.comments![index].customerComment!.avatar}',
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.1,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.1,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.85,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        '${modelInfoPro.product!.comments![index].customerComment!.name}',
+                                                        style: StyleApp
+                                                            .textStyle700(),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      RatingBarIndicator(
+                                                        rating: double.parse(
+                                                            '${modelInfoPro.product!.comments![index].star}'),
+                                                        itemBuilder:
+                                                            (context, index) =>
+                                                                Icon(
+                                                          Icons.star,
+                                                          color: ColorApp.red,
+                                                        ),
+                                                        itemCount: 5,
+                                                        itemSize: 20.0,
+                                                        direction:
+                                                            Axis.horizontal,
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      HtmlWidget(
+                                                        '${modelInfoPro.product!.comments![0].descript}',
+                                                        customWidgetBuilder:
+                                                            (ele) {
+                                                          if (ele.attributes[
+                                                                  'src'] !=
+                                                              null) {
+                                                            return Const
+                                                                .imageFromBase64String(
+                                                                    '${ele.attributes['src']}',
+                                                                    height: 50,
+                                                                    width: double
+                                                                        .infinity,
+                                                                    fit: BoxFit
+                                                                        .cover);
+                                                          }
+                                                        },
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                          itemCount: modelInfoPro
+                                              .product!.comments!.length,
+                                          shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                        ),
+                                      ],
+                                    )
+                                  : SizedBox(),
                               Text(
                                 'Sản phẩm cùng danh mục',
                                 style: StyleApp.textStyle700(
@@ -593,7 +939,8 @@ double height=200;
                     return ItemLoadFaild(
                       error: state.error,
                       onTap: () {
-                        blocListPro.add(GetData(param: widget.cateID.toString()));
+                        blocListPro
+                            .add(GetData(param: widget.cateID.toString()));
                       },
                     );
                   }
@@ -648,60 +995,61 @@ double height=200;
                                             alignment: Alignment.topRight,
                                             children: [
                                               SizedBox(
-                                                height: MediaQuery.of(
-                                                    context)
-                                                    .size
-                                                    .height *
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
                                                     0.24,
-                                                width: MediaQuery.of(
-                                                    context)
-                                                    .size
-                                                    .width *
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
                                                     0.45,
                                                 child: ClipRRect(
                                                   borderRadius:
-                                                  const BorderRadius
-                                                      .only(
-                                                      topLeft: Radius
-                                                          .circular(
-                                                          12),
-                                                      topRight: Radius
-                                                          .circular(
-                                                          12)),
+                                                      const BorderRadius.only(
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  12),
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  12)),
                                                   child: LoadImage(
                                                     fit: BoxFit.fill,
                                                     url:
-                                                    '${Const.image_host}${model![index].thumbnail}',
+                                                        '${Const.image_host}${model![index].thumbnail}',
                                                   ),
                                                 ),
                                               ),
                                               Container(
-
                                                 decoration: BoxDecoration(
                                                     borderRadius:
-                                                    const BorderRadius
-                                                        .only(
-
-                                                        topRight: Radius
-                                                            .circular(
-                                                            12)),
-                                                    image: DecorationImage(scale: 0.2,
+                                                        const BorderRadius.only(
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    12)),
+                                                    image: DecorationImage(
+                                                        scale: 0.2,
                                                         image: ExactAssetImage(
-                                                            'assets/images/giam.png',scale: 0.2),
+                                                            'assets/images/giam.png',
+                                                            scale: 0.2),
                                                         fit: BoxFit.fill)),
                                                 child: Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 4),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 4),
                                                   child: Column(
                                                     children: [
                                                       Text(
                                                         ' - ${model[index].discount} ',
-                                                        style: StyleApp.textStyle700(
-                                                            color: ColorApp.redText),
+                                                        style: StyleApp
+                                                            .textStyle700(
+                                                                color: ColorApp
+                                                                    .redText),
                                                       ),
                                                       Text(
                                                         'GIẢM',
-                                                        style: StyleApp.textStyle700(
-                                                            color: Colors.white),
+                                                        style: StyleApp
+                                                            .textStyle700(
+                                                                color: Colors
+                                                                    .white),
                                                       )
                                                     ],
                                                   ),
@@ -710,17 +1058,14 @@ double height=200;
                                             ],
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets
-                                                .symmetric(
-                                                horizontal: 8,
-                                                vertical: 4),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8, vertical: 4),
                                             child: Column(
                                               crossAxisAlignment:
-                                              CrossAxisAlignment
-                                                  .start,
+                                                  CrossAxisAlignment.start,
                                               mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 // Text(
                                                 //   model
@@ -733,40 +1078,35 @@ double height=200;
                                                 // ),
 
                                                 Text(
-                                                  model
-                                                  [
-                                                  index]
-                                                      .name ??
-                                                      '',
+                                                  model[index].name ?? '',
                                                   maxLines: 1,
                                                   textAlign: TextAlign.center,
-                                                  style: StyleApp
-                                                      .textStyle500(),
-                                                  overflow: TextOverflow
-                                                      .ellipsis,
+                                                  style:
+                                                      StyleApp.textStyle500(),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                                 SizedBox(
                                                   height: 10,
                                                 ),
                                                 Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceEvenly,
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
                                                   children: [
                                                     Text(
                                                       '${Const.ConvertPrice.format(int.parse('${model[index].price}'))} đ',
-                                                      style: StyleApp
-                                                          .textStyle500(
+                                                      style: StyleApp.textStyle500(
                                                           decoration:
-                                                          TextDecoration
-                                                              .lineThrough),
+                                                              TextDecoration
+                                                                  .lineThrough),
                                                     ),
                                                     Text(
                                                       '${Const.ConvertPrice.format(int.parse('${model[index].discountPrice}'))} đ',
-                                                      style: StyleApp
-                                                          .textStyle700(
-                                                          color: ColorApp
-                                                              .redText),
+                                                      style:
+                                                          StyleApp.textStyle700(
+                                                              color: ColorApp
+                                                                  .redText),
                                                     )
                                                   ],
                                                 )
@@ -835,7 +1175,9 @@ double height=200;
                   }
                   return Container();
                 }),
-            SizedBox(height: 100,)
+            SizedBox(
+              height: 100,
+            )
           ],
         ),
       ),

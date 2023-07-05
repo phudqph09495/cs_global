@@ -860,7 +860,7 @@ Text(' - '),
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                               AuthScreen()));
+                                                               MyHomePage()));
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(

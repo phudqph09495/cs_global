@@ -127,7 +127,7 @@ class Product {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     isFlashSale = json['is_flashSale'];
-    discountPrice = json['discount_price'];
+    discountPrice = json['discount_price'].toString();
     discount = json['discount'];
     averageStar = json['average_star'];
 
@@ -232,6 +232,7 @@ class Comments {
   String? status;
   String? createdAt;
   String? updatedAt;
+  CustomerComment? customerComment;
 
   Comments(
       {this.id,
@@ -241,7 +242,8 @@ class Comments {
         this.star,
         this.status,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.customerComment});
 
   Comments.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -252,6 +254,9 @@ class Comments {
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    customerComment = json['customer_comment'] != null
+        ? new CustomerComment.fromJson(json['customer_comment'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -264,6 +269,30 @@ class Comments {
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    if (this.customerComment != null) {
+      data['customer_comment'] = this.customerComment!.toJson();
+    }
+    return data;
+  }
+}
+class CustomerComment {
+  int? id;
+  String? name;
+  String? avatar;
+
+  CustomerComment({this.id, this.name, this.avatar});
+
+  CustomerComment.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    avatar = json['avatar'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['avatar'] = this.avatar;
     return data;
   }
 }

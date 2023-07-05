@@ -81,6 +81,16 @@ class LoginApp extends EventBloc {
     required this.password,
   });
 }
+class Comment extends EventBloc {
+  int? productID;
+  int? star;
+  String? comment;
+
+
+  Comment({
+   this.star,this.comment,this.productID
+  });
+}
 
 class upgrade extends EventBloc {
   String? type;
@@ -131,7 +141,8 @@ class CreateAcc extends EventBloc {
   String? pass;
   String? rePass;
   String code;
-  CreateAcc({this.pass, this.rePass, this.code = '', this.name, this.phone});
+  String? otp;
+  CreateAcc({this.pass, this.rePass, this.code = '', this.name, this.phone,this.otp});
 }
 
 class RatePrd extends EventBloc {
