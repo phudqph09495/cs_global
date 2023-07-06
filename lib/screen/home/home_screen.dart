@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final controller = GroupButtonController();
   BlocListCate blocListCate = BlocListCate()..add(GetData());
   BlocListSuggest blocListSuggest = BlocListSuggest()..add(GetData());
-  List<String> listButton = ['Sản phẩm', 'Dịch vụ', 'Đào Tạo', 'HT Land'];
+  List<String> listButton = ['Sản phẩm', 'Dịch vụ', 'HT Land'];
   int tab = 0;
   BlocListMostSale blocListMostSale = BlocListMostSale()..add(GetData());
 
@@ -160,10 +160,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Icon(
-                              Icons.qr_code_scanner_outlined,
-                              color: Colors.white,
-                            ),
+                            SizedBox(),
+                            // const Icon(
+                            //   Icons.qr_code_scanner_outlined,
+                            //   color: Colors.white,
+                            // ),
                             InkWell(
                               onTap: () {
                                 Navigator.push(
@@ -212,34 +213,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                             ),
-                            Stack(
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.all(3.0),
-                                  child: Icon(
-                                    Icons.notifications_none_outlined,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Positioned(
-                                    top: 0,
-                                    right: 0,
-                                    child: Container(
-                                      decoration: const BoxDecoration(
-                                          color: Colors.red,
-                                          shape: BoxShape.circle),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Text(
-                                          '0',
-                                          style: StyleApp.textStyle500(
-                                              fontSize: 10,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ))
-                              ],
-                            )
+                            SizedBox()
+                            // Stack(
+                            //   children: [
+                            //     const Padding(
+                            //       padding: EdgeInsets.all(3.0),
+                            //       child: Icon(
+                            //         Icons.notifications_none_outlined,
+                            //         color: Colors.white,
+                            //       ),
+                            //     ),
+                            //     Positioned(
+                            //         top: 0,
+                            //         right: 0,
+                            //         child: Container(
+                            //           decoration: const BoxDecoration(
+                            //               color: Colors.red,
+                            //               shape: BoxShape.circle),
+                            //           child: Padding(
+                            //             padding: const EdgeInsets.all(4.0),
+                            //             child: Text(
+                            //               '0',
+                            //               style: StyleApp.textStyle500(
+                            //                   fontSize: 10,
+                            //                   color: Colors.white),
+                            //             ),
+                            //           ),
+                            //         ))
+                            //   ],
+                            // )
                           ],
                         ),
                       )
@@ -262,7 +264,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         shadowColor: Colors.grey,
                         child: Container(
                           height: 50,
-                          width: (MediaQuery.of(context).size.width - 16) / 4,
+                          width: (MediaQuery.of(context).size.width - 16) / 3,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             color: selected ? ColorApp.redText : Colors.white,
@@ -581,10 +583,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   )
                 : const SizedBox(),
-            tab==2? Padding(padding: EdgeInsets.all(8),child: Center(
+            tab==4? Padding(padding: EdgeInsets.all(8),child: Center(
               child: Text('Chức năng đang phát triển vui lòng quay lại sau',style: StyleApp.textStyle500(),),
             ),):SizedBox(),
-            tab == 3
+            tab == 2
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(

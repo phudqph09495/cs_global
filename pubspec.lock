@@ -917,14 +917,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.5"
-  quill_html_editor:
-    dependency: "direct main"
-    description:
-      name: quill_html_editor
-      sha256: "16d09a35742aaa0059c1a332ab2cef4570c22053495d1b9dafd9d2573b837d94"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.9"
   rxdart:
     dependency: transitive
     description:

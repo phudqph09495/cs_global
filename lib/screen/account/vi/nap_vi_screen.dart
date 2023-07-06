@@ -189,7 +189,7 @@ class _NapViScreenState extends State<NapViScreen> {
                         style: StyleApp.textStyle700(fontSize: 16),
                       ),
                       Text(
-                        '658933333 ',
+                        '19066333999996 ',
                         style: StyleApp.textStyle500(fontSize: 16),
                       ),
                       SizedBox(
@@ -200,7 +200,7 @@ class _NapViScreenState extends State<NapViScreen> {
                         style: StyleApp.textStyle700(fontSize: 16),
                       ),
                       Text(
-                        'Vương Văn Thảo ',
+                        'CTCP TAP DOAN CS GLOBAL',
                         style: StyleApp.textStyle500(fontSize: 16),
                       ),
                       SizedBox(

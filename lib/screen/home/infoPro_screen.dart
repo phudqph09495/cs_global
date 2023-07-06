@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:cs_global/bloc/cart/event_bloc2.dart';
 import 'package:cs_global/bloc/cart/model_sp.dart';
 import 'package:cs_global/bloc/check_log_state.dart';
 import 'package:cs_global/home.dart';
 import 'package:cs_global/screen/cart/gio_hang_screen.dart';
+import 'package:file_picker/file_picker.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -32,6 +36,7 @@ import '../../widget/loadPage/item_loadfaild.dart';
 import '../../widget/loadPage/item_loadmore.dart';
 // import 'package:quill_html_editor/quill_html_editor.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
+
 
 class InfoProdScreen extends StatefulWidget {
   String id;
@@ -628,17 +633,19 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                           },
                                         ),
                                         HtmlEditor(
-                                          htmlToolbarOptions: HtmlToolbarOptions(
-                                            toolbarType: ToolbarType.nativeScrollable,
+                                          htmlToolbarOptions:
+                                              HtmlToolbarOptions(
+
+                                            toolbarType:
+                                                ToolbarType.nativeScrollable,
                                             defaultToolbarButtons: [
 
-                                              FontSettingButtons(),
-                                              FontButtons(),
                                               ColorButtons(),
-
-
-                                              InsertButtons(),
-
+                                              InsertButtons(
+                                                  link: false,
+                                                  audio: false,
+                                                  table: false,
+                                                  hr: false),
                                             ],
                                           ),
                                           controller: Hcontroller, //required
@@ -647,8 +654,11 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                             //initalText: "text content initial, if any",
                                           ),
                                           otherOptions: OtherOptions(
-                                            height: 200,
+                                            height: 400,
                                           ),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
                                         ),
                                         BlocListener(
                                           bloc: blocComment,
@@ -658,22 +668,22 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                                 msg: state is LoadSuccess
                                                     ? state.mess
                                                     : 'Thành công',
-                                            success: (){
-                                              blocInfoPro.add(GetData(param: widget.id));
+                                                success: () {
+                                              blocInfoPro.add(
+                                                  GetData(param: widget.id));
                                             });
                                           },
                                           child: InkWell(
                                             onTap: () async {
-
                                               String? htmlText =
                                                   await Hcontroller.getText();
+
                                               if (isLog == false) {
                                                 CustomToast.showToast(
                                                     context: context,
                                                     msg:
                                                         'Bạn phải đăng nhập để bình luận');
                                               } else {
-
                                                 blocComment.add(Comment(
                                                     productID:
                                                         int.parse(widget.id),
