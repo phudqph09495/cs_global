@@ -30,6 +30,7 @@ import '../auth/auth_screen.dart';
 import 'changPass_screen.dart';
 import 'package:flutter_exit_app/flutter_exit_app.dart';
 
+import 'gioiThieu/qlhtKD_screen.dart';
 import 'gioithieu_screen.dart';
 import 'khtk_screen.dart';
 
@@ -74,42 +75,42 @@ class _AccountScreenState extends State<AccountScreen> {
                             fit: BoxFit.cover,
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const GioiThieuScreen()));
-                          },
-                          child: Container(
-                            color: Colors.black.withOpacity(0.5),
-                            width: double.infinity,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const SizedBox(),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'Giới thiệu bạn bè  ',
-                                        style: StyleApp.textStyle500(
-                                            color: Colors.white, fontSize: 16),
-                                      ),
-                                      const Icon(
-                                        Icons.info_rounded,
-                                        color: Colors.white,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
+                        // InkWell(
+                        //   onTap: () {
+                        //     Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) =>
+                        //                 const GioiThieuScreen()));
+                        //   },
+                        //   child: Container(
+                        //     color: Colors.black.withOpacity(0.5),
+                        //     width: double.infinity,
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.all(8.0),
+                        //       child: Row(
+                        //         mainAxisAlignment:
+                        //             MainAxisAlignment.spaceBetween,
+                        //         children: [
+                        //           const SizedBox(),
+                        //           Row(
+                        //             children: [
+                        //               Text(
+                        //                 'Giới thiệu bạn bè  ',
+                        //                 style: StyleApp.textStyle500(
+                        //                     color: Colors.white, fontSize: 16),
+                        //               ),
+                        //               const Icon(
+                        //                 Icons.info_rounded,
+                        //                 color: Colors.white,
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                     Padding(
@@ -323,7 +324,11 @@ class _AccountScreenState extends State<AccountScreen> {
                                   horizontal: 8, vertical: 2),
                               child: Row(
                                 children: [
-                                  Image.asset('assets/images/rank.png',height: 30,width: 30,),
+                                  Image.asset(
+                                    'assets/images/rank.png',
+                                    height: 30,
+                                    width: 30,
+                                  ),
                                   const SizedBox(
                                     width: 10,
                                   ),
@@ -370,10 +375,10 @@ class _AccountScreenState extends State<AccountScreen> {
                                   horizontal: 8, vertical: 2),
                               child: Row(
                                 children: [
-
                                   Image.asset(
                                     'assets/images/meeting.png',
-                                    height: 30,width: 30,
+                                    height: 30,
+                                    width: 30,
                                   ),
                                   const SizedBox(
                                     width: 10,
@@ -393,7 +398,6 @@ class _AccountScreenState extends State<AccountScreen> {
                                           ? Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
-                                             
                                               children: [
                                                 Text(
                                                   modelProfile.profile!
@@ -402,15 +406,14 @@ class _AccountScreenState extends State<AccountScreen> {
                                                   style:
                                                       StyleApp.textStyle500(),
                                                 ),
-Text(' - '),
+                                                Text(' - '),
                                                 Text(
                                                   modelProfile.profile!
                                                           .beRefered![0].code ??
                                                       '',
-                                                  style:
-                                                      StyleApp.textStyle700(
-                                                        color: ColorApp.darkGreen
-                                                      ),
+                                                  style: StyleApp.textStyle700(
+                                                      color:
+                                                          ColorApp.darkGreen),
                                                 ),
                                               ],
                                             )
@@ -418,6 +421,58 @@ Text(' - '),
                                     ],
                                   ),
                                 ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => QuanLyHTKD(
+                                            type:
+                                                '${modelProfile.profile!.type!.name}',
+                                          )));
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                  color: ColorApp.greyE6,
+                                  borderRadius: BorderRadius.circular(40)),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 2),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Icon(
+                                          Icons.info_outline_rounded,
+                                          color: Colors.black,
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          'Quản lý hệ thống kinh doanh',
+                                          style: StyleApp.textStyle700(
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const FaIcon(
+                                        FontAwesomeIcons.longArrowRight)
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -442,9 +497,10 @@ Text(' - '),
                                     horizontal: 8, vertical: 2),
                                 child: Row(
                                   children: [
-
                                     Image.asset(
-                                      'assets/images/vi.png',height: 30,width: 30,
+                                      'assets/images/vi.png',
+                                      height: 30,
+                                      width: 30,
                                     ),
                                     const SizedBox(
                                       width: 10,
@@ -459,7 +515,6 @@ Text(' - '),
                                           'Ví CS',
                                           style: StyleApp.textStyle500(),
                                         ),
-
                                         Row(
                                           children: [
                                             Text(
@@ -533,7 +588,11 @@ Text(' - '),
                                   children: [
                                     Row(
                                       children: [
-                                         Image.asset('assets/images/tttk.png',height: 30,width: 30,),
+                                        Image.asset(
+                                          'assets/images/tttk.png',
+                                          height: 30,
+                                          width: 30,
+                                        ),
                                         const SizedBox(
                                           width: 10,
                                         ),
@@ -573,7 +632,9 @@ Text(' - '),
                                         width: 5,
                                       ),
                                       Image.asset(
-                                        'assets/images/quydinh.png',height: 30,width: 30,
+                                        'assets/images/quydinh.png',
+                                        height: 30,
+                                        width: 30,
                                       ),
                                       const SizedBox(
                                         width: 10,
@@ -612,8 +673,9 @@ Text(' - '),
                                         width: 5,
                                       ),
                                       Image.asset(
-                                        'assets/images/htkh.png'
-                                        ,height: 30,width: 30,
+                                        'assets/images/htkh.png',
+                                        height: 30,
+                                        width: 30,
                                       ),
                                       const SizedBox(
                                         width: 10,
@@ -744,10 +806,10 @@ Text(' - '),
                                                 await SharePrefsKeys
                                                     .removeAllKey();
                                                 Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                 MyHomePage()));
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            MyHomePage()));
                                               });
                                             },
                                             child: InkWell(
@@ -857,10 +919,10 @@ Text(' - '),
                                               await SharePrefsKeys
                                                   .removeAllKey();
                                               Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                               MyHomePage()));
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          MyHomePage()));
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(
@@ -942,7 +1004,7 @@ Text(' - '),
             );
           }
           if (state is LoadFail) {
-            return      Container(
+            return Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               alignment: Alignment.center,
               child: Column(
@@ -955,16 +1017,18 @@ Text(' - '),
                   const SizedBox(
                     height: 10,
                   ),
-
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>AuthScreen()));
-
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AuthScreen()));
                     },
                     style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
-                            side: const BorderSide(color: ColorApp.main, width: 1))),
+                            side: const BorderSide(
+                                color: ColorApp.main, width: 1))),
                     child: Text(
                       'Đăng nhập',
                       style: StyleApp.textStyle400(),

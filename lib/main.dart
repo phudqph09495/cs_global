@@ -29,7 +29,8 @@ void main() async {
       //   enabled: !kReleaseMode,
       //   builder: (context) => MyApp(), // Wrap your app
       // ),
-      MyApp());
+      MyApp()
+      );
 }
 
 class MyApp extends StatelessWidget {
