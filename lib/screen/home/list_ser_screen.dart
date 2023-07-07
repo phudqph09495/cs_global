@@ -43,7 +43,7 @@ class _ListSerScreenState extends State<ListSerScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorApp.greyBD,
+        backgroundColor: ColorApp.whiteF0,
         appBar: AppBar(
           automaticallyImplyLeading: true,
           backgroundColor: ColorApp.green00,
@@ -56,6 +56,7 @@ class _ListSerScreenState extends State<ListSerScreen>
         body: SingleChildScrollView(
           child: Column(
             children: [
+
               BlocBuilder(
                   bloc: blocListSerCate,
                   builder: (_, StateBloc state) {
@@ -65,38 +66,56 @@ class _ListSerScreenState extends State<ListSerScreen>
                           length: model.serviceCate!.length,
                           vsync: this,
                           initialIndex: widget.initIndex);
-                      return TabBar(
-                        isScrollable: true,
-                        controller: _tabController,
-                        onTap: (value) {
-                          blocListService.add(GetData(param: model.serviceCate![value].id.toString()));
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border(bottom: BorderSide(
+                                color: Color(0xffDDDDDD)
+                              ))
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: TabBar(
+                              isScrollable: true,
+                              controller: _tabController,
+                              onTap: (value) {
+                                blocListService.add(GetData(param: model.serviceCate![value].id.toString()));
 
-                          // blocListNews.add(GetData(
-                          //     param: model.serviceCate![value].id.toString()));
-                        },
-                        labelPadding:
-                        const EdgeInsets.symmetric(horizontal: 30),
-                        labelStyle: StyleApp.textStyle700(fontSize: 16),
-                        indicatorColor: Colors.transparent,
-                        unselectedLabelStyle:
-                        StyleApp.textStyle500(fontSize: 14),
-                        labelColor: ColorApp.green00,
-                        unselectedLabelColor: ColorApp.dark500,
-                        tabs: <Widget>[
-                          ...List.generate(
-                            model.serviceCate!.length,
-                                (index) => Tab(
-                              child: Text(
-                                model.serviceCate![index].name ?? '',
+                                // blocListNews.add(GetData(
+                                //     param: model.serviceCate![value].id.toString()));
+                              },
+                              indicator: BoxDecoration(
+
+                                color: ColorApp.green00,
                               ),
+                              labelPadding:
+
+                              const EdgeInsets.symmetric(horizontal: 10),
+                              labelStyle: StyleApp.textStyle700(fontSize: 16),
+                              indicatorColor: Colors.transparent,
+                              unselectedLabelStyle:
+                              StyleApp.textStyle500(fontSize: 14),
+                              labelColor: ColorApp.whiteF7,
+                              unselectedLabelColor: Colors.black,
+                              tabs: <Widget>[
+                                ...List.generate(
+                                  model.serviceCate!.length,
+                                      (index) => Tab(
+                                    child: Text(
+                                      model.serviceCate![index].name ?? '',
+                                    ),
+                                  ),
+                                )
+                                // Tab(
+                                //   child: Text(
+                                //     'Chi tiết',
+                                //   ),
+                                // ),
+                              ],
                             ),
-                          )
-                          // Tab(
-                          //   child: Text(
-                          //     'Chi tiết',
-                          //   ),
-                          // ),
-                        ],
+                          ),
+                        ),
                       );
                     }
                     return SizedBox();

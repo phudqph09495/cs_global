@@ -39,7 +39,7 @@ class _ListNewsScreenState extends State<ListNewsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorApp.greyBD,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           automaticallyImplyLeading: true,
           backgroundColor: ColorApp.green00,
@@ -61,40 +61,59 @@ class _ListNewsScreenState extends State<ListNewsScreen>
                           length: model.newsCate!.length,
                           vsync: this,
                           initialIndex: widget.initIndex);
-                      return TabBar(
-                        isScrollable: true,
-                        controller: _tabController,
-                        onTap: (value) {
-                          blocListNews.add(GetData(
-                              param: model.newsCate![value].id.toString()));
-                        },
-                        labelPadding:
-                            const EdgeInsets.symmetric(horizontal: 30),
-                        labelStyle: StyleApp.textStyle700(fontSize: 16),
-                        indicatorColor: Colors.transparent,
-                        unselectedLabelStyle:
-                            StyleApp.textStyle500(fontSize: 14),
-                        labelColor: ColorApp.green00,
-                        unselectedLabelColor: ColorApp.dark500,
-                        tabs: <Widget>[
-                          ...List.generate(
-                            model.newsCate!.length,
-                            (index) => Tab(
-                              child: Text(
-                                model.newsCate![index].name ?? '',
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(
+                                color: Color(0xffDDDDDD)
+                            ))
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: TabBar(
+                              indicator: BoxDecoration(
+
+                                color: ColorApp.green00,
+
                               ),
+                              isScrollable: true,
+                              controller: _tabController,
+                              onTap: (value) {
+                                blocListNews.add(GetData(
+                                    param: model.newsCate![value].id.toString()));
+                              },
+                              labelPadding:
+                                  const EdgeInsets.symmetric(horizontal:10),
+                              labelStyle: StyleApp.textStyle700(fontSize: 16),
+                              indicatorColor: Colors.transparent,
+                              unselectedLabelStyle:
+                                  StyleApp.textStyle500(fontSize: 14),
+                              labelColor: ColorApp.whiteF7,
+                              unselectedLabelColor: Colors.black,
+                              tabs: <Widget>[
+                                ...List.generate(
+                                  model.newsCate!.length,
+                                  (index) => Tab(
+                                    child: Text(
+                                      model.newsCate![index].name ?? '',
+                                    ),
+                                  ),
+                                )
+                                // Tab(
+                                //   child: Text(
+                                //     'Chi tiết',
+                                //   ),
+                                // ),
+                              ],
                             ),
-                          )
-                          // Tab(
-                          //   child: Text(
-                          //     'Chi tiết',
-                          //   ),
-                          // ),
-                        ],
+                          ),
+                        ),
                       );
                     }
                     return SizedBox();
                   }),
+
               BlocBuilder(
                 builder: (_, StateBloc state) {
                   if (state is LoadSuccess) {
@@ -164,6 +183,7 @@ class _ListNewsScreenState extends State<ListNewsScreen>
                                                           '${model.allNews![index].descript}',
                                                       style: {
                                                         '#': Style(
+                                                          fontSize: FontSize(12),
                                                           maxLines: 2,
                                                           textOverflow:
                                                               TextOverflow.clip,

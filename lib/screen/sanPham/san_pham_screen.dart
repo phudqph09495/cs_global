@@ -75,7 +75,7 @@ class _SanPhamScreenState extends State<SanPhamScreen> {
                                       .add(GetData(param: idChild.toString()));
                                 },
                                 child: Container(
-                                  height: 200,
+                                  height: 130,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                       color: choose == index
@@ -94,6 +94,8 @@ class _SanPhamScreenState extends State<SanPhamScreen> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         LoadImage(
+                                          height: 50,
+                                          width: 50,
                                           fit: BoxFit.fill,
                                           url: model.categories![index].image !=
                                                   null
@@ -102,8 +104,9 @@ class _SanPhamScreenState extends State<SanPhamScreen> {
                                         ),
                                         Text(
                                           model.categories![index].name ?? '',
-                                          style: StyleApp.textStyle700(
-                                            color:choose == index?Colors.white:Colors.black
+                                          style: StyleApp.textStyle500(
+                                            color:choose == index?Colors.white:Colors.black,
+                                            fontSize: 13
                                           ),
                                           textAlign: TextAlign.center,
                                         ),

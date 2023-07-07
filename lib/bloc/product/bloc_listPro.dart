@@ -50,7 +50,8 @@ class BlocListPro extends Bloc<EventBloc, StateBloc> {
           yield LoadSuccess(
             data: list,
             hasMore: false,
-
+data2: event.title,
+            data3: event.id.toString(),
             checkLength: res['data']['products']['data'].length==0 && event.loadMore
                 ? true
                 : false,

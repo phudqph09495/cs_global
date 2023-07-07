@@ -23,7 +23,7 @@ class QuanLyScreen extends StatefulWidget {
 
 class _QuanLyScreenState extends State<QuanLyScreen> {
   final controller = GroupButtonController();
-  List<String> name = ['Đơn hàng mới', 'Đơn đã đặt', 'Đơn đã mua','Đơn bị huỷ'];
+  List<String> name = ['Đơn Hàng Mới', 'Đơn Đã Đặt', 'Đơn Đã Mua','Đơn Bị Huỷ'];
   int ind = 0;
   List<Color> colorName = [Colors.red, ColorApp.orangeF0, ColorApp.green00];
   BlocListDonhang blocListDonhang = BlocListDonhang();

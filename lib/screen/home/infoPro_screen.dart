@@ -987,181 +987,212 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                 child: Stack(
                                   alignment: Alignment.bottomRight,
                                   children: [
-                                    Container(
-                                      height:
+                                    Stack(
+
+                                      children: [
+                                        Container(
+                                          height:
                                           MediaQuery.of(context).size.height *
                                               0.34,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.45,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(),
-                                          borderRadius:
+                                          width: MediaQuery.of(context).size.width *
+                                              0.45,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(),
+                                              borderRadius:
                                               BorderRadius.circular(12)),
-                                      child: Column(
-                                        crossAxisAlignment:
+                                          child: Column(
+                                            crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        children: [
-                                          Stack(
-                                            alignment: Alignment.topRight,
                                             children: [
-                                              SizedBox(
-                                                height: MediaQuery.of(context)
+                                              Stack(
+                                                alignment: Alignment.topRight,
+                                                children: [
+                                                  SizedBox(
+                                                    height: MediaQuery.of(context)
                                                         .size
                                                         .height *
-                                                    0.24,
-                                                width: MediaQuery.of(context)
+                                                        0.24,
+                                                    width: MediaQuery.of(context)
                                                         .size
                                                         .width *
-                                                    0.45,
-                                                child: ClipRRect(
-                                                  borderRadius:
+                                                        0.45,
+                                                    child: ClipRRect(
+                                                      borderRadius:
                                                       const BorderRadius.only(
                                                           topLeft:
-                                                              Radius.circular(
-                                                                  12),
+                                                          Radius.circular(
+                                                              12),
                                                           topRight:
-                                                              Radius.circular(
-                                                                  12)),
-                                                  child: LoadImage(
-                                                    fit: BoxFit.fill,
-                                                    url:
+                                                          Radius.circular(
+                                                              12)),
+                                                      child: LoadImage(
+                                                        fit: BoxFit.fill,
+                                                        url:
                                                         '${Const.image_host}${model![index].thumbnail}',
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
                                                         const BorderRadius.only(
                                                             topRight:
-                                                                Radius.circular(
-                                                                    12)),
-                                                    image: DecorationImage(
-                                                        scale: 0.2,
-                                                        image: ExactAssetImage(
-                                                            'assets/images/giam.png',
-                                                            scale: 0.2),
-                                                        fit: BoxFit.fill)),
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 4),
-                                                  child: Column(
-                                                    children: [
-                                                      Text(
-                                                        ' - ${model[index].discount} ',
-                                                        style: StyleApp
-                                                            .textStyle700(
+                                                            Radius.circular(
+                                                                12)),
+                                                        image: DecorationImage(
+                                                            scale: 0.2,
+                                                            image: ExactAssetImage(
+                                                                'assets/images/giam.png',
+                                                                scale: 0.2),
+                                                            fit: BoxFit.fill)),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(vertical: 4),
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                            ' - ${model[index].discount} ',
+                                                            style: StyleApp
+                                                                .textStyle700(
                                                                 color: ColorApp
                                                                     .redText),
-                                                      ),
-                                                      Text(
-                                                        'GIẢM',
-                                                        style: StyleApp
-                                                            .textStyle700(
+                                                          ),
+                                                          Text(
+                                                            'GIẢM',
+                                                            style: StyleApp
+                                                                .textStyle700(
                                                                 color: Colors
                                                                     .white),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8, vertical: 4),
-                                            child: Column(
-                                              crossAxisAlignment:
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(
+                                                    horizontal: 8, vertical: 4),
+                                                child: Column(
+                                                  crossAxisAlignment:
                                                   CrossAxisAlignment.start,
-                                              mainAxisAlignment:
+                                                  mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
-                                              children: [
-                                                // Text(
-                                                //   model
-                                                //           .productSugges![
-                                                //               index]
-                                                //           .code ??
-                                                //       '',
-                                                //   style: StyleApp
-                                                //       .textStyle600(),
-                                                // ),
+                                                  children: [
+                                                    // Text(
+                                                    //   model
+                                                    //           .productSugges![
+                                                    //               index]
+                                                    //           .code ??
+                                                    //       '',
+                                                    //   style: StyleApp
+                                                    //       .textStyle600(),
+                                                    // ),
 
-                                                Text(
-                                                  model[index].name ?? '',
-                                                  maxLines: 1,
-                                                  textAlign: TextAlign.center,
-                                                  style:
+                                                    Text(
+                                                      model[index].name ?? '',
+                                                      maxLines: 1,
+                                                      textAlign: TextAlign.center,
+                                                      style:
                                                       StyleApp.textStyle500(),
-                                                  overflow:
+                                                      overflow:
                                                       TextOverflow.ellipsis,
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceEvenly,
-                                                  children: [
-                                                    Text(
-                                                      '${Const.ConvertPrice.format(int.parse('${model[index].price}'))} đ',
-                                                      style: StyleApp.textStyle500(
-                                                          decoration:
+                                                      children: [
+                                                        Text(
+                                                          '${Const.ConvertPrice.format(int.parse('${model[index].price}'))} đ',
+                                                          style: StyleApp.textStyle500(
+                                                              decoration:
                                                               TextDecoration
                                                                   .lineThrough),
-                                                    ),
-                                                    Text(
-                                                      '${Const.ConvertPrice.format(int.parse('${model[index].discountPrice}'))} đ',
-                                                      style:
+                                                        ),
+                                                        Text(
+                                                          '${Const.ConvertPrice.format(int.parse('${model[index].discountPrice}'))} đ',
+                                                          style:
                                                           StyleApp.textStyle700(
                                                               color: ColorApp
                                                                   .redText),
+                                                        )
+                                                      ],
                                                     )
                                                   ],
-                                                )
-                                              ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Positioned(
+                                          bottom: 0,
+                                          left: 0,
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                    bottomLeft: Radius.circular(12),
+                                                    topRight: Radius.circular(12)
+                                                ),
+                                                color: Colors.red),
+
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 5),
+                                              child: Text(
+                                                'Còn lại : ${model[index].amount}',
+                                                style: StyleApp.textStyle500(
+                                                    color: Colors.white,
+                                                    fontSize: 12),
+                                              ),
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+
+                                      ],
                                     ),
-                                    BlocListener(
-                                      bloc: blocCartLocal,
-                                      listener: (context, StateBloc state) {
-                                        if (state is LoadSuccess) {
-                                          CustomToast.showToast(
-                                              context: context,
-                                              msg:
-                                                  'Đã thêm vào giỏ hàng thành công',
-                                              duration: 1,
-                                              gravity: ToastGravity.BOTTOM);
-                                        }
-                                      },
-                                      child: InkWell(
-                                        onTap: () {
-                                          blocCartLocal.add(AddData(
-                                              modelSanPhamMain:
-                                                  ModelSanPhamMain(
-                                                      id: model[index].id,
-                                                      amount: 1,
-                                                      max: model[index]
-                                                          .amount)));
+                                    Positioned(
+
+                                      child: BlocListener(
+                                        bloc: blocCartLocal,
+                                        listener: (context, StateBloc state) {
+                                          if (state is LoadSuccess) {
+                                            CustomToast.showToast(
+                                                context: context,
+                                                msg:
+                                                'Đã thêm vào giỏ hàng thành công',
+                                                duration: 1,
+                                                gravity: ToastGravity.BOTTOM);
+                                          }
                                         },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(12),
-                                                bottomRight:
-                                                    Radius.circular(12),
+                                        child: InkWell(
+                                          onTap: () {
+                                            blocCartLocal.add(AddData(
+                                                modelSanPhamMain:
+                                                ModelSanPhamMain(
+                                                    id: model[index].id,
+                                                    amount: 1,
+                                                    max: model[index]
+                                                        .amount)));
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(12),
+                                                  bottomRight:
+                                                  Radius.circular(12),
+                                                ),
+                                                color: Colors.red),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(4.0),
+                                              child: Icon(
+                                                Icons.shopping_cart_outlined,
+                                                color: Colors.white,
+                                                size: 18,
                                               ),
-                                              color: Colors.red),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(4.0),
-                                            child: Icon(
-                                              Icons.shopping_cart_outlined,
-                                              color: Colors.white,
-                                              size: 18,
                                             ),
                                           ),
                                         ),

@@ -228,7 +228,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             height: 10,
                           ),
                           Text(
-                            modelProfile.profile!.name ?? '',
+                            modelProfile.profile!.name!.toUpperCase() ?? '',
                             style: StyleApp.textStyle600(fontSize: 16),
                           ),
                           const SizedBox(
@@ -246,7 +246,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   ),
                                   Text(
                                     modelProfile.profile!.code ?? '',
-                                    style: StyleApp.textStyle500(fontSize: 16),
+                                    style: StyleApp.textStyle700(fontSize: 16),
                                   ),
                                   const SizedBox(
                                     width: 5,
@@ -272,47 +272,47 @@ class _AccountScreenState extends State<AccountScreen> {
                             ],
                           ),
                           const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const SizedBox(),
-                              Row(
-                                children: [
-                                  Text(
-                                    'Cập nhật Sologan ',
-                                    style: StyleApp.textStyle500(fontSize: 16),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  InkWell(
-                                      onTap: () {},
-                                      child: const Icon(
-                                          (FontAwesomeIcons.penToSquare)))
-                                ],
-                              ),
-                              const SizedBox(),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const SizedBox(),
-                              Text(
-                                modelProfile.profile!.phone ?? '',
-                                style: StyleApp.textStyle500(fontSize: 16),
-                              ),
-                              const SizedBox(),
-                            ],
-                          ),
-                          const SizedBox(
                             height: 15,
                           ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     const SizedBox(),
+                          //     Row(
+                          //       children: [
+                          //         Text(
+                          //           'Cập nhật Sologan ',
+                          //           style: StyleApp.textStyle500(fontSize: 16),
+                          //         ),
+                          //         const SizedBox(
+                          //           width: 5,
+                          //         ),
+                          //         InkWell(
+                          //             onTap: () {},
+                          //             child: const Icon(
+                          //                 (FontAwesomeIcons.penToSquare)))
+                          //       ],
+                          //     ),
+                          //     const SizedBox(),
+                          //   ],
+                          // ),
+                          // const SizedBox(
+                          //   height: 10,
+                          // ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     const SizedBox(),
+                          //     Text(
+                          //       modelProfile.profile!.phone ?? '',
+                          //       style: StyleApp.textStyle500(fontSize: 16),
+                          //     ),
+                          //     const SizedBox(),
+                          //   ],
+                          // ),
+                          // const SizedBox(
+                          //   height: 15,
+                          // ),
                           Container(
                             width: double.infinity,
                             height: 70,
@@ -391,7 +391,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     children: [
                                       Text(
                                         'Người giới thiệu:',
-                                        style: StyleApp.textStyle500(),
+                                        style: StyleApp.textStyle700(),
                                       ),
                                       (modelProfile.profile!.beRefered!.length >
                                               0)
@@ -432,58 +432,6 @@ class _AccountScreenState extends State<AccountScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => QuanLyHTKD(
-                                            type:
-                                                '${modelProfile.profile!.type!.name}',
-                                          )));
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                  color: ColorApp.greyE6,
-                                  borderRadius: BorderRadius.circular(40)),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 2),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Icon(
-                                          Icons.info_outline_rounded,
-                                          color: Colors.black,
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          'Quản lý hệ thống kinh doanh',
-                                          style: StyleApp.textStyle700(
-                                              fontSize: 16),
-                                        ),
-                                      ],
-                                    ),
-                                    const FaIcon(
-                                        FontAwesomeIcons.longArrowRight)
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
                                       builder: (context) => WalletScreen()));
                             },
                             child: Container(
@@ -507,13 +455,13 @@ class _AccountScreenState extends State<AccountScreen> {
                                     ),
                                     Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Text(
                                           'Ví CS',
-                                          style: StyleApp.textStyle500(),
+                                          style: StyleApp.textStyle700(),
                                         ),
                                         Row(
                                           children: [
@@ -526,8 +474,8 @@ class _AccountScreenState extends State<AccountScreen> {
                                                 Text(
                                                   showMoney2
                                                       ? Const.formatPrice(
-                                                          modelProfile
-                                                              .profile!.balance)
+                                                      modelProfile
+                                                          .profile!.balance)
                                                       : '*******',
                                                   style: StyleApp.textStyle500(
                                                       fontSize: 14),
@@ -539,13 +487,13 @@ class _AccountScreenState extends State<AccountScreen> {
                                                     onTap: () {
                                                       setState(() {
                                                         showMoney2 =
-                                                            !showMoney2;
+                                                        !showMoney2;
                                                       });
                                                     },
                                                     child: Icon(
                                                       showMoney2
                                                           ? CupertinoIcons
-                                                              .eye_slash
+                                                          .eye_slash
                                                           : CupertinoIcons.eye,
                                                       size: 18,
                                                     ))
@@ -556,6 +504,59 @@ class _AccountScreenState extends State<AccountScreen> {
                                       ],
                                     ),
                                     const SizedBox()
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => QuanLyHTKD(
+                                        type:
+                                        '${modelProfile.profile!.type!.name}',
+                                      )));
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                  color: ColorApp.greyE6,
+                                  borderRadius: BorderRadius.circular(40)),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 2),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Icon(
+                                          Icons.info_outline_rounded,
+                                          color: Colors.black,
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          'Quản lý hệ thống kinh doanh',
+                                          style: StyleApp.textStyle700(
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const FaIcon(
+                                        FontAwesomeIcons.longArrowRight)
                                   ],
                                 ),
                               ),

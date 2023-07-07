@@ -5,13 +5,14 @@ class LoadMoreEvent extends EventBloc {
   int limit, page;
   bool cleanList, loadMore;
   String? sort;
-
+String title;
   LoadMoreEvent(
       {this.id = '',
       this.cleanList = false,
       this.limit = 0,
       this.page = 1,
       this.loadMore = false,
+        this.title='',
       this.sort});
 }
 

@@ -22,6 +22,7 @@ import '../../bloc/event_bloc.dart';
 import '../../bloc/news/bloc_listCateNews.dart';
 import '../../bloc/product/bloc_listCate.dart';
 import '../../bloc/product/bloc_listMostSale.dart';
+import '../../bloc/product/bloc_listPro.dart';
 import '../../bloc/product/bloc_listSuggest.dart';
 import '../../bloc/service/bloc_listServiceCate.dart';
 import '../../bloc/service/model_listServiceCate.dart';
@@ -29,6 +30,7 @@ import '../../bloc/state_bloc.dart';
 import '../../config/const.dart';
 import '../../config/path/share_pref_path.dart';
 import '../../model/model_listCate.dart';
+import '../../model/model_listPro.dart';
 import '../../start.dart';
 import '../../styles/init_style.dart';
 import '../../widget/item/custom_toast.dart';
@@ -59,8 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
   BlocListServiceCate blocListService = BlocListServiceCate()..add(GetData());
   BlocListBanner banner = BlocListBanner()..add(GetData());
   BlocListNewsCate blocListNewsCate = BlocListNewsCate()..add(GetData());
-
-
+  BlocListPro blocListPro0 = BlocListPro();
+  BlocListPro blocListPro1 = BlocListPro();
   List<IconData> listIcon = [
     FontAwesomeIcons.boxArchive,
     FontAwesomeIcons.screwdriverWrench,
@@ -88,14 +90,14 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.33,
                     width: double.infinity,
                     child: BlocBuilder(
                       builder: (_, StateBloc state) {
                         if (state is LoadSuccess) {
                           ModelListBanner model = state.data;
                           return ImageSlideshow(
-                            height: MediaQuery.of(context).size.height * 0.5,
+                            height: MediaQuery.of(context).size.height * 0.33,
                             width: double.infinity,
                             indicatorBackgroundColor: Colors.transparent,
                             indicatorColor: Colors.transparent,
@@ -322,7 +324,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ]),
-
             tab == 0
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -357,73 +358,167 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               }
                               if (state is LoadSuccess) {
-                                ModelListCate model = state.data;
-                                return GridView.builder(
-                                  padding: EdgeInsets.zero,
-                                  itemCount: model.categories!.length > 8
-                                      ? 8
-                                      : model.categories!.length,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 4,
-                                          crossAxisSpacing: 10.0,
-                                          mainAxisExtent:
-                                              Const.sizeHeight(context, 173)),
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ListProScreen(
-                                                      id: model
-                                                          .categories![index]
-                                                          .id!,
-                                                      title: model
-                                                          .categories![index]
-                                                          .name!,
-                                                    ))).then((value) => context
-                                            .read<BlocCartLocal>()
-                                            .add(GetCart()));
-                                      },
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.2,
-                                            child: LoadImage(
-                                              fit: BoxFit.fitWidth,
-                                              url: model.categories![index]
-                                                          .image !=
-                                                      null
-                                                  ? '${Const.image_host}${model.categories![index].image}'
-                                                  : '',
-                                            ),
+                                ModelListCate modelListCate = state.data;
+                                blocListPro0.add(LoadMoreEvent(
+                                    page: 1,
+                                    cleanList: true,
+                                    id: modelListCate.categories![0].id
+                                        .toString(),
+                                title:modelListCate.categories![0].name??'' ));
+                                blocListPro1.add(LoadMoreEvent(
+                                    page: 1,
+                                    cleanList: true,
+                                    id: modelListCate.categories![1].id
+                                        .toString(),
+                                    title:modelListCate.categories![1].name??'' ));
+                                return Container(
+                                  height: Const.sizeHeight(context, 115),
+                                  child: ListView.builder(
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ListProScreen(
+                                                          id: modelListCate
+                                                              .categories![
+                                                                  index]
+                                                              .id!,
+                                                          title: modelListCate
+                                                              .categories![
+                                                                  index]
+                                                              .name!,
+                                                        ))).then((value) =>
+                                                context
+                                                    .read<BlocCartLocal>()
+                                                    .add(GetCart()));
+                                          },
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.08,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.08,
+                                                child: LoadImage(
+                                                  fit: BoxFit.cover,
+                                                  url: modelListCate
+                                                              .categories![
+                                                                  index]
+                                                              .image !=
+                                                          null
+                                                      ? '${Const.image_host}${modelListCate.categories![index].image}'
+                                                      : '',
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10),
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.2,
+                                                  child: Text(
+                                                    modelListCate
+                                                            .categories![index]
+                                                            .name ??
+                                                        '',
+                                                    style:
+                                                        StyleApp.textStyle500(
+                                                            fontSize: 12),
+                                                    maxLines: 2,
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 10),
-                                            child: Text(
-                                              model.categories![index].name ??
-                                                  '',
-                                              style: StyleApp.textStyle500(
-                                                  fontSize: 13),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    );
-                                  },
+                                        ),
+                                      );
+                                    },
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: modelListCate.categories!.length,
+                                    shrinkWrap: true,
+                                  ),
                                 );
+                                // return GridView.builder(
+                                //   padding: EdgeInsets.zero,
+                                //   itemCount: modelListCate.categories!.length > 8
+                                //       ? 8
+                                //       : modelListCate.categories!.length,
+                                //   physics: const NeverScrollableScrollPhysics(),
+                                //   shrinkWrap: true,
+                                //   gridDelegate:
+                                //       SliverGridDelegateWithFixedCrossAxisCount(
+                                //           crossAxisCount: 4,
+                                //           crossAxisSpacing: 10.0,
+                                //           mainAxisExtent:
+                                //               Const.sizeHeight(context, 130)),
+                                //   itemBuilder:
+                                //       (BuildContext context, int index) {
+                                //     return InkWell(
+                                //       onTap: () {
+                                //         Navigator.push(
+                                //             context,
+                                //             MaterialPageRoute(
+                                //                 builder: (context) =>
+                                //                     ListProScreen(
+                                //                       id: modelListCate
+                                //                           .categories![index]
+                                //                           .id!,
+                                //                       title: modelListCate
+                                //                           .categories![index]
+                                //                           .name!,
+                                //                     ))).then((value) => context
+                                //             .read<BlocCartLocal>()
+                                //             .add(GetCart()));
+                                //       },
+                                //       child: Column(
+                                //         mainAxisSize: MainAxisSize.min,
+                                //         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                //         children: [
+                                //           Container(
+                                //             width: MediaQuery.of(context)
+                                //                     .size
+                                //                     .width *
+                                //                 0.1,
+                                //             child: LoadImage(
+                                //               fit: BoxFit.fitWidth,
+                                //               url: modelListCate.categories![index]
+                                //                           .image !=
+                                //                       null
+                                //                   ? '${Const.image_host}${modelListCate.categories![index].image}'
+                                //                   : '',
+                                //             ),
+                                //           ),
+                                //           Padding(
+                                //             padding: const EdgeInsets.symmetric(
+                                //                 vertical: 10),
+                                //             child: Text(
+                                //               modelListCate.categories![index].name ??
+                                //                   '',
+                                //               style: StyleApp.textStyle500(
+                                //                   fontSize: 13),
+                                //               textAlign: TextAlign.center,
+                                //             ),
+                                //           )
+                                //         ],
+                                //       ),
+                                //     );
+                                //   },
+                                // );
                               }
                               return Container();
                             }),
@@ -583,9 +678,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   )
                 : const SizedBox(),
-            tab==4? Padding(padding: EdgeInsets.all(8),child: Center(
-              child: Text('Chức năng đang phát triển vui lòng quay lại sau',style: StyleApp.textStyle500(),),
-            ),):SizedBox(),
+            tab == 4
+                ? Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Center(
+                      child: Text(
+                        'Chức năng đang phát triển vui lòng quay lại sau',
+                        style: StyleApp.textStyle500(),
+                      ),
+                    ),
+                  )
+                : SizedBox(),
             tab == 2
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -670,10 +773,13 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'Sản phẩm mua nhiều nhất',
-              style: StyleApp.textStyle700(
-                  color: ColorApp.darkGreen, fontSize: 18),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Sản Phẩm Mua Nhiều Nhất',
+                style: StyleApp.textStyle700(
+                    color: ColorApp.darkGreen, fontSize: 18),
+              ),
             ),
             const SizedBox(
               height: 10,
@@ -684,7 +790,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ModelListMostSale model = state.data;
                   return SizedBox(
                     height: model.mostSaleProduct!.length > 0
-                        ? MediaQuery.of(context).size.height * 0.34
+                        ? MediaQuery.of(context).size.height * 0.36
                         : 0,
                     child: ListView.builder(
                       itemBuilder: (context, index) {
@@ -708,186 +814,214 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Stack(
                               alignment: Alignment.bottomRight,
                               children: [
-                                Container(
-                                  height:
+                                Stack(
+                                  children: [
+                                    Container(
+                                      height:
                                       MediaQuery.of(context).size.height * 0.34,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.43,
-                                  decoration: BoxDecoration(
-                                      border:
+                                      width:
+                                      MediaQuery.of(context).size.width * 0.45,
+                                      decoration: BoxDecoration(
+                                          border:
                                           Border.all(color: ColorApp.grey4F),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  child: Column(
-                                    crossAxisAlignment:
+                                          borderRadius: BorderRadius.circular(12)),
+                                      child: Column(
+                                        crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: [
-                                      Stack(
-                                        alignment: Alignment.topRight,
                                         children: [
-                                          SizedBox(
-                                            height: MediaQuery.of(context)
+                                          Stack(
+                                            alignment: Alignment.topRight,
+                                            children: [
+                                              SizedBox(
+                                                height: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                0.24,
-                                            width: MediaQuery.of(context)
+                                                    0.24,
+                                                width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.43,
-                                            child: ClipRRect(
-                                              borderRadius:
+                                                    0.45,
+                                                child: ClipRRect(
+                                                  borderRadius:
                                                   const BorderRadius.only(
                                                       topLeft:
-                                                          Radius.circular(12),
+                                                      Radius.circular(12),
                                                       topRight:
-                                                          Radius.circular(12)),
-                                              child: LoadImage(
-                                                fit: BoxFit.fill,
-                                                url:
+                                                      Radius.circular(12)),
+                                                  child: LoadImage(
+                                                    fit: BoxFit.fill,
+                                                    url:
                                                     '${Const.image_host}${model.mostSaleProduct![index].thumbnail}',
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                          // CircleAvatar(
-                                          //   backgroundColor: Color(
-                                          //             0xffCD2027),
-                                          //   child: Text(
-                                          //     ' - ${model.mostSaleProduct![index].discount} ',
-                                          //     style: StyleApp
-                                          //         .textStyle500(
-                                          //         color: Colors
-                                          //             .white),
-                                          //   ),
-                                          // ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
+                                              // CircleAvatar(
+                                              //   backgroundColor: Color(
+                                              //             0xffCD2027),
+                                              //   child: Text(
+                                              //     ' - ${model.mostSaleProduct![index].discount} ',
+                                              //     style: StyleApp
+                                              //         .textStyle500(
+                                              //         color: Colors
+                                              //             .white),
+                                              //   ),
+                                              // ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
                                                     const BorderRadius.only(
                                                         topRight:
-                                                            Radius.circular(
-                                                                12)),
-                                                image: DecorationImage(
-                                                    scale: 0.2,
-                                                    image: ExactAssetImage(
-                                                        'assets/images/giam.png',
-                                                        scale: 0.2),
-                                                    fit: BoxFit.fill)),
-                                            child: Padding(
-                                              padding:
+                                                        Radius.circular(
+                                                            12)),
+                                                    image: DecorationImage(
+                                                        scale: 0.2,
+                                                        image: ExactAssetImage(
+                                                            'assets/images/giam.png',
+                                                            scale: 0.2),
+                                                        fit: BoxFit.fill)),
+                                                child: Padding(
+                                                  padding:
                                                   const EdgeInsets.symmetric(
                                                       vertical: 4),
-                                              child: Column(
-                                                children: [
-                                                  Text(
-                                                    ' - ${model.mostSaleProduct![index].discount} ',
-                                                    style:
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                        ' - ${model.mostSaleProduct![index].discount} ',
+                                                        style:
                                                         StyleApp.textStyle700(
                                                             color: ColorApp
                                                                 .redText),
-                                                  ),
-                                                  Text(
-                                                    'GIẢM',
-                                                    style:
+                                                      ),
+                                                      Text(
+                                                        'GIẢM',
+                                                        style:
                                                         StyleApp.textStyle700(
                                                             color:
-                                                                Colors.white),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 4),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            // Text(
-                                            //   model
-                                            //           .mostSaleProduct![
-                                            //               index]
-                                            //           .code ??
-                                            //       '',
-                                            //   style: StyleApp
-                                            //       .textStyle600(),
-                                            // ),
-                                            Text(
-                                              model.mostSaleProduct![index]
-                                                      .name ??
-                                                  '',
-                                              maxLines: 1,
-                                              textAlign: TextAlign.center,
-                                              style: StyleApp.textStyle500(),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Text(
-                                                  '${Const.convertPrice('${'${model.mostSaleProduct![index].price}'}')} đ',
-                                                  style: StyleApp.textStyle500(
-                                                      decoration: TextDecoration
-                                                          .lineThrough),
+                                                            Colors.white),
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
+                                              )
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8, vertical: 4),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                // Text(
+                                                //   model
+                                                //           .mostSaleProduct![
+                                                //               index]
+                                                //           .code ??
+                                                //       '',
+                                                //   style: StyleApp
+                                                //       .textStyle600(),
+                                                // ),
                                                 Text(
-                                                  '${Const.ConvertPrice.format(int.parse('${model.mostSaleProduct![index].discountPrice}'))} đ',
-                                                  style: StyleApp.textStyle700(
-                                                      color: ColorApp.redText),
+                                                  model.mostSaleProduct![index]
+                                                      .name ??
+                                                      '',
+                                                  maxLines: 1,
+                                                  textAlign: TextAlign.center,
+                                                  style: StyleApp.textStyle500(),
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                                  children: [
+                                                    Text(
+                                                      '${Const.convertPrice('${'${model.mostSaleProduct![index].price}'}')} đ',
+                                                      style: StyleApp.textStyle500(
+                                                          decoration: TextDecoration
+                                                              .lineThrough),
+                                                    ),
+                                                    Text(
+                                                      '${Const.ConvertPrice.format(int.parse('${model.mostSaleProduct![index].discountPrice}'))} đ',
+                                                      style: StyleApp.textStyle700(
+                                                          color: ColorApp.redText),
+                                                    )
+                                                  ],
                                                 )
                                               ],
-                                            )
-                                          ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(12),
+                                                topRight: Radius.circular(12)),
+                                            color: Colors.red),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 3, horizontal: 5),
+                                          child: Text(
+                                            'Còn lại : ${model.mostSaleProduct![index].amount}',
+                                            style: StyleApp.textStyle500(
+                                                color: Colors.white, fontSize: 12),
+                                          ),
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+
+                                  ],
                                 ),
-                                BlocListener(
-                                  bloc: blocCartLocal,
-                                  listener: (context, StateBloc state) {
-                                    if (state is LoadSuccess) {
-                                      context
-                                          .read<BlocCartLocal>()
-                                          .add(GetCart());
-                                      CustomToast.showToast(
-                                          context: context,
-                                          msg:
-                                              'Đã thêm vào giỏ hàng thành công',
-                                          duration: 1,
-                                          gravity: ToastGravity.BOTTOM);
-                                    }
-                                  },
-                                  child: InkWell(
-                                    onTap: () {
-                                      blocCartLocal.add(AddData(
-                                          modelSanPhamMain: ModelSanPhamMain(
-                                              id: model
-                                                  .mostSaleProduct![index].id,
-                                              amount: 1,
-                                              max: model.mostSaleProduct![index]
-                                                  .amount)));
+                                Positioned(
+                                  child: BlocListener(
+                                    bloc: blocCartLocal,
+                                    listener: (context, StateBloc state) {
+                                      if (state is LoadSuccess) {
+                                        context
+                                            .read<BlocCartLocal>()
+                                            .add(GetCart());
+                                        CustomToast.showToast(
+                                            context: context,
+                                            msg:
+                                            'Đã thêm vào giỏ hàng thành công',
+                                            duration: 1,
+                                            gravity: ToastGravity.BOTTOM);
+                                      }
                                     },
-                                    child: Container(
-                                      decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(12),
-                                            bottomRight: Radius.circular(12),
+                                    child: InkWell(
+                                      onTap: () {
+                                        blocCartLocal.add(AddData(
+                                            modelSanPhamMain: ModelSanPhamMain(
+                                                id: model
+                                                    .mostSaleProduct![index].id,
+                                                amount: 1,
+                                                max: model
+                                                    .mostSaleProduct![index]
+                                                    .amount)));
+                                      },
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(12),
+                                              bottomRight: Radius.circular(12),
+                                            ),
+                                            color: Colors.red),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(4.0),
+                                          child: Icon(
+                                            Icons.shopping_cart_outlined,
+                                            color: Colors.white,
+                                            size: 18,
                                           ),
-                                          color: Colors.red),
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(4.0),
-                                        child: Icon(
-                                          Icons.shopping_cart_outlined,
-                                          color: Colors.white,
-                                          size: 18,
                                         ),
                                       ),
                                     ),
@@ -912,10 +1046,13 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 20,
             ),
-            Text(
-              'Sản phẩm E - commerce đề xuất',
-              style: StyleApp.textStyle700(
-                  color: ColorApp.darkGreen, fontSize: 18),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Sản Phẩm E - Commerce Đề Xuất',
+                style: StyleApp.textStyle700(
+                    color: ColorApp.darkGreen, fontSize: 18),
+              ),
             ),
             const SizedBox(
               height: 10,
@@ -950,167 +1087,195 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: Stack(
+                          child:Stack(
                             alignment: Alignment.bottomRight,
                             children: [
-                              Container(
-                                height:
+                              Stack(
+                                children: [
+                                  Container(
+                                    height:
                                     MediaQuery.of(context).size.height * 0.34,
-                                width: MediaQuery.of(context).size.width * 0.43,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: ColorApp.grey4F),
-                                    borderRadius: BorderRadius.circular(12)),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Stack(
-                                      alignment: Alignment.topRight,
+                                    width: MediaQuery.of(context).size.width * 0.45,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: ColorApp.grey4F),
+                                        borderRadius: BorderRadius.circular(12)),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        SizedBox(
-                                          height: MediaQuery.of(context)
+                                        Stack(
+                                          alignment: Alignment.topRight,
+                                          children: [
+                                            SizedBox(
+                                              height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.24,
-                                          width: MediaQuery.of(context)
+                                                  0.24,
+                                              width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.43,
-                                          child: ClipRRect(
-                                            borderRadius:
+                                                  0.45,
+                                              child: ClipRRect(
+                                                borderRadius:
                                                 const BorderRadius.only(
                                                     topLeft:
-                                                        Radius.circular(12),
+                                                    Radius.circular(12),
                                                     topRight:
-                                                        Radius.circular(12)),
-                                            child: LoadImage(
-                                              fit: BoxFit.fill,
-                                              url:
+                                                    Radius.circular(12)),
+                                                child: LoadImage(
+                                                  fit: BoxFit.cover,
+                                                  url:
                                                   '${Const.image_host}${model.productSugges![index].thumbnail}',
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
                                                   const BorderRadius.only(
                                                       topRight:
-                                                          Radius.circular(12)),
-                                              image: DecorationImage(
-                                                  scale: 0.2,
-                                                  image: ExactAssetImage(
-                                                      'assets/images/giam.png',
-                                                      scale: 0.2),
-                                                  fit: BoxFit.fill)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 4),
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  ' - ${model.productSugges![index].discount} ',
-                                                  style: StyleApp.textStyle700(
-                                                      color: ColorApp.redText),
+                                                      Radius.circular(12)),
+                                                  image: DecorationImage(
+                                                      scale: 0.2,
+                                                      image: ExactAssetImage(
+                                                          'assets/images/giam.png',
+                                                          scale: 0.2),
+                                                      fit: BoxFit.fill)),
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(
+                                                    vertical: 4),
+                                                child: Column(
+                                                  children: [
+                                                    Text(
+                                                      ' - ${model.productSugges![index].discount} ',
+                                                      style: StyleApp.textStyle700(
+                                                          color: ColorApp.redText),
+                                                    ),
+                                                    Text(
+                                                      'GIẢM',
+                                                      style: StyleApp.textStyle700(
+                                                          color: Colors.white),
+                                                    )
+                                                  ],
                                                 ),
-                                                Text(
-                                                  'GIẢM',
-                                                  style: StyleApp.textStyle700(
-                                                      color: Colors.white),
-                                                )
-                                              ],
-                                            ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 4),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              // Text(
+                                              //   model
+                                              //           .productSugges![
+                                              //               index]
+                                              //           .code ??
+                                              //       '',
+                                              //   style: StyleApp
+                                              //       .textStyle600(),
+                                              // ),
+
+                                              Text(
+                                                model.productSugges![index].name ??
+                                                    '',
+                                                textAlign: TextAlign.center,
+                                                maxLines: 1,
+                                                style: StyleApp.textStyle500(),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+
+                                              Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                                children: [
+                                                  Text(
+                                                    '${Const.ConvertPrice.format(int.parse('${model.productSugges![index].price}'))} đ',
+                                                    style: StyleApp.textStyle500(
+                                                        decoration: TextDecoration
+                                                            .lineThrough),
+                                                  ),
+                                                  Text(
+                                                    '${Const.ConvertPrice.format(int.parse('${model.productSugges![index].discountPrice}'))} đ',
+                                                    style: StyleApp.textStyle700(
+                                                        color: ColorApp.redText),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8, vertical: 4),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          // Text(
-                                          //   model
-                                          //           .productSugges![
-                                          //               index]
-                                          //           .code ??
-                                          //       '',
-                                          //   style: StyleApp
-                                          //       .textStyle600(),
-                                          // ),
-
-                                          Text(
-                                            model.productSugges![index].name ??
-                                                '',
-                                            textAlign: TextAlign.center,
-                                            maxLines: 1,
-                                            style: StyleApp.textStyle500(),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Text(
-                                                '${Const.ConvertPrice.format(int.parse('${model.productSugges![index].price}'))} đ',
-                                                style: StyleApp.textStyle500(
-                                                    decoration: TextDecoration
-                                                        .lineThrough),
-                                              ),
-                                              Text(
-                                                '${Const.ConvertPrice.format(int.parse('${model.productSugges![index].discountPrice}'))} đ',
-                                                style: StyleApp.textStyle700(
-                                                    color: ColorApp.redText),
-                                              )
-                                            ],
-                                          )
-                                        ],
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    left: 0,
+                                    child: Container(
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(12),
+                                              topRight: Radius.circular(12)),
+                                          color: Colors.red),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 3, horizontal: 5),
+                                        child: Text(
+                                          'Còn lại : ${model.productSugges![index].amount}',
+                                          style: StyleApp.textStyle500(
+                                              color: Colors.white, fontSize: 12),
+                                        ),
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+
+                                ],
                               ),
-                              BlocListener(
-                                bloc: blocCartLocal,
-                                listener: (context, StateBloc state) {
-                                  if (state is LoadSuccess) {
-                                    context
-                                        .read<BlocCartLocal>()
-                                        .add(GetCart());
-                                    CustomToast.showToast(
-                                        context: context,
-                                        msg: 'Đã thêm vào giỏ hàng thành công',
-                                        duration: 1,
-                                        gravity: ToastGravity.BOTTOM);
-                                  }
-                                },
-                                child: InkWell(
-                                  onTap: () {
-                                    blocCartLocal.add(AddData(
-                                        modelSanPhamMain: ModelSanPhamMain(
-                                            id: model.productSugges![index].id,
-                                            amount: 1,
-                                            max: model.productSugges![index]
-                                                .amount)));
+                              Positioned(
+
+                                child: BlocListener(
+                                  bloc: blocCartLocal,
+                                  listener: (context, StateBloc state) {
+                                    if (state is LoadSuccess) {
+                                      context
+                                          .read<BlocCartLocal>()
+                                          .add(GetCart());
+                                      CustomToast.showToast(
+                                          context: context,
+                                          msg:
+                                          'Đã thêm vào giỏ hàng thành công',
+                                          duration: 1,
+                                          gravity: ToastGravity.BOTTOM);
+                                    }
                                   },
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(12),
-                                          bottomRight: Radius.circular(12),
+                                  child: InkWell(
+                                    onTap: () {
+                                      blocCartLocal.add(AddData(
+                                          modelSanPhamMain: ModelSanPhamMain(
+                                              id: model
+                                                  .productSugges![index].id,
+                                              amount: 1,
+                                              max: model.productSugges![index]
+                                                  .amount)));
+                                    },
+                                    child: Container(
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(12),
+                                            bottomRight: Radius.circular(12),
+                                          ),
+                                          color: Colors.red),
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(4.0),
+                                        child: Icon(
+                                          Icons.shopping_cart_outlined,
+                                          color: Colors.white,
+                                          size: 18,
                                         ),
-                                        color: Colors.red),
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(4.0),
-                                      child: Icon(
-                                        Icons.shopping_cart_outlined,
-                                        color: Colors.white,
-                                        size: 18,
                                       ),
                                     ),
                                   ),
@@ -1130,6 +1295,556 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               bloc: blocListSuggest,
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            BlocBuilder(builder: (_,StateBloc state){
+              if(state is LoadSuccess){
+                List<Prod> model = state.data;
+                String title=state.data2;
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        title,
+                        style: StyleApp.textStyle700(
+                            color: ColorApp.darkGreen, fontSize: 18),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      height: model.length > 0
+                          ? MediaQuery.of(context).size.height * 0.36
+                          : 0,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          BlocCartLocal blocCartLocal = BlocCartLocal();
+                          return InkWell(
+                            onTap: () {
+                              context.read<BlocCartLocal>().add(GetCart());
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => InfoProdScreen(
+                                        id: model[index].id
+                                            .toString(),
+                                        cateID: state.data3,
+                                      )));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              child: Stack(
+                                alignment: Alignment.bottomRight,
+                                children: [
+                                  Stack(
+                                    children: [
+                                      Container(
+                                        height:
+                                        MediaQuery.of(context).size.height * 0.34,
+                                        width:
+                                        MediaQuery.of(context).size.width * 0.47,
+                                        decoration: BoxDecoration(
+                                            border:
+                                            Border.all(color: ColorApp.grey4F),
+                                            borderRadius: BorderRadius.circular(12)),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Stack(
+                                              alignment: Alignment.topRight,
+                                              children: [
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                      0.24,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.47,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                    const BorderRadius.only(
+                                                        topLeft:
+                                                        Radius.circular(12),
+                                                        topRight:
+                                                        Radius.circular(12)),
+                                                    child: LoadImage(
+                                                      fit: BoxFit.fill,
+                                                      url:
+                                                      '${Const.image_host}${model[index].thumbnail}',
+                                                    ),
+                                                  ),
+                                                ),
+                                                // CircleAvatar(
+                                                //   backgroundColor: Color(
+                                                //             0xffCD2027),
+                                                //   child: Text(
+                                                //     ' - ${model.mostSaleProduct![index].discount} ',
+                                                //     style: StyleApp
+                                                //         .textStyle500(
+                                                //         color: Colors
+                                                //             .white),
+                                                //   ),
+                                                // ),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                      const BorderRadius.only(
+                                                          topRight:
+                                                          Radius.circular(
+                                                              12)),
+                                                      image: DecorationImage(
+                                                          scale: 0.2,
+                                                          image: ExactAssetImage(
+                                                              'assets/images/giam.png',
+                                                              scale: 0.2),
+                                                          fit: BoxFit.fill)),
+                                                  child: Padding(
+                                                    padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 4),
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                          ' - ${model[index].discount} ',
+                                                          style:
+                                                          StyleApp.textStyle700(
+                                                              color: ColorApp
+                                                                  .redText),
+                                                        ),
+                                                        Text(
+                                                          'GIẢM',
+                                                          style:
+                                                          StyleApp.textStyle700(
+                                                              color:
+                                                              Colors.white),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 8, vertical: 4),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  // Text(
+                                                  //   model
+                                                  //           .mostSaleProduct![
+                                                  //               index]
+                                                  //           .code ??
+                                                  //       '',
+                                                  //   style: StyleApp
+                                                  //       .textStyle600(),
+                                                  // ),
+                                                  Text(
+                                                    model[index]
+                                                        .name ??
+                                                        '',
+                                                    maxLines: 1,
+                                                    textAlign: TextAlign.center,
+                                                    style: StyleApp.textStyle500(),
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.spaceEvenly,
+                                                    children: [
+                                                      Text(
+                                                        '${Const.convertPrice('${'${model[index].price}'}')} đ',
+                                                        style: StyleApp.textStyle500(
+                                                            decoration: TextDecoration
+                                                                .lineThrough),
+                                                      ),
+                                                      Text(
+                                                        '${Const.ConvertPrice.format(int.parse('${model[index].discountPrice}'))} đ',
+                                                        style: StyleApp.textStyle700(
+                                                            color: ColorApp.redText),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 0,
+                                        left: 0,
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  bottomLeft: Radius.circular(12),
+                                                  topRight: Radius.circular(12)),
+                                              color: Colors.red),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 3, horizontal: 5),
+                                            child: Text(
+                                              'Còn lại : ${model[index].amount}',
+                                              style: StyleApp.textStyle500(
+                                                  color: Colors.white, fontSize: 12),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+
+                                    ],
+                                  ),
+                                  Positioned(
+
+                                    child: BlocListener(
+                                      bloc: blocCartLocal,
+                                      listener: (context, StateBloc state) {
+                                        if (state is LoadSuccess) {
+                                          context
+                                              .read<BlocCartLocal>()
+                                              .add(GetCart());
+                                          CustomToast.showToast(
+                                              context: context,
+                                              msg:
+                                              'Đã thêm vào giỏ hàng thành công',
+                                              duration: 1,
+                                              gravity: ToastGravity.BOTTOM);
+                                        }
+                                      },
+                                      child: InkWell(
+                                        onTap: () {
+                                          blocCartLocal.add(AddData(
+                                              modelSanPhamMain: ModelSanPhamMain(
+                                                  id: model
+                                                  [index].id,
+                                                  amount: 1,
+                                                  max: model
+                                                  [index]
+                                                      .amount)));
+                                        },
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(12),
+                                                bottomRight: Radius.circular(12),
+                                              ),
+                                              color: Colors.red),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(4.0),
+                                            child: Icon(
+                                              Icons.shopping_cart_outlined,
+                                              color: Colors.white,
+                                              size: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                        scrollDirection: Axis.horizontal,
+                        itemCount: model.length,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return SizedBox();
+            },bloc: blocListPro0,),
+            const SizedBox(
+              height: 10,
+            ),
+            BlocBuilder(builder: (_,StateBloc state){
+              if(state is LoadSuccess){
+                List<Prod> model = state.data;
+                String title=state.data2;
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        title,
+                        style: StyleApp.textStyle700(
+                            color: ColorApp.darkGreen, fontSize: 18),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      height: model.length > 0
+                          ? MediaQuery.of(context).size.height * 0.36
+                          : 0,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          BlocCartLocal blocCartLocal = BlocCartLocal();
+                          return InkWell(
+                            onTap: () {
+                              context.read<BlocCartLocal>().add(GetCart());
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => InfoProdScreen(
+                                        id: model[index].id
+                                            .toString(),
+                                        cateID: state.data3,
+                                      )));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              child: Stack(
+                                alignment: Alignment.bottomRight,
+                                children: [
+                                  Stack(
+                                    children: [
+                                      Container(
+                                        height:
+                                        MediaQuery.of(context).size.height * 0.34,
+                                        width:
+                                        MediaQuery.of(context).size.width * 0.47,
+                                        decoration: BoxDecoration(
+                                            border:
+                                            Border.all(color: ColorApp.grey4F),
+                                            borderRadius: BorderRadius.circular(12)),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Stack(
+                                              alignment: Alignment.topRight,
+                                              children: [
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                      0.24,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.47,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                    const BorderRadius.only(
+                                                        topLeft:
+                                                        Radius.circular(12),
+                                                        topRight:
+                                                        Radius.circular(12)),
+                                                    child: LoadImage(
+                                                      fit: BoxFit.fill,
+                                                      url:
+                                                      '${Const.image_host}${model[index].thumbnail}',
+                                                    ),
+                                                  ),
+                                                ),
+                                                // CircleAvatar(
+                                                //   backgroundColor: Color(
+                                                //             0xffCD2027),
+                                                //   child: Text(
+                                                //     ' - ${model.mostSaleProduct![index].discount} ',
+                                                //     style: StyleApp
+                                                //         .textStyle500(
+                                                //         color: Colors
+                                                //             .white),
+                                                //   ),
+                                                // ),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                      const BorderRadius.only(
+                                                          topRight:
+                                                          Radius.circular(
+                                                              12)),
+                                                      image: DecorationImage(
+                                                          scale: 0.2,
+                                                          image: ExactAssetImage(
+                                                              'assets/images/giam.png',
+                                                              scale: 0.2),
+                                                          fit: BoxFit.fill)),
+                                                  child: Padding(
+                                                    padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 4),
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                          ' - ${model[index].discount} ',
+                                                          style:
+                                                          StyleApp.textStyle700(
+                                                              color: ColorApp
+                                                                  .redText),
+                                                        ),
+                                                        Text(
+                                                          'GIẢM',
+                                                          style:
+                                                          StyleApp.textStyle700(
+                                                              color:
+                                                              Colors.white),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 8, vertical: 4),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  // Text(
+                                                  //   model
+                                                  //           .mostSaleProduct![
+                                                  //               index]
+                                                  //           .code ??
+                                                  //       '',
+                                                  //   style: StyleApp
+                                                  //       .textStyle600(),
+                                                  // ),
+                                                  Text(
+                                                    model[index]
+                                                        .name ??
+                                                        '',
+                                                    maxLines: 1,
+                                                    textAlign: TextAlign.center,
+                                                    style: StyleApp.textStyle500(),
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.spaceEvenly,
+                                                    children: [
+                                                      Text(
+                                                        '${Const.convertPrice('${'${model[index].price}'}')} đ',
+                                                        style: StyleApp.textStyle500(
+                                                            decoration: TextDecoration
+                                                                .lineThrough),
+                                                      ),
+                                                      Text(
+                                                        '${Const.ConvertPrice.format(int.parse('${model[index].discountPrice}'))} đ',
+                                                        style: StyleApp.textStyle700(
+                                                            color: ColorApp.redText),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 0,
+                                        left: 0,
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  bottomLeft: Radius.circular(12),
+                                                  topRight: Radius.circular(12)),
+                                              color: Colors.red),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 3, horizontal: 5),
+                                            child: Text(
+                                              'Còn lại : ${model[index].amount}',
+                                              style: StyleApp.textStyle500(
+                                                  color: Colors.white, fontSize: 12),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+
+                                    ],
+                                  ),
+                                  Positioned(
+
+                                    child: BlocListener(
+                                      bloc: blocCartLocal,
+                                      listener: (context, StateBloc state) {
+                                        if (state is LoadSuccess) {
+                                          context
+                                              .read<BlocCartLocal>()
+                                              .add(GetCart());
+                                          CustomToast.showToast(
+                                              context: context,
+                                              msg:
+                                              'Đã thêm vào giỏ hàng thành công',
+                                              duration: 1,
+                                              gravity: ToastGravity.BOTTOM);
+                                        }
+                                      },
+                                      child: InkWell(
+                                        onTap: () {
+                                          blocCartLocal.add(AddData(
+                                              modelSanPhamMain: ModelSanPhamMain(
+                                                  id: model
+                                                  [index].id,
+                                                  amount: 1,
+                                                  max: model
+                                                  [index]
+                                                      .amount)));
+                                        },
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(12),
+                                                bottomRight: Radius.circular(12),
+                                              ),
+                                              color: Colors.red),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(4.0),
+                                            child: Icon(
+                                              Icons.shopping_cart_outlined,
+                                              color: Colors.white,
+                                              size: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                        scrollDirection: Axis.horizontal,
+                        itemCount: model.length,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return SizedBox();
+            },bloc: blocListPro1,),
             const SizedBox(
               height: 10,
             ),

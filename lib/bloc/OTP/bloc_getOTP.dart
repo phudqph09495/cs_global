@@ -17,7 +17,7 @@ class BlocGetOTP extends Bloc<EventBloc, StateBloc> {
       yield Loading();
       try {
         var res = await Api.getAsync(
-            endPoint: ApiPath.getOTP + event.phone + '&type=' + event.type,
+            endPoint: ApiPath.getOTP + event.phone.replaceAll(' ', '') + '&type=' + event.type,
             isToken: false);
 
         // yield LoadSuccess(
