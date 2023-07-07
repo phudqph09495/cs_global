@@ -136,7 +136,7 @@ class _ListProScreenState extends State<ListProScreen> {
                                       height:
                                       MediaQuery.of(context).size.height * 0.34,
                                       width:
-                                      MediaQuery.of(context).size.width * 0.45,
+                                      MediaQuery.of(context).size.width * 0.47,
                                       decoration: BoxDecoration(
                                           border: Border.all(
                                               color: ColorApp.grey4F
@@ -159,7 +159,7 @@ class _ListProScreenState extends State<ListProScreen> {
                                                     context)
                                                     .size
                                                     .width *
-                                                    0.45,
+                                                    0.47,
                                                 child: ClipRRect(
                                                   borderRadius:
                                                   const BorderRadius
@@ -214,7 +214,7 @@ class _ListProScreenState extends State<ListProScreen> {
                                           Padding(
                                             padding: const EdgeInsets
                                                 .symmetric(
-                                                horizontal: 8,
+                                                horizontal: 6,
                                                 vertical: 4),
                                             child: Column(
                                               crossAxisAlignment:
@@ -247,9 +247,7 @@ class _ListProScreenState extends State<ListProScreen> {
                                                   overflow: TextOverflow
                                                       .ellipsis,
                                                 ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
+
                                                 Row(
                                                   mainAxisAlignment:
                                                   MainAxisAlignment

@@ -604,71 +604,140 @@ class _HomeScreenState extends State<HomeScreen> {
                           builder: (_, StateBloc state) {
                             if (state is LoadSuccess) {
                               ModelListServiceCate model = state.data;
-                              return GridView.builder(
-                                padding: EdgeInsets.zero,
-                                itemCount: model.serviceCate!.length,
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 4,
-                                        mainAxisSpacing: 10,
-                                        crossAxisSpacing: 10.0,
-                                        mainAxisExtent: 160),
-                                itemBuilder: (BuildContext context, int index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ListSerScreen(
-                                                    initIndex: index,
-                                                    id: model
-                                                        .serviceCate![index].id
-                                                        .toString(),
-                                                  )));
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //             ListNewsScreen(
-                                      //               initIndex: index,
-                                      //               id: model
-                                      //                   .serviceCate![index].id
-                                      //                   .toString(),
-                                      //             )));
-                                    },
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
-                                          height: 100,
-                                          child: LoadImage(
-                                            url:
-                                                '${Const.image_host}${model.serviceCate![index].image}',
-                                            fit: BoxFit.fitWidth,
+                              return Container(
+                                height: Const.sizeHeight(context, 130),
+                                child: ListView.builder(itemBuilder: (context,index){
+                                      return Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ListSerScreen(
+                                                          initIndex: index,
+                                                          id: model
+                                                              .serviceCate![index].id
+                                                              .toString(),
+                                                        )));
+                                            // Navigator.push(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //         builder: (context) =>
+                                            //             ListNewsScreen(
+                                            //               initIndex: index,
+                                            //               id: model
+                                            //                   .serviceCate![index].id
+                                            //                   .toString(),
+                                            //             )));
+                                          },
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                    0.12,
+                                                height: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                    0.12,
+                                                child: LoadImage(
+                                                  url:
+                                                      '${Const.image_host}${model.serviceCate![index].image}',
+                                                  fit: BoxFit.fitWidth,
+                                                ),
+                                              ),
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                    0.2,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.symmetric(
+                                                      vertical: 10),
+                                                  child: Text(
+                                                    model.serviceCate![index].name ??
+                                                        '',
+                                                    maxLines: 2,
+                                                    style: StyleApp.textStyle500(),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text(
-                                            model.serviceCate![index].name ??
-                                                '',
-                                            style: StyleApp.textStyle500(),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                },
+                                      );
+                                },scrollDirection: Axis.horizontal,shrinkWrap: true,itemCount:model.serviceCate!.length ,),
                               );
+                              // return GridView.builder(
+                              //   padding: EdgeInsets.zero,
+                              //   itemCount: model.serviceCate!.length,
+                              //   physics: const NeverScrollableScrollPhysics(),
+                              //   shrinkWrap: true,
+                              //   gridDelegate:
+                              //       const SliverGridDelegateWithFixedCrossAxisCount(
+                              //           crossAxisCount: 4,
+                              //           mainAxisSpacing: 10,
+                              //           crossAxisSpacing: 10.0,
+                              //           mainAxisExtent: 160),
+                              //   itemBuilder: (BuildContext context, int index) {
+                              //     return InkWell(
+                              //       onTap: () {
+                              //         Navigator.push(
+                              //             context,
+                              //             MaterialPageRoute(
+                              //                 builder: (context) =>
+                              //                     ListSerScreen(
+                              //                       initIndex: index,
+                              //                       id: model
+                              //                           .serviceCate![index].id
+                              //                           .toString(),
+                              //                     )));
+                              //         // Navigator.push(
+                              //         //     context,
+                              //         //     MaterialPageRoute(
+                              //         //         builder: (context) =>
+                              //         //             ListNewsScreen(
+                              //         //               initIndex: index,
+                              //         //               id: model
+                              //         //                   .serviceCate![index].id
+                              //         //                   .toString(),
+                              //         //             )));
+                              //       },
+                              //       child: Column(
+                              //         mainAxisSize: MainAxisSize.min,
+                              //         children: [
+                              //           SizedBox(
+                              //             width: MediaQuery.of(context)
+                              //                     .size
+                              //                     .width *
+                              //                 0.2,
+                              //             height: 100,
+                              //             child: LoadImage(
+                              //               url:
+                              //                   '${Const.image_host}${model.serviceCate![index].image}',
+                              //               fit: BoxFit.fitWidth,
+                              //             ),
+                              //           ),
+                              //           Padding(
+                              //             padding: const EdgeInsets.symmetric(
+                              //                 vertical: 10),
+                              //             child: Text(
+                              //               model.serviceCate![index].name ??
+                              //                   '',
+                              //               style: StyleApp.textStyle500(),
+                              //               textAlign: TextAlign.center,
+                              //             ),
+                              //           )
+                              //         ],
+                              //       ),
+                              //     );
+                              //   },
+                              // );
                             }
                             return SizedBox();
                           },
@@ -710,57 +779,108 @@ class _HomeScreenState extends State<HomeScreen> {
                           builder: (_, StateBloc state) {
                             if (state is LoadSuccess) {
                               ModelListNewCate model = state.data;
-                              return GridView.builder(
-                                padding: EdgeInsets.zero,
-                                itemCount: model.newsCate!.length,
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 4,
-                                        mainAxisSpacing: 10,
-                                        crossAxisSpacing: 10.0,
-                                        mainAxisExtent: 160),
-                                itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                height: Const.sizeHeight(context, 130),
+                                child: ListView.builder(itemBuilder: (context,index){
                                   return InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ListNewsScreen(
-                                                    initIndex: index,
-                                                    id: model
-                                                        .newsCate![index].id
-                                                        .toString(),
-                                                  )));
-                                    },
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
-                                          height: 100,
-                                          child: Image.asset(
-                                              'assets/images/htland${index}.png'),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text(
-                                            model.newsCate![index].name ?? '',
-                                            style: StyleApp.textStyle500(),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                },
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ListNewsScreen(
+                                                            initIndex: index,
+                                                            id: model
+                                                                .newsCate![index].id
+                                                                .toString(),
+                                                          )));
+                                            },
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.12,
+                                                  height: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.12,
+                                                  child: Image.asset(
+                                                      'assets/images/htland${index}.png'),
+                                                ),
+                                                Container(
+                                                 width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.21,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.symmetric(
+                                                        vertical: 10),
+                                                    child: Text(
+                                                      model.newsCate![index].name ?? '',
+                                                      style: StyleApp.textStyle500(),
+                                                      textAlign: TextAlign.center,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          );
+                                },scrollDirection: Axis.horizontal,shrinkWrap: true,itemCount:model.newsCate!.length ,),
                               );
+                              // return GridView.builder(
+                              //   padding: EdgeInsets.zero,
+                              //   itemCount: model.newsCate!.length,
+                              //   physics: const NeverScrollableScrollPhysics(),
+                              //   shrinkWrap: true,
+                              //   gridDelegate:
+                              //       const SliverGridDelegateWithFixedCrossAxisCount(
+                              //           crossAxisCount: 4,
+                              //           mainAxisSpacing: 10,
+                              //           crossAxisSpacing: 10.0,
+                              //           mainAxisExtent: 160),
+                              //   itemBuilder: (BuildContext context, int index) {
+                              //     return InkWell(
+                              //       onTap: () {
+                              //         Navigator.push(
+                              //             context,
+                              //             MaterialPageRoute(
+                              //                 builder: (context) =>
+                              //                     ListNewsScreen(
+                              //                       initIndex: index,
+                              //                       id: model
+                              //                           .newsCate![index].id
+                              //                           .toString(),
+                              //                     )));
+                              //       },
+                              //       child: Column(
+                              //         mainAxisSize: MainAxisSize.min,
+                              //         children: [
+                              //           SizedBox(
+                              //             width: MediaQuery.of(context)
+                              //                     .size
+                              //                     .width *
+                              //                 0.2,
+                              //             height: 100,
+                              //             child: Image.asset(
+                              //                 'assets/images/htland${index}.png'),
+                              //           ),
+                              //           Padding(
+                              //             padding: const EdgeInsets.symmetric(
+                              //                 vertical: 10),
+                              //             child: Text(
+                              //               model.newsCate![index].name ?? '',
+                              //               style: StyleApp.textStyle500(),
+                              //               textAlign: TextAlign.center,
+                              //             ),
+                              //           )
+                              //         ],
+                              //       ),
+                              //     );
+                              //   },
+                              // );
                             }
                             return SizedBox();
                           },
@@ -1318,7 +1438,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(
                       height: model.length > 0
-                          ? MediaQuery.of(context).size.height * 0.36
+                          ? MediaQuery.of(context).size.height * 0.37
                           : 0,
                       child: ListView.builder(
                         itemBuilder: (context, index) {
@@ -1346,7 +1466,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         height:
                                         MediaQuery.of(context).size.height * 0.34,
                                         width:
-                                        MediaQuery.of(context).size.width * 0.47,
+                                        MediaQuery.of(context).size.width * 0.48,
                                         decoration: BoxDecoration(
                                             border:
                                             Border.all(color: ColorApp.grey4F),
@@ -1366,7 +1486,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                      0.47,
+                                                      0.48,
                                                   child: ClipRRect(
                                                     borderRadius:
                                                     const BorderRadius.only(
@@ -1459,7 +1579,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     overflow: TextOverflow.ellipsis,
                                                   ),
                                                   SizedBox(
-                                                    height: 10,
+                                                    height: 5,
                                                   ),
                                                   Row(
                                                     mainAxisAlignment:

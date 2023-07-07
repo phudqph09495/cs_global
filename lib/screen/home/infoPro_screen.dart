@@ -995,7 +995,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                           MediaQuery.of(context).size.height *
                                               0.34,
                                           width: MediaQuery.of(context).size.width *
-                                              0.45,
+                                              0.47,
                                           decoration: BoxDecoration(
                                               border: Border.all(),
                                               borderRadius:
@@ -1015,7 +1015,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                                     width: MediaQuery.of(context)
                                                         .size
                                                         .width *
-                                                        0.45,
+                                                        0.47,
                                                     child: ClipRRect(
                                                       borderRadius:
                                                       const BorderRadius.only(
@@ -1072,7 +1072,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                               ),
                                               Padding(
                                                 padding: const EdgeInsets.symmetric(
-                                                    horizontal: 8, vertical: 4),
+                                                    horizontal: 6, vertical: 4),
                                                 child: Column(
                                                   crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -1099,9 +1099,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                                       overflow:
                                                       TextOverflow.ellipsis,
                                                     ),
-                                                    SizedBox(
-                                                      height: 10,
-                                                    ),
+
                                                     Row(
                                                       mainAxisAlignment:
                                                       MainAxisAlignment
@@ -1116,6 +1114,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                                         ),
                                                         Text(
                                                           '${Const.ConvertPrice.format(int.parse('${model[index].discountPrice}'))} đ',
+
                                                           style:
                                                           StyleApp.textStyle700(
                                                               color: ColorApp
