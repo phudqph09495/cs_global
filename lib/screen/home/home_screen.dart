@@ -534,8 +534,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   children: [
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(20),
-                                      child: Image.network(
-                                        'https://cdn.chanhtuoi.com/uploads/2023/04/lazada-sale-5-5.jpg',
+                                      child: Image.asset(
+                                        'slide${index}.png',
                                         width: Const.size(context).width * 0.4,
                                         height:
                                             Const.size(context).width * 0.25,
@@ -577,7 +577,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(
                                     width: 8,
                                   ),
-                              itemCount: 10),
+                              itemCount: 3),
                         ),
                       ],
                     ),
