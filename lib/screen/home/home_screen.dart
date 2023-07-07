@@ -764,9 +764,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
                         // Text(
                         //   'Nhóm sản phẩm',
                         //   style: StyleApp.textStyle700(
@@ -808,13 +808,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       .width *
                                                       0.12,
                                                   child: Image.asset(
-                                                      'assets/images/htland${index}.png'),
+                                                      'assets/images/htland${index}.png',fit: BoxFit.fitWidth,),
                                                 ),
                                                 Container(
                                                  width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                      0.21,
+                                                      0.2,
                                                   child: Padding(
                                                     padding: const EdgeInsets.symmetric(
                                                         vertical: 10),
