@@ -56,7 +56,8 @@ String banner='';
 name: name.text,
                 email: email.text,
                 address: address.text,
-                avatar: avatar
+                avatar: avatar,
+                banner: banner
               ));
             },
             child: Container(width: double.infinity,

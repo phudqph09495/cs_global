@@ -405,11 +405,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
-                                                    0.08,
+                                                    0.12,
                                                 height: MediaQuery.of(context)
                                                         .size
                                                         .width *
-                                                    0.08,
+                                                    0.12,
                                                 child: LoadImage(
                                                   fit: BoxFit.cover,
                                                   url: modelListCate
@@ -647,7 +647,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 child: LoadImage(
                                                   url:
                                                       '${Const.image_host}${model.serviceCate![index].image}',
-                                                  fit: BoxFit.fitWidth,
+                                                  fit: BoxFit.cover,
                                                 ),
                                               ),
                                               Container(
@@ -808,7 +808,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       .width *
                                                       0.12,
                                                   child: Image.asset(
-                                                      'assets/images/htland${index}.png',fit: BoxFit.fitWidth,),
+                                                      'assets/images/htland${index}.png',fit: BoxFit.cover,),
                                                 ),
                                                 Container(
                                                  width: MediaQuery.of(context)

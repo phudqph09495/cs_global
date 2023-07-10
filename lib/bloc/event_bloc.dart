@@ -26,6 +26,7 @@ class UpdateProfile extends EventBloc {
   String? birth;
   String? id;
   String? nameS;
+
   UpdateProfile(
       {this.phone,
       this.name,

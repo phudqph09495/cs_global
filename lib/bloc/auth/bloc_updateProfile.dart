@@ -22,6 +22,7 @@ class BlocUpdateProfile extends Bloc<EventBloc, StateBloc> {
         req['customerAdd'] = event.address??'địa chỉ';
         req['customerEmail'] = event.email;
         req['avatar'] = event.avatar;
+        req['banner']=event.banner;
 
 
         var res = await Api.postAsync(endPoint: ApiPath.updatePro, req: req,);
