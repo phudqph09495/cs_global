@@ -25,7 +25,7 @@ class _QuanLyScreenState extends State<QuanLyScreen> {
   final controller = GroupButtonController();
   List<String> name = ['Đơn Hàng Mới', 'Đơn Đã Đặt', 'Đơn Đã Mua','Đơn Bị Huỷ'];
   int ind = 0;
-  List<Color> colorName = [Colors.red, ColorApp.orangeF0, ColorApp.green00];
+  List<Color> colorName = [Colors.red, ColorApp.orangeF0, ColorApp.green00,Colors.red];
   BlocListDonhang blocListDonhang = BlocListDonhang();
   @override
   void initState() {
@@ -96,11 +96,11 @@ class _QuanLyScreenState extends State<QuanLyScreen> {
            ],
          ),
        ),
-          Container(
-            height: 5,
-            color: ColorApp.greyBD.withOpacity(0.7),
-            width: double.infinity,
-          ),
+          // Container(
+          //   height: 5,
+          //   color: ColorApp.greyBD.withOpacity(0.7),
+          //   width: double.infinity,
+          // ),
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -137,7 +137,9 @@ class _QuanLyScreenState extends State<QuanLyScreen> {
                                               status: model.orders![index].status??'',
                                               phone: model.orders![index].customerPhone??'',
                                               couponPrice: model.orders![index].couponPrice??'0',
-                                              productPrice: model.orders![index].totalProductPrice??'0')));
+                                              productPrice: model.orders![index].totalProductPrice??'0'
+
+                                          )));
                                 },
                                 child: Card(
                                   color: ColorApp.whiteF0,
@@ -156,7 +158,7 @@ class _QuanLyScreenState extends State<QuanLyScreen> {
                                           height: 7,
                                         ),
                                         Text(
-                                          '${Const.convertTime('${model.orders![index].createdAt}')}',
+                                          '${Const.convertTime('${model.orders![index].updatedAt}')}',
                                           style: StyleApp.textStyle500(
                                               color: ColorApp.dark500),
                                         ),
@@ -240,7 +242,7 @@ class _QuanLyScreenState extends State<QuanLyScreen> {
         centerTitle: true,
         backgroundColor: ColorApp.green00,
         title: Text(
-          'Quản lý đơn hàng',
+          'Quản lý đơn hàng'.toUpperCase(),
           style: StyleApp.textStyle500(fontSize: 20, color: Colors.white),
         ),
       ),

@@ -26,6 +26,12 @@ class _GioHangScreenState extends State<GioHangScreen> {
   BlocCartLocal blocCartLocal = BlocCartLocal();
   BlocProfile blocProfile = BlocProfile();
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<BlocCartLocal, StateBloc>(
       builder: (context, StateBloc state) {

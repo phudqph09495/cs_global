@@ -28,7 +28,7 @@ class Profile {
   String? avatar;
   String? banner;
   Null? slogan;
-  Null? deviceToken;
+  String? deviceToken;
   int? score;
   String? balance;
   String? totalCost;
@@ -51,7 +51,7 @@ class Profile {
         this.password,
         this.avatar,
         this.banner,
-        this.slogan,
+
         this.deviceToken,
         this.score,
         this.balance,
@@ -75,7 +75,7 @@ class Profile {
     password = json['password'];
     avatar = json['avatar'];
     banner = json['banner'];
-    slogan = json['slogan'];
+
     deviceToken = json['device_token'];
     score = json['score'];
     balance = json['balance'];

@@ -16,9 +16,10 @@ import 'package:flutter_html/flutter_html.dart';
 import 'detailNews_screen.dart';
 
 class ListNewsScreen extends StatefulWidget {
-  int initIndex;
+  // int initIndex;
+  String title;
   String id;
-  ListNewsScreen({required this.initIndex, required this.id});
+  ListNewsScreen({ required this.id,required this.title});
 
   @override
   State<ListNewsScreen> createState() => _ListNewsScreenState();
@@ -26,7 +27,7 @@ class ListNewsScreen extends StatefulWidget {
 
 class _ListNewsScreenState extends State<ListNewsScreen>
     with TickerProviderStateMixin {
-  BlocListNewsCate blocListNewsCate = BlocListNewsCate()..add(GetData());
+  // BlocListNewsCate blocListNewsCate = BlocListNewsCate()..add(GetData());
   BlocListNews blocListNews = BlocListNews();
   @override
   void initState() {
@@ -45,85 +46,97 @@ class _ListNewsScreenState extends State<ListNewsScreen>
           backgroundColor: ColorApp.green00,
           centerTitle: true,
           title: Text(
-            'HT Land',
+            '${widget.title.toUpperCase()}',
             style: StyleApp.textStyle500(color: Colors.white, fontSize: 22),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              BlocBuilder(
-                  bloc: blocListNewsCate,
-                  builder: (_, StateBloc state) {
-                    if (state is LoadSuccess) {
-                      ModelListNewCate model = state.data;
-                      TabController? _tabController = TabController(
-                          length: model.newsCate!.length,
-                          vsync: this,
-                          initialIndex: widget.initIndex);
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border(bottom: BorderSide(
-                                color: Color(0xffDDDDDD)
-                            ))
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: TabBar(
-                              indicator: BoxDecoration(
+        body: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 5,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/bg.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  // BlocBuilder(
+                  //     bloc: blocListNewsCate,
+                  //     builder: (_, StateBloc state) {
+                  //       if (state is LoadSuccess) {
+                  //         ModelListNewCate model = state.data;
+                  //         TabController? _tabController = TabController(
+                  //             length: model.newsCate!.length,
+                  //             vsync: this,
+                  //             initialIndex: widget.initIndex);
+                  //         return Padding(
+                  //           padding: const EdgeInsets.symmetric(vertical: 8),
+                  //           child: Container(
+                  //             decoration: BoxDecoration(
+                  //               border: Border(bottom: BorderSide(
+                  //                   color: Color(0xffDDDDDD)
+                  //               ))
+                  //             ),
+                  //             child: Padding(
+                  //               padding: const EdgeInsets.symmetric(horizontal: 8),
+                  //               child: TabBar(
+                  //                 indicator: BoxDecoration(
+                  //
+                  //                   color: ColorApp.green00,
+                  //
+                  //                 ),
+                  //                 isScrollable: true,
+                  //                 controller: _tabController,
+                  //                 onTap: (value) {
+                  //                   blocListNews.add(GetData(
+                  //                       param: model.newsCate![value].id.toString()));
+                  //                 },
+                  //                 labelPadding:
+                  //                     const EdgeInsets.symmetric(horizontal:10),
+                  //                 labelStyle: StyleApp.textStyle700(fontSize: 16),
+                  //                 indicatorColor: Colors.transparent,
+                  //                 unselectedLabelStyle:
+                  //                     StyleApp.textStyle500(fontSize: 14),
+                  //                 labelColor: ColorApp.whiteF7,
+                  //                 unselectedLabelColor: Colors.black,
+                  //                 tabs: <Widget>[
+                  //                   ...List.generate(
+                  //                     model.newsCate!.length,
+                  //                     (index) => Tab(
+                  //                       child: Text(
+                  //                         model.newsCate![index].name ?? '',
+                  //                       ),
+                  //                     ),
+                  //                   )
+                  //                   // Tab(
+                  //                   //   child: Text(
+                  //                   //     'Chi tiết',
+                  //                   //   ),
+                  //                   // ),
+                  //                 ],
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         );
+                  //       }
+                  //       return SizedBox();
+                  //     }),
 
-                                color: ColorApp.green00,
-
-                              ),
-                              isScrollable: true,
-                              controller: _tabController,
-                              onTap: (value) {
-                                blocListNews.add(GetData(
-                                    param: model.newsCate![value].id.toString()));
-                              },
-                              labelPadding:
-                                  const EdgeInsets.symmetric(horizontal:10),
-                              labelStyle: StyleApp.textStyle700(fontSize: 16),
-                              indicatorColor: Colors.transparent,
-                              unselectedLabelStyle:
-                                  StyleApp.textStyle500(fontSize: 14),
-                              labelColor: ColorApp.whiteF7,
-                              unselectedLabelColor: Colors.black,
-                              tabs: <Widget>[
-                                ...List.generate(
-                                  model.newsCate!.length,
-                                  (index) => Tab(
-                                    child: Text(
-                                      model.newsCate![index].name ?? '',
-                                    ),
-                                  ),
-                                )
-                                // Tab(
-                                //   child: Text(
-                                //     'Chi tiết',
-                                //   ),
-                                // ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                    return SizedBox();
-                  }),
-
-              BlocBuilder(
-                builder: (_, StateBloc state) {
-                  if (state is LoadSuccess) {
-                    ModelListNews model = state.data;
-                    return ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => Padding(
+                  BlocBuilder(
+                    builder: (_, StateBloc state) {
+                      if (state is LoadSuccess) {
+                        ModelListNews model = state.data;
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) => Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
+                              const EdgeInsets.symmetric(horizontal: 8),
                               child: InkWell(
                                 onTap: () {
                                   Navigator.push(
@@ -132,9 +145,9 @@ class _ListNewsScreenState extends State<ListNewsScreen>
                                           builder: (context) =>
                                               DetailNewsScreen(
                                                 title:
-                                                    "${model.allNews![index].title}",
+                                                "${model.allNews![index].title}",
                                                 dess:
-                                                    '${model.allNews![index].descript}',
+                                                '${model.allNews![index].descript}',
                                               )));
                                 },
                                 child: Card(
@@ -146,12 +159,12 @@ class _ListNewsScreenState extends State<ListNewsScreen>
                                           flex: 10,
                                           child: SizedBox(
                                             width:
-                                                Const.sizeWidth(context, 115),
+                                            Const.sizeWidth(context, 115),
                                             height:
-                                                Const.sizeWidth(context, 115),
+                                            Const.sizeWidth(context, 115),
                                             child: LoadImage(
                                               url:
-                                                  '${Const.image_host}${model.allNews![index].banner}',
+                                              '${Const.image_host}${model.allNews![index].banner}',
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -163,8 +176,8 @@ class _ListNewsScreenState extends State<ListNewsScreen>
                                             flex: 20,
                                             child: Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              MainAxisAlignment
+                                                  .spaceBetween,
                                               children: [
                                                 Column(
                                                   children: [
@@ -173,20 +186,20 @@ class _ListNewsScreenState extends State<ListNewsScreen>
                                                           .toUpperCase(),
                                                       maxLines: 2,
                                                       style:
-                                                          StyleApp.textStyle600(
-                                                              color: ColorApp
-                                                                  .dark500,
-                                                              fontSize: 18),
+                                                      StyleApp.textStyle600(
+                                                          color: ColorApp
+                                                              .dark500,
+                                                          fontSize: 18),
                                                     ),
                                                     Html(
                                                       data:
-                                                          '${model.allNews![index].descript}',
+                                                      '${model.allNews![index].descript}',
                                                       style: {
                                                         '#': Style(
                                                           fontSize: FontSize(12),
                                                           maxLines: 2,
                                                           textOverflow:
-                                                              TextOverflow.clip,
+                                                          TextOverflow.clip,
                                                         ),
                                                       },
                                                     ),
@@ -214,24 +227,24 @@ class _ListNewsScreenState extends State<ListNewsScreen>
                                                 ),
                                                 Row(
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                                   children: [
                                                     Text(
                                                       '',
                                                       style:
-                                                          StyleApp.textStyle400(
-                                                              color: ColorApp
-                                                                  .dark500,
-                                                              fontSize: 12),
+                                                      StyleApp.textStyle400(
+                                                          color: ColorApp
+                                                              .dark500,
+                                                          fontSize: 12),
                                                     ),
                                                     Text(
                                                       '${Const.convertTime('${model.allNews![index].createdAt}')}',
                                                       style:
-                                                          StyleApp.textStyle400(
-                                                              color: ColorApp
-                                                                  .dark500,
-                                                              fontSize: 12),
+                                                      StyleApp.textStyle400(
+                                                          color: ColorApp
+                                                              .dark500,
+                                                          fontSize: 12),
                                                     ),
                                                   ],
                                                 ),
@@ -243,21 +256,23 @@ class _ListNewsScreenState extends State<ListNewsScreen>
                                 ),
                               ),
                             ),
-                        itemCount: model.allNews!.length);
-                  }
-                  if (state is Loading) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: ColorApp.main,
-                      ),
-                    );
-                  }
-                  return SizedBox();
-                },
-                bloc: blocListNews,
-              )
-            ],
-          ),
+                            itemCount: model.allNews!.length);
+                      }
+                      if (state is Loading) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: ColorApp.main,
+                          ),
+                        );
+                      }
+                      return SizedBox();
+                    },
+                    bloc: blocListNews,
+                  )
+                ],
+              ),
+            )
+          ],
         ));
   }
 }

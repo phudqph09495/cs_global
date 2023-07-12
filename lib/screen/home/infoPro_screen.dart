@@ -14,6 +14,7 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../bloc/auth/bloc_profile.dart';
@@ -59,6 +60,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
   int page = 1;
   BlocCartLocal blocCartLocal = BlocCartLocal();
   BlocCartLocal blocCartLocal2 = BlocCartLocal();
+  int click=0;
   double height = 200;
   double rate = 1.0;
   bool isLog = false;
@@ -109,32 +111,18 @@ class _InfoProdScreenState extends State<InfoProdScreen>
         builder: (_, StateBloc state) {
           if (state is LoadSuccess) {
             ModelInfoPro modelInfoPro = state.data;
-            sum = int.parse('${modelInfoPro.product!.discountPrice}') * value;
             return Container(
               decoration: const BoxDecoration(
                   border: Border(
                       top: BorderSide(color: ColorApp.dark500, width: 1.5))),
-              height: 85,
+              height: 75,
               width: double.infinity,
               child: Padding(
                 padding: const EdgeInsets.only(
-                    top: 10, bottom: 10, right: 15, left: 15),
+                    top: 5, bottom: 5, right: 15, left: 15),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Tổng tiền :',
-                          style: StyleApp.textStyle500(),
-                        ),
-                        Text(
-                          '${Const.ConvertPrice.format(sum)} đ',
-                          style: StyleApp.textStyle500(color: ColorApp.dark),
-                        )
-                      ],
-                    ),
                     Row(
                       children: [
                         Expanded(
@@ -167,9 +155,9 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 12),
                                   child: Text(
-                                    'Thêm vào giỏ',
+                                    'Thêm Vào Giỏ',
                                     style: StyleApp.textStyle500(
-                                        color: ColorApp.dark500),
+                                        color: Colors.black),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
@@ -205,7 +193,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 12),
                                 child: Text(
-                                  'Mua ngay',
+                                  'Mua Ngay',
                                   style: StyleApp.textStyle500(
                                       color: ColorApp.whiteF0),
                                   textAlign: TextAlign.center,
@@ -276,7 +264,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                         Colors.transparent,
                                     indicatorColor: Colors.transparent,
                                     isLoop: true,
-                                    autoPlayInterval: 2000,
+                                    autoPlayInterval: 3000,
                                     children: List.generate(
                                         modelInfoPro
                                             .product!.imagesShow!.length,
@@ -381,40 +369,40 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                     style: StyleApp.textStyle500(
                                         color: ColorApp.redText, fontSize: 17),
                                   ),
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          if (value > 0) {
-                                            setState(() {
-                                              value--;
-                                            });
-                                          }
-                                        },
-                                        child: const Icon(
-                                          Icons.remove_circle,
-                                          color: ColorApp.redText,
-                                          size: 30,
-                                        ),
-                                      ),
-                                      Text(
-                                        '    ${value.toString()}    ',
-                                        style: StyleApp.textStyle500(),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            value++;
-                                          });
-                                        },
-                                        child: const Icon(
-                                          Icons.add_circle,
-                                          color: ColorApp.redText,
-                                          size: 30,
-                                        ),
-                                      ),
-                                    ],
-                                  )
+                                  // Row(
+                                  //   children: [
+                                  //     InkWell(
+                                  //       onTap: () {
+                                  //         if (value > 0) {
+                                  //           setState(() {
+                                  //             value--;
+                                  //           });
+                                  //         }
+                                  //       },
+                                  //       child: const Icon(
+                                  //         Icons.remove_circle,
+                                  //         color: ColorApp.redText,
+                                  //         size: 30,
+                                  //       ),
+                                  //     ),
+                                  //     Text(
+                                  //       '    ${value.toString()}    ',
+                                  //       style: StyleApp.textStyle500(),
+                                  //     ),
+                                  //     InkWell(
+                                  //       onTap: () {
+                                  //         setState(() {
+                                  //           value++;
+                                  //         });
+                                  //       },
+                                  //       child: const Icon(
+                                  //         Icons.add_circle,
+                                  //         color: ColorApp.redText,
+                                  //         size: 30,
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // )
                                 ],
                               ),
                               const SizedBox(
@@ -438,7 +426,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                     setState(() {});
                                   },
                                   labelPadding: const EdgeInsets.symmetric(
-                                      horizontal: 30),
+                                      horizontal: 10),
                                   labelStyle:
                                       StyleApp.textStyle700(fontSize: 16),
                                   indicatorColor: ColorApp.redText,
@@ -449,20 +437,20 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                   tabs: const <Widget>[
                                     Tab(
                                       child: Text(
-                                        'Chi tiết',
+                                        'Chi Tiết',
                                       ),
                                     ),
                                     Tab(
-                                      child: Text('Hướng dẫn sử dụng'),
+                                      child: Text('Hướng Dẫn Sử Dụng'),
                                     ),
                                     Tab(
                                       child: Text(
-                                        'Pháp lý',
+                                        'Pháp Lý',
                                       ),
                                     ),
                                     Tab(
                                       child: Text(
-                                        'Nhà cung cấp',
+                                        'Nhà Cung Cấp',
                                       ),
                                     ),
                                     Tab(
@@ -484,7 +472,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                           child: SingleChildScrollView(
                                             child: HtmlWidget(
                                               '${modelInfoPro.product!.descript}',
-                                              textStyle: TextStyle(),
+                                              textStyle: StyleApp.textStyle500(),
                                               customWidgetBuilder: (ele) {
                                                 if (ele.attributes['src'] !=
                                                         null &&
@@ -503,7 +491,12 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                         InkWell(
                                             onTap: () {
                                               setState(() {
-                                                height = 500;
+                                               click++;
+                                             if(click%2==1){
+                                               height=500;
+                                             }else{
+                                               height=200;
+                                             }
                                               });
                                             },
                                             child: Padding(
@@ -530,15 +523,15 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                                             .spaceEvenly,
                                                     children: [
                                                       Text(
-                                                        'Xem Thêm ',
+                                                    click%2==0?    'Xem Thêm ':'Thu gọn',
                                                         style: StyleApp
                                                             .textStyle500(
                                                                 color: ColorApp
                                                                     .green),
                                                       ),
                                                       Icon(
-                                                        Icons
-                                                            .keyboard_arrow_down_rounded,
+                                                        click%2==0?   Icons
+                                                            .keyboard_arrow_down_rounded:Icons.keyboard_arrow_up_rounded,
                                                         color: ColorApp.green,
                                                         size: 20,
                                                       ),
@@ -551,64 +544,250 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                     )
                                   : SizedBox(),
                               tab == 1
-                                  ? Container(
-                                      height: 200,
-                                      child: SingleChildScrollView(
-                                        child: HtmlWidget(
-                                          '${modelInfoPro.product!.manualUser}',
-                                          customWidgetBuilder: (ele) {
-                                            if (ele.attributes['src'] != null &&
-                                                ele.attributes['src']!
-                                                    .startsWith("/media")) {
-                                              return LoadImage(
-                                                  url:
-                                                      '${Const.image_host}${ele.attributes['src']}');
-                                            }
-                                          },
-                                          onTapUrl: (url) => _launchURL(url),
-                                        ),
+                                  ? Column(
+                                children: [
+                                  Container(
+                                    height: 15,
+                                  ),
+                                  Container(
+                                    height: height,
+                                    child: SingleChildScrollView(
+                                      child: HtmlWidget(
+                                        '${modelInfoPro.product!.manualUser}',
+                                        customWidgetBuilder: (ele) {
+                                          if (ele.attributes['src'] !=
+                                              null &&
+                                              ele.attributes['src']!
+                                                  .startsWith("/media")) {
+                                            return LoadImage(
+                                                url:
+                                                '${Const.image_host}${ele.attributes['src']}');
+                                          }
+                                        },
+
+                                        onTapUrl: (url) =>
+                                            _launchURL(url),
                                       ),
-                                    )
+                                    ),
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          click++;
+                                          if(click%2==1){
+                                            height=500;
+                                          }else{
+                                            height=200;
+                                          }
+                                        });
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 15),
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width *
+                                              0.35,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: ColorApp.green),
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  25)),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 12,
+                                                vertical: 4),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceEvenly,
+                                              children: [
+                                                Text(
+                                                  click%2==0?    'Xem Thêm ':'Thu gọn',
+                                                  style: StyleApp
+                                                      .textStyle500(
+                                                      color: ColorApp
+                                                          .green),
+                                                ),
+                                                Icon(
+                                                  click%2==0?   Icons
+                                                      .keyboard_arrow_down_rounded:Icons.keyboard_arrow_up_rounded,
+                                                  color: ColorApp.green,
+                                                  size: 20,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ))
+                                ],
+                              )
                                   : SizedBox(),
                               tab == 2
-                                  ? Container(
-                                      height: 200,
-                                      child: SingleChildScrollView(
-                                        child: HtmlWidget(
-                                          '${modelInfoPro.product!.legalInfo}',
-                                          customWidgetBuilder: (ele) {
-                                            if (ele.attributes['src'] != null &&
-                                                ele.attributes['src']!
-                                                    .startsWith("/media")) {
-                                              return LoadImage(
-                                                  url:
-                                                      '${Const.image_host}${ele.attributes['src']}');
-                                            }
-                                          },
-                                          onTapUrl: (url) => _launchURL(url),
-                                        ),
+                                  ? Column(
+                                children: [
+                                  Container(
+                                    height: 15,
+                                  ),
+                                  Container(
+                                    height: height,
+                                    child: SingleChildScrollView(
+                                      child: HtmlWidget(
+                                        '${modelInfoPro.product!.legalInfo}',
+                                        textStyle: StyleApp.textStyle500(),
+                                        customWidgetBuilder: (ele) {
+                                          if (ele.attributes['src'] !=
+                                              null &&
+                                              ele.attributes['src']!
+                                                  .startsWith("/media")) {
+                                            return LoadImage(
+                                                url:
+                                                '${Const.image_host}${ele.attributes['src']}');
+                                          }
+                                        },
+                                        onTapUrl: (url) =>
+                                            _launchURL(url),
                                       ),
-                                    )
+                                    ),
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          click++;
+                                          if(click%2==1){
+                                            height=500;
+                                          }else{
+                                            height=200;
+                                          }
+                                        });
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 15),
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width *
+                                              0.35,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: ColorApp.green),
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  25)),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 12,
+                                                vertical: 4),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceEvenly,
+                                              children: [
+                                                Text(
+                                                  click%2==0?    'Xem Thêm ':'Thu gọn',
+                                                  style: StyleApp
+                                                      .textStyle500(
+                                                      color: ColorApp
+                                                          .green),
+                                                ),
+                                                Icon(
+                                                  click%2==0?   Icons
+                                                      .keyboard_arrow_down_rounded:Icons.keyboard_arrow_up_rounded,
+                                                  color: ColorApp.green,
+                                                  size: 20,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ))
+                                ],
+                              )
                                   : SizedBox(),
                               tab == 3
-                                  ? Container(
-                                      height: 200,
-                                      child: SingleChildScrollView(
-                                        child: HtmlWidget(
-                                          '${modelInfoPro.product!.supplierInfo}',
-                                          customWidgetBuilder: (ele) {
-                                            if (ele.attributes['src'] != null &&
-                                                ele.attributes['src']!
-                                                    .startsWith("/media")) {
-                                              return LoadImage(
-                                                  url:
-                                                      '${Const.image_host}${ele.attributes['src']}');
-                                            }
-                                          },
-                                          onTapUrl: (url) => _launchURL(url),
-                                        ),
+                                  ? Column(
+                                children: [
+                                  Container(
+                                    height: 15,
+                                  ),
+                                  Container(
+                                    height: height,
+                                    child: SingleChildScrollView(
+                                      child: HtmlWidget(
+                                        '${modelInfoPro.product!.supplierInfo}',
+                                        textStyle: StyleApp.textStyle500(),
+                                        customWidgetBuilder: (ele) {
+                                          if (ele.attributes['src'] !=
+                                              null &&
+                                              ele.attributes['src']!
+                                                  .startsWith("/media")) {
+                                            return LoadImage(
+                                                url:
+                                                '${Const.image_host}${ele.attributes['src']}');
+                                          }
+                                        },
+                                        onTapUrl: (url) =>
+                                            _launchURL(url),
                                       ),
-                                    )
+                                    ),
+                                  ),
+                                  InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          click++;
+                                          if(click%2==1){
+                                            height=500;
+                                          }else{
+                                            height=200;
+                                          }
+                                        });
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 15),
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width *
+                                              0.35,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: ColorApp.green),
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  25)),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 12,
+                                                vertical: 4),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceEvenly,
+                                              children: [
+                                                Text(
+                                                  click%2==0?    'Xem Thêm ':'Thu gọn',
+                                                  style: StyleApp
+                                                      .textStyle500(
+                                                      color: ColorApp
+                                                          .green),
+                                                ),
+                                                Icon(
+                                                  click%2==0?   Icons
+                                                      .keyboard_arrow_down_rounded:Icons.keyboard_arrow_up_rounded,
+                                                  color: ColorApp.green,
+                                                  size: 20,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ))
+                                ],
+                              )
                                   : SizedBox(),
                               const SizedBox(
                                 height: 10,
@@ -917,14 +1096,8 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                       ],
                                     )
                                   : SizedBox(),
-                              Text(
-                                'Sản phẩm cùng danh mục',
-                                style: StyleApp.textStyle700(
-                                    color: ColorApp.darkGreen, fontSize: 18),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
+
+
                             ],
                           ),
                         ),
@@ -933,6 +1106,20 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                   }
                   return Container();
                 }),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Sản Phẩm Cùng Danh Mục'.toUpperCase(),
+                    style: StyleApp.textStyle700(
+                        color: ColorApp.darkGreen, fontSize: 18),
+                  ),
+                  SizedBox()
+                ],
+              ),
+            ),
             BlocBuilder(
                 bloc: blocListPro,
                 builder: (_, StateBloc state) {
@@ -961,7 +1148,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                     return Column(
                       children: [
                         GridView.builder(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          padding: const EdgeInsets.symmetric(vertical: 5),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
@@ -971,6 +1158,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                       MediaQuery.of(context).size.height *
                                           0.34),
                           itemBuilder: (context, index) {
+                            BlocCartLocal blocCartLocal = BlocCartLocal();
                             return InkWell(
                               onTap: () {
                                 context.read<BlocCartLocal>().add(GetCart());
@@ -997,7 +1185,9 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                           width: MediaQuery.of(context).size.width *
                                               0.47,
                                           decoration: BoxDecoration(
-                                              border: Border.all(),
+                                              border: Border.all(
+                                                color: ColorApp.grey4F
+                                              ),
                                               borderRadius:
                                               BorderRadius.circular(12)),
                                           child: Column(

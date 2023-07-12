@@ -1,9 +1,11 @@
+import 'package:cs_global/bloc/check_log_state.dart';
 import 'package:cs_global/model/model_detailOrder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/donHang/bloc_detailOrder.dart';
 import '../../bloc/event_bloc.dart';
+import '../../bloc/order/bloc_cancelOrder.dart';
 import '../../bloc/state_bloc.dart';
 import '../../config/const.dart';
 import '../../styles/init_style.dart';
@@ -42,6 +44,7 @@ class ChiTietScreen extends StatefulWidget {
 
 class _ChiTietScreenState extends State<ChiTietScreen> {
   BlocDetailOrder blocDetailOrder = BlocDetailOrder();
+  BlocCancelOrder blocCancelOrder=BlocCancelOrder();
   @override
   void initState() {
     // TODO: implement initState
@@ -126,6 +129,26 @@ class _ChiTietScreenState extends State<ChiTietScreen> {
       ),
       appBar: AppBar(
         centerTitle: true,
+        actions: [
+          BlocListener(
+            bloc: blocCancelOrder,
+            listener: (_,StateBloc state) {
+              CheckLogState.check(context, state: state,msg: 'Huỷ thành công',success: (){
+                blocDetailOrder.add(GetData(param: widget.id));
+
+              });
+            },
+            child: InkWell(
+              onTap: (){
+                blocCancelOrder.add(GetData(param: widget.id));
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Center(child: Text('Huỷ Đơn',style: StyleApp.textStyle700(color: ColorApp.redText,fontSize: 16),)),
+              ),
+            ),
+          ),
+        ],
         backgroundColor: ColorApp.green00,
         title: Text(
           'Chi Tiết Đơn Hàng',
@@ -145,10 +168,19 @@ class _ChiTietScreenState extends State<ChiTietScreen> {
                     'Trạng thái: ',
                     style: StyleApp.textStyle700(),
                   ),
-                  Text(
+                BlocBuilder(builder: (_,StateBloc state){
+                  if(state is LoadSuccess){
+                    ModelOrderDetail model = state.data;
+                    return  Text(
+                      model.order!.status??'',
+                      style: StyleApp.textStyle500(),
+                    );
+                  }
+                  return  Text(
                     widget.status,
-                    style: StyleApp.textStyle600(),
-                  )
+                    style: StyleApp.textStyle500(),
+                  );
+                },bloc: blocDetailOrder,)
                 ],
               ),
               SizedBox(

@@ -30,6 +30,7 @@ static const relatePrd='/product/related?id=';
 static const category='/customer/category';
 static const phiVanCHuyen='/customer/order/shipment?districtId=';
 static const order="/customer/order/create";
+static const cancelOrder="/customer/order/cancel";
 static const commentL="/customer/product/comment";
 
 static const search="/customer/search?search=";

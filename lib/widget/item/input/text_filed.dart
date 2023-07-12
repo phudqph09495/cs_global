@@ -105,24 +105,24 @@ border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.radius),
             // borderSide:
             // const BorderSide(color: ColorApp.black, width: 1),
-            borderSide: BorderSide(color: widget.borderColor, width: 0.5),
+            borderSide: BorderSide(color: widget.borderColor, width: 01),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.radius),
             borderSide:
-                BorderSide(color: Colors.black.withOpacity(0.2), width: 0.5),
+                BorderSide(color: Colors.black.withOpacity(0.2), width: 01),
             // borderSide:
             // const BorderSide(color: ColorApp.black, width: 1),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.radius),
-            borderSide: const BorderSide(color: Colors.red, width: 0.5),
+            borderSide: const BorderSide(color: Colors.red, width: 01),
             // borderSide:
             // const BorderSide(color: ColorApp.black, width: 1),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.radius),
-            borderSide: BorderSide(color: Colors.red, width: 0.5),
+            borderSide: BorderSide(color: Colors.red, width: 01),
             // borderSide:
             // const BorderSide(color: ColorApp.black, width: 1),
           ),

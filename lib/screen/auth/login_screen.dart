@@ -50,23 +50,26 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    'ĐĂNG NHẬP',
-                    style: StyleApp.textStyle500(fontSize: 24),
-                  ),
+                  Image.asset('assets/images/logoDoc.png',height: MediaQuery.of(context).size.height*0.3,
+                    fit: BoxFit.fitHeight,),
                   Column(
                     children: [
                       SizedBox(
                         height: 10,
                       ),
                       InputText1(
+                        borderColor: Color(0xffFAFAFA),
+
+                        colorShadow: Colors.transparent,
                         controller: phone,
+                        radius: 5,
                         label: 'Số điện thoại',
                         hasLeading: true,
                         iconPreFix: Icon(Icons.person),
                         validator: (val) {
                           return ValidatorApp.checkPhone(text: val,);
                         },
+
                       ),
                       SizedBox(
                         height: 10,
@@ -75,6 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         validator: (val) {
                           return ValidatorApp.checkPass(text: val);
                         },
+                        radius: 5,
+                        colorShadow: Colors.transparent,
                         controller: pass,
                         label: 'Mật Khẩu',
                         iconData: Icons.lock,
@@ -82,32 +87,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         obscureText: true,
                         hasPass: true,
                       ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                      Column(
                         children: [
-                          SizedBox(),
-                          InkWell(
-                            onTap: () {
-Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgetPassScreen()));
-                            },
-                            child: Text(
-                              'Quên mật khẩu',
-                              style: StyleApp.textStyle500(),
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(),
+
+                          SizedBox(
+                            height: 20,
+                          ),
+
                           BlocListener(
                             listener: (context, StateBloc state) {
                               ModelLogin model = ModelLogin();
@@ -133,33 +120,48 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgetPassScreen()
                                       password: pass.text));
                                 }
                               },
-                              child: Row(
-                                children: [
-                                  Text(
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                    color: ColorApp.green00,
+                                    borderRadius: BorderRadius.circular(5)
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 15),
+                                  child: Text(
                                     'ĐĂNG NHẬP  ',
-                                    style: StyleApp.textStyle500(),
+                                    style: StyleApp.textStyle500(
+                                        color: Colors.white
+                                    ),textAlign: TextAlign.center,
                                   ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius:
-                                        BorderRadius.circular(12)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.arrow_forward_rounded,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  )
-                                ],
+                                ),
                               ),
                             ),
-                          )
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgetPassScreen()));
+                                },
+                                child: Text(
+                                  'Quên mật khẩu',
+                                  style: StyleApp.textStyle500(),
+                                ),
+                              ),
+                              SizedBox()
+                            ],
+                          ),
                         ],
-                      )
+                      ),
                     ],
                   ),
+
 
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,

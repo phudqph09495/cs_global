@@ -125,7 +125,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   const Icon(
                                       Icons.account_balance_wallet_outlined),
                                   Text(
-                                    ' Số dư ví (VNĐ) : ',
+                                    ' Số dư ví (VNĐ) : '.toUpperCase(),
                                     style: StyleApp.textStyle500(fontSize: 16),
                                   ),
                                 ],
@@ -241,7 +241,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               Row(
                                 children: [
                                   Text(
-                                    'ID khách hàng: ',
+                                    'Mã giới thiệu: ',
                                     style: StyleApp.textStyle500(fontSize: 16),
                                   ),
                                   Text(
@@ -390,7 +390,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Text(
-                                        'Người giới thiệu:',
+                                        'Người Giới Thiệu:',
                                         style: StyleApp.textStyle700(),
                                       ),
                                       (modelProfile.profile!.beRefered!.length >
@@ -549,7 +549,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                           width: 10,
                                         ),
                                         Text(
-                                          'Quản lý hệ thống kinh doanh',
+                                          'Quản Lý Hệ Thống Kinh Doanh',
                                           style: StyleApp.textStyle700(
                                               fontSize: 16),
                                         ),
@@ -598,7 +598,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                           width: 10,
                                         ),
                                         Text(
-                                          'Thông tin tài khoản',
+                                          'Thông Tin Tài Khoản',
                                           style: StyleApp.textStyle700(
                                               fontSize: 16),
                                         ),
@@ -641,7 +641,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                         width: 10,
                                       ),
                                       Text(
-                                        'Quy định App CS Global',
+                                        'Quy Định App CS Global',
                                         style:
                                             StyleApp.textStyle700(fontSize: 16),
                                       ),
@@ -682,9 +682,47 @@ class _AccountScreenState extends State<AccountScreen> {
                                         width: 10,
                                       ),
                                       Text(
-                                        'Hỗ trợ khách hàng',
+                                        'Hỗ Trợ Khách Hàng',
                                         style:
                                             StyleApp.textStyle700(fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                  const FaIcon(FontAwesomeIcons.longArrowRight)
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            height: 70,
+                            decoration: BoxDecoration(
+                                color: ColorApp.greyE6,
+                                borderRadius: BorderRadius.circular(40)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 2),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Image.asset(
+                                          'assets/images/LogoTrang.png'),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        'Tin Túc Về CS Global',
+                                        style:
+                                        StyleApp.textStyle700(fontSize: 16),
                                       ),
                                     ],
                                   ),
@@ -720,7 +758,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                         width: 10,
                                       ),
                                       Text(
-                                        'Giới thiệu CS Global',
+                                        'Giới Thiệu CS Global',
                                         style:
                                             StyleApp.textStyle700(fontSize: 16),
                                       ),

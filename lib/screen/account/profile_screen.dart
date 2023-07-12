@@ -147,8 +147,8 @@ name: name.text,
                                   bloc: chooseImageBloc2,
                                 )),
                             Positioned(
-                                top: 100,
-                                right: 0,
+                                top: 10,
+                                right: 10,
                                 child: InkWell(
                                     child: Container(
                                         height: 35,
@@ -267,6 +267,8 @@ name: name.text,
                         onChanged: (val){
                           modelProfile.profile!.name=val;
                         },
+                        colorShadow: Colors.transparent,
+                        radius: 5,
                         label: 'Nhập họ và tên',
                         controller: name,
                       ),
@@ -280,7 +282,8 @@ name: name.text,
                       SizedBox(
                         height: 10,
                       ),
-                      InputText1(
+                      InputText1(colorShadow: Colors.transparent,
+                        radius: 5,
                         onChanged: (val){
                           modelProfile.profile!.email=val;
                         },
@@ -297,7 +300,8 @@ name: name.text,
                       SizedBox(
                         height: 10,
                       ),
-                      InputText1(
+                      InputText1(colorShadow: Colors.transparent,
+                        radius: 5,
                         label: 'Nhập số điện thoại',
                         controller: phone,
                         readOnly: true,
@@ -312,7 +316,8 @@ name: name.text,
                       SizedBox(
                         height: 10,
                       ),
-                      InputText1(
+                      InputText1(colorShadow: Colors.transparent,
+                        radius: 5,
                         onChanged: (val){
                           modelProfile.profile!.address=val;
                         },

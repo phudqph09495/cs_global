@@ -91,14 +91,18 @@ BlocGetOTP blocGetOTP=BlocGetOTP();
 
 
                     children: [
-                      Text(
-                        'ĐĂNG KÝ',
-                        style: StyleApp.textStyle500(fontSize: 24),
-                      ),
+                      Image.asset('assets/images/logoDoc.png',height: MediaQuery.of(context).size.height*0.3,
+                      fit: BoxFit.fitHeight,),
+                      // Text(
+                      //   'ĐĂNG KÝ',
+                      //   style: StyleApp.textStyle500(fontSize: 24),
+                      // ),
                       SizedBox(
                         height: 20,
                       ),
                       InputText1(
+                        colorShadow: Colors.transparent,
+                        radius: 5,
                         controller: name,
                         label: 'Họ và tên',
                         hasLeading: true,
@@ -112,6 +116,8 @@ BlocGetOTP blocGetOTP=BlocGetOTP();
                         height: 10,
                       ),
                       InputText1(
+                        colorShadow: Colors.transparent,
+                        radius: 5,
                         controller: phone,
                         globalKey: _key,
                         onTap: () {
@@ -129,6 +135,9 @@ BlocGetOTP blocGetOTP=BlocGetOTP();
                         height: 10,
                       ),
                       InputText2(
+                        colorLabel: 1,
+                        colorShadow: Colors.transparent,
+                        radius: 5,
                         controller: pass,
                         label: 'Mật Khẩu',
                         iconData: Icons.lock,
@@ -144,6 +153,9 @@ BlocGetOTP blocGetOTP=BlocGetOTP();
                         height: 10,
                       ),
                       InputText2(
+                        colorLabel: 1,
+                        colorShadow: Colors.transparent,
+                        radius: 5,
                         controller: rePass,
                         label: 'Nhập lại mật khẩu',
                         iconData: Icons.lock,
@@ -159,6 +171,8 @@ BlocGetOTP blocGetOTP=BlocGetOTP();
                         height: 10,
                       ),
                       InputText1(
+                        colorShadow: Colors.transparent,
+                        radius: 5,
                         controller: code,
                         label: 'Mã OTP',
                         iconPreFix: Icon(FontAwesomeIcons.key),
@@ -195,60 +209,50 @@ BlocGetOTP blocGetOTP=BlocGetOTP();
                         },
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(),
-                          BlocListener(
-                            bloc: blocRegister,
-                            listener: (_, StateBloc state) {
-                              CheckLogState.check(context,
-                                  state: state,
-                                  msg: 'Đăng ký thành công', success: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => LoginScreen()));
-                              });
-                            },
-                            child: InkWell(
-                              onTap: () {
-                                if (keyFormSignUp.currentState!.validate()) {
-                                  blocRegister.add(CreateAcc(
-                                      name: name.text,
-                                      pass: pass.text,
-                                      rePass: rePass.text,
-                                      phone: phone.text,
-                                      otp: code.text,
-                                      code: widget.code));
-                                }
-                              },
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'ĐĂNG KÝ  ',
-                                    style: StyleApp.textStyle500(),
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius:
-                                            BorderRadius.circular(12)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.arrow_forward_rounded,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  )
-                                ],
+
+                      BlocListener(
+                        bloc: blocRegister,
+                        listener: (_, StateBloc state) {
+                          CheckLogState.check(context,
+                              state: state,
+                              msg: 'Đăng ký thành công', success: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginScreen()));
+                          });
+                        },
+                        child: InkWell(
+                          onTap: () {
+                            if (keyFormSignUp.currentState!.validate()) {
+                              blocRegister.add(CreateAcc(
+                                  name: name.text,
+                                  pass: pass.text,
+                                  rePass: rePass.text,
+                                  phone: phone.text,
+                                  otp: code.text,
+                                  code: widget.code));
+                            }
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                color: ColorApp.green00,
+                                borderRadius: BorderRadius.circular(5)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              child: Text(
+                                'ĐĂNG KÝ',
+                                style: StyleApp.textStyle500(
+                                    color: Colors.white
+                                ),textAlign: TextAlign.center,
                               ),
                             ),
                           )
-                        ],
+                        ),
                       ),
                       SizedBox(
                         height: 15,

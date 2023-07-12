@@ -33,6 +33,7 @@ class ColorApp {
   static const Color redText=Color(0xffDE554F);
   static const Color darkGreen=Color(0xff529E66);
   static const Color green00=Color(0xff009448);
+  static const Color green01=Color(0xff049647);
   static const Color dark=Color(0xff252525);
   static const Color orange=Color(0xffFFC94D);
   static const Color pink=Color(0xffF59398);

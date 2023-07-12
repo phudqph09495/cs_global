@@ -20,9 +20,9 @@ import 'package:flutter_html/flutter_html.dart';
 import 'detailNews_screen.dart';
 
 class ListSerScreen extends StatefulWidget {
-  int initIndex;
+  String title;
   String id;
-  ListSerScreen({required this.initIndex, required this.id});
+  ListSerScreen({required this.title, required this.id});
 
   @override
   State<ListSerScreen> createState() => _ListSerScreenState();
@@ -30,7 +30,7 @@ class ListSerScreen extends StatefulWidget {
 
 class _ListSerScreenState extends State<ListSerScreen>
     with TickerProviderStateMixin {
-  BlocListServiceCate blocListSerCate = BlocListServiceCate()..add(GetData());
+  // BlocListServiceCate blocListSerCate = BlocListServiceCate()..add(GetData());
   BlocListService blocListService=BlocListService();
   @override
   void initState() {
@@ -49,77 +49,89 @@ class _ListSerScreenState extends State<ListSerScreen>
           backgroundColor: ColorApp.green00,
           centerTitle: true,
           title: Text(
-            'Dịch vụ',
+            widget.title.toUpperCase(),
             style: StyleApp.textStyle500(color: Colors.white, fontSize: 22,),
           ),
         ),
-        body: SingleChildScrollView(
+body: Stack(
+  children: [
+    Container(
+      width: double.infinity,
+      height: MediaQuery.of(context).size.height * 5,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/bg.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
+    ),
+             SingleChildScrollView(
           child: Column(
             children: [
 
-              BlocBuilder(
-                  bloc: blocListSerCate,
-                  builder: (_, StateBloc state) {
-                    if (state is LoadSuccess) {
-                      ModelListServiceCate model = state.data;
-                      TabController? _tabController = TabController(
-                          length: model.serviceCate!.length,
-                          vsync: this,
-                          initialIndex: widget.initIndex);
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border(bottom: BorderSide(
-                                color: Color(0xffDDDDDD)
-                              ))
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: TabBar(
-                              isScrollable: true,
-                              controller: _tabController,
-                              onTap: (value) {
-                                blocListService.add(GetData(param: model.serviceCate![value].id.toString()));
-
-                                // blocListNews.add(GetData(
-                                //     param: model.serviceCate![value].id.toString()));
-                              },
-                              indicator: BoxDecoration(
-
-                                color: ColorApp.green00,
-                              ),
-                              labelPadding:
-
-                              const EdgeInsets.symmetric(horizontal: 10),
-                              labelStyle: StyleApp.textStyle700(fontSize: 16),
-                              indicatorColor: Colors.transparent,
-                              unselectedLabelStyle:
-                              StyleApp.textStyle500(fontSize: 14),
-                              labelColor: ColorApp.whiteF7,
-                              unselectedLabelColor: Colors.black,
-                              tabs: <Widget>[
-                                ...List.generate(
-                                  model.serviceCate!.length,
-                                      (index) => Tab(
-                                    child: Text(
-                                      model.serviceCate![index].name ?? '',
-                                    ),
-                                  ),
-                                )
-                                // Tab(
-                                //   child: Text(
-                                //     'Chi tiết',
-                                //   ),
-                                // ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                    return SizedBox();
-                  }),
+              // BlocBuilder(
+              //     bloc: blocListSerCate,
+              //     builder: (_, StateBloc state) {
+              //       if (state is LoadSuccess) {
+              //         ModelListServiceCate model = state.data;
+              //         TabController? _tabController = TabController(
+              //             length: model.serviceCate!.length,
+              //             vsync: this,
+              //             initialIndex: widget.title);
+              //         return Padding(
+              //           padding: const EdgeInsets.symmetric(vertical: 8),
+              //           child: Container(
+              //             decoration: BoxDecoration(
+              //                 border: Border(bottom: BorderSide(
+              //                   color: Color(0xffDDDDDD)
+              //                 ))
+              //             ),
+              //             child: Padding(
+              //               padding: const EdgeInsets.symmetric(horizontal: 8),
+              //               child: TabBar(
+              //                 isScrollable: true,
+              //                 controller: _tabController,
+              //                 onTap: (value) {
+              //                   blocListService.add(GetData(param: model.serviceCate![value].id.toString()));
+              //
+              //                   // blocListNews.add(GetData(
+              //                   //     param: model.serviceCate![value].id.toString()));
+              //                 },
+              //                 indicator: BoxDecoration(
+              //
+              //                   color: ColorApp.green00,
+              //                 ),
+              //                 labelPadding:
+              //
+              //                 const EdgeInsets.symmetric(horizontal: 10),
+              //                 labelStyle: StyleApp.textStyle700(fontSize: 16),
+              //                 indicatorColor: Colors.transparent,
+              //                 unselectedLabelStyle:
+              //                 StyleApp.textStyle500(fontSize: 14),
+              //                 labelColor: ColorApp.whiteF7,
+              //                 unselectedLabelColor: Colors.black,
+              //                 tabs: <Widget>[
+              //                   ...List.generate(
+              //                     model.serviceCate!.length,
+              //                         (index) => Tab(
+              //                       child: Text(
+              //                         model.serviceCate![index].name ?? '',
+              //                       ),
+              //                     ),
+              //                   )
+              //                   // Tab(
+              //                   //   child: Text(
+              //                   //     'Chi tiết',
+              //                   //   ),
+              //                   // ),
+              //                 ],
+              //               ),
+              //             ),
+              //           ),
+              //         );
+              //       }
+              //       return SizedBox();
+              //     }),
               BlocBuilder(
                 builder: (_, StateBloc state) {
                   if (state is LoadSuccess) {
@@ -172,9 +184,16 @@ Const.launchURL('${model.services![index].link}');
                                                 maxLines: 2,
                                                 style:
                                                 StyleApp.textStyle600(
+                                                    color: Colors.black,
+                                                    fontSize: 18),
+                                              ),
+                                              Text(
+                                                '${Const.convertTime('${model.services![index].createdAt}')}',
+                                                style:
+                                                StyleApp.textStyle400(
                                                     color: ColorApp
                                                         .dark500,
-                                                    fontSize: 18),
+                                                    fontSize: 12),
                                               ),
                                               Row(
                                                 mainAxisAlignment:
@@ -189,14 +208,7 @@ Const.launchURL('${model.services![index].link}');
                                                             .dark500,
                                                         fontSize: 12),
                                                   ),
-                                                  Text(
-                                                    '${Const.convertTime('${model.services![index].createdAt}')}',
-                                                    style:
-                                                    StyleApp.textStyle400(
-                                                        color: ColorApp
-                                                            .dark500,
-                                                        fontSize: 12),
-                                                  ),
+
                                                 ],
                                               ),
                                             ],
@@ -223,6 +235,180 @@ Const.launchURL('${model.services![index].link}');
               )
             ],
           ),
-        ));
+        )
+  ],
+),
+//         body: SingleChildScrollView(
+//           child: Column(
+//             children: [
+//
+//               BlocBuilder(
+//                   bloc: blocListSerCate,
+//                   builder: (_, StateBloc state) {
+//                     if (state is LoadSuccess) {
+//                       ModelListServiceCate model = state.data;
+//                       TabController? _tabController = TabController(
+//                           length: model.serviceCate!.length,
+//                           vsync: this,
+//                           initialIndex: widget.initIndex);
+//                       return Padding(
+//                         padding: const EdgeInsets.symmetric(vertical: 8),
+//                         child: Container(
+//                           decoration: BoxDecoration(
+//                               border: Border(bottom: BorderSide(
+//                                 color: Color(0xffDDDDDD)
+//                               ))
+//                           ),
+//                           child: Padding(
+//                             padding: const EdgeInsets.symmetric(horizontal: 8),
+//                             child: TabBar(
+//                               isScrollable: true,
+//                               controller: _tabController,
+//                               onTap: (value) {
+//                                 blocListService.add(GetData(param: model.serviceCate![value].id.toString()));
+//
+//                                 // blocListNews.add(GetData(
+//                                 //     param: model.serviceCate![value].id.toString()));
+//                               },
+//                               indicator: BoxDecoration(
+//
+//                                 color: ColorApp.green00,
+//                               ),
+//                               labelPadding:
+//
+//                               const EdgeInsets.symmetric(horizontal: 10),
+//                               labelStyle: StyleApp.textStyle700(fontSize: 16),
+//                               indicatorColor: Colors.transparent,
+//                               unselectedLabelStyle:
+//                               StyleApp.textStyle500(fontSize: 14),
+//                               labelColor: ColorApp.whiteF7,
+//                               unselectedLabelColor: Colors.black,
+//                               tabs: <Widget>[
+//                                 ...List.generate(
+//                                   model.serviceCate!.length,
+//                                       (index) => Tab(
+//                                     child: Text(
+//                                       model.serviceCate![index].name ?? '',
+//                                     ),
+//                                   ),
+//                                 )
+//                                 // Tab(
+//                                 //   child: Text(
+//                                 //     'Chi tiết',
+//                                 //   ),
+//                                 // ),
+//                               ],
+//                             ),
+//                           ),
+//                         ),
+//                       );
+//                     }
+//                     return SizedBox();
+//                   }),
+//               BlocBuilder(
+//                 builder: (_, StateBloc state) {
+//                   if (state is LoadSuccess) {
+//                     ModelListService model = state.data;
+//                     return ListView.builder(
+//                         shrinkWrap: true,
+//                         physics: NeverScrollableScrollPhysics(),
+//                         itemBuilder: (context, index) => Padding(
+//                           padding:
+//                           const EdgeInsets.symmetric(horizontal: 8),
+//                           child: InkWell(
+//                             onTap: () {
+// Const.launchURL('${model.services![index].link}');
+//                             },
+//                             child: Card(
+//                               child: Padding(
+//                                 padding: const EdgeInsets.all(8),
+//                                 child: Row(
+//                                   crossAxisAlignment: CrossAxisAlignment.start,
+//                                   children: [
+//                                     Expanded(
+//                                       flex: 10,
+//                                       child: SizedBox(
+//                                         width:
+//                                         Const.sizeWidth(context, 65),
+//                                         height:
+//                                         Const.sizeWidth(context, 65),
+//                                         child: LoadImage(
+//                                           url:
+//                                           '${Const.image_host}${model.services![index].image}',
+//                                           fit: BoxFit.fitHeight,
+//                                         ),
+//                                       ),
+//                                     ),
+//                                     SizedBox(
+//                                       width: 10,
+//                                     ),
+//                                     Expanded(
+//                                         flex: 20,
+//                                         child: SizedBox(
+//                                           height:
+//                                           Const.sizeWidth(context, 65),
+//                                           child: Column(
+//                                             crossAxisAlignment: CrossAxisAlignment.start,
+//                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                                             children: [
+//                                               Text(
+//                                                 '${model.services![index].name}'
+//                                                     .toUpperCase(),
+//                                                 maxLines: 2,
+//                                                 style:
+//                                                 StyleApp.textStyle600(
+//                                                     color: Colors.black,
+//                                                     fontSize: 18),
+//                                               ),
+//                                               Text(
+//                                                 '${Const.convertTime('${model.services![index].createdAt}')}',
+//                                                 style:
+//                                                 StyleApp.textStyle400(
+//                                                     color: ColorApp
+//                                                         .dark500,
+//                                                     fontSize: 12),
+//                                               ),
+//                                               Row(
+//                                                 mainAxisAlignment:
+//                                                 MainAxisAlignment
+//                                                     .spaceBetween,
+//                                                 children: [
+//                                                   Text(
+//                                                     '',
+//                                                     style:
+//                                                     StyleApp.textStyle400(
+//                                                         color: ColorApp
+//                                                             .dark500,
+//                                                         fontSize: 12),
+//                                                   ),
+//
+//                                                 ],
+//                                               ),
+//                                             ],
+//                                           ),
+//                                         )),
+//                                   ],
+//                                 ),
+//                               ),
+//                             ),
+//                           ),
+//                         ),
+//                         itemCount: model.services!.length);
+//                   }
+//                   if (state is Loading) {
+//                     return Center(
+//                       child: CircularProgressIndicator(
+//                         color: ColorApp.main,
+//                       ),
+//                     );
+//                   }
+//                   return SizedBox();
+//                 },
+//                 bloc: blocListService,
+//               )
+//             ],
+//           ),
+//         )
+    );
   }
 }

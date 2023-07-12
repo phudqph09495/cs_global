@@ -1,6 +1,5 @@
-
+import 'package:cs_global/model/model_profile.dart';
 import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../config/api.dart';
@@ -10,35 +9,26 @@ import '../../model/model_login.dart';
 import '../event_bloc.dart';
 import '../state_bloc.dart';
 
-class BlocLogin extends Bloc<EventBloc, StateBloc> {
-  BlocLogin() : super(StateBloc());
+
+class BlocCancelOrder extends Bloc<EventBloc, StateBloc> {
+  BlocCancelOrder() : super(StateBloc());
 
   @override
   Stream<StateBloc> mapEventToState(EventBloc event) async* {
-    if (event is LoginApp) {
+    if (event is GetData) {
       yield Loading();
       try {
         Map<String, dynamic> req = Map();
-        req['userName'] = event.userName;
-        req['password'] = event.password;
-        String token='';
-await FirebaseMessaging.instance.getToken().then((value) => {
-  token=value.toString()
-});
-req['device_token']=token;
-        var res = await Api.postAsync(endPoint: ApiPath.login, req: req,);
-
-
-        if (res['status'] == 'success'){
-
-          ModelLogin model = ModelLogin.fromJson(res['data']);
-
-
-          yield LoadSuccess(
-            data: model,
-          );
+        req['orderId']=event.param;
+        print(req);
+        var res = await Api.postAsync(
+          endPoint: ApiPath.cancelOrder,
+          req: req,
+        );
+        print(res);
+        if (res['status'] == 'success') {
+          yield LoadSuccess();
         } else if (res['status'] == 'error') {
-
           yield LoadFail(error: res['message'] ?? "Lỗi kết nối");
         }
       } on DioError catch (e) {

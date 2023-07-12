@@ -66,7 +66,7 @@ class _CheckCodeScreenState extends State<CheckCodeScreen> {
                       SizedBox(height: 25,),
                       InputText1(
                         radius: 5,
-
+colorShadow: Colors.transparent,
                         controller: phone,
                         label: 'Mã giới thiệu',
                         hasLeading: true,
@@ -76,56 +76,49 @@ class _CheckCodeScreenState extends State<CheckCodeScreen> {
                         iconPreFix: Icon(FontAwesomeIcons.rotate),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(),
-                          BlocListener(
-                            bloc: blocGetOTP,
-                            listener: (_, StateBloc state) {
-                              CheckLogState.check(context,
-                                  state: state,
-                                  msg: state is LoadSuccess
-                                      ? state.mess
-                                      : 'Thành Công',
-                                  success: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpScreen(code: phone.text,)));
-                                  });
-                            },
-                            child: InkWell(
-                              onTap: () {
+                      BlocListener(
+                        bloc: blocGetOTP,
+                        listener: (_, StateBloc state) {
+                          CheckLogState.check(context,
+                              state: state,
+                              msg: state is LoadSuccess
+                                  ? state.mess
+                                  : 'Thành Công',
+                              success: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpScreen(code: phone.text,)));
+                              });
+                        },
+                        child: InkWell(
+                          onTap: () {
 
-                                if (keyFormCheck.currentState!.validate()) {
-                                  blocGetOTP.add(GetData(param: phone.text));
-                                  // Const.showScreen(
-                                  //     OTPModal(
-                                  //       phone: phone.text,
-                                  //     ),
-                                  //     context);
-                                }
-                              },
-                              child: Row(
-                                children: [
-
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius: BorderRadius.circular(12)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.arrow_forward_rounded,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  )
-                                ],
+                            if (keyFormCheck.currentState!.validate()) {
+                              blocGetOTP.add(GetData(param: phone.text));
+                              // Const.showScreen(
+                              //     OTPModal(
+                              //       phone: phone.text,
+                              //     ),
+                              //     context);
+                            }
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                color: ColorApp.green00,
+                                borderRadius: BorderRadius.circular(5)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              child: Text(
+                                'TIẾP THEO',
+                                style: StyleApp.textStyle500(
+                                    color: Colors.white
+                                ),textAlign: TextAlign.center,
                               ),
                             ),
-                          )
-                        ],
+                          ),
+                        ),
                       )
                     ],
                   ),

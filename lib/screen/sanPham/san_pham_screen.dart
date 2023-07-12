@@ -32,7 +32,7 @@ class _SanPhamScreenState extends State<SanPhamScreen> {
         centerTitle: true,
         backgroundColor: ColorApp.green00,
         title: Text(
-          'Sản phẩm',
+          'Sản phẩm'.toUpperCase(),
           style: StyleApp.textStyle500(fontSize: 20, color: Colors.white),
         ),
       ),
