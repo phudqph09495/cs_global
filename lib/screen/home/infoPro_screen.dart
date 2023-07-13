@@ -472,7 +472,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                           child: SingleChildScrollView(
                                             child: HtmlWidget(
                                               '${modelInfoPro.product!.descript}',
-                                              textStyle: StyleApp.textStyle500(),
+                                        textStyle: StyleApp.textStyle500(),
                                               customWidgetBuilder: (ele) {
                                                 if (ele.attributes['src'] !=
                                                         null &&
@@ -554,6 +554,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                     child: SingleChildScrollView(
                                       child: HtmlWidget(
                                         '${modelInfoPro.product!.manualUser}',
+                                        textStyle: StyleApp.textStyle500(),
                                         customWidgetBuilder: (ele) {
                                           if (ele.attributes['src'] !=
                                               null &&
@@ -637,6 +638,7 @@ class _InfoProdScreenState extends State<InfoProdScreen>
                                       child: HtmlWidget(
                                         '${modelInfoPro.product!.legalInfo}',
                                         textStyle: StyleApp.textStyle500(),
+
                                         customWidgetBuilder: (ele) {
                                           if (ele.attributes['src'] !=
                                               null &&

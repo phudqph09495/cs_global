@@ -37,6 +37,7 @@ import '../../widget/item/custom_toast.dart';
 import '../../widget/item/load_image.dart';
 import '../../widget/loadPage/item_loadfaild.dart';
 import '../cart/gio_hang_screen.dart';
+import '../notify/listNoti_screen.dart';
 import 'infoPro_screen.dart';
 import 'item/product_item.dart';
 import 'listPro_screen.dart';
@@ -218,11 +219,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
                             Stack(
                               children: [
-                                const Padding(
-                                  padding: EdgeInsets.all(3.0),
-                                  child: Icon(
-                                    Icons.notifications_none_outlined,
-                                    color: Colors.white,
+                                InkWell(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ListNotiScreen()));
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(3.0),
+                                    child: Icon(
+                                      Icons.notifications_none_outlined,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                                 // Positioned(
@@ -851,7 +857,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   },
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
-                                  itemCount: model.newsCate!.length,
+                                  itemCount: 5,
                                 ),
                               );
                               // return GridView.builder(

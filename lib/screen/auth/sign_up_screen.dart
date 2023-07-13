@@ -78,9 +78,12 @@ BlocGetOTP blocGetOTP=BlocGetOTP();
               ),
             ),
           ),
-          Positioned(top: 30,left: 10,child: InkWell(onTap: (){
+          InkWell(onTap: (){
             Navigator.pop(context);
-          },child: Icon(Icons.arrow_back_ios_new))),
+          },child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 40,horizontal: 30),
+            child: Icon(Icons.arrow_back_ios_new),
+          )),
           Padding(
             padding: EdgeInsets.only( left: 12, right: 12),
             child: Center(

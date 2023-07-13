@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
+import '../../config/const.dart';
 import '../../styles/init_style.dart';
+import '../../widget/item/dialog_item.dart';
 
 class DetailNewsScreen extends StatefulWidget {
   String title;
@@ -23,14 +26,21 @@ class _DetailNewsScreenState extends State<DetailNewsScreen> {
         title: Text(
           widget.title,
           maxLines: 1,
-          style: StyleApp.textStyle400(color: Colors.black, fontSize: 22),
+          style: StyleApp.textStyle400(color: Colors.white, fontSize: 22),
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(8),
-          child: Html(
-            data: widget.dess,
+          child: HtmlWidget(
+             widget.dess,
+              onTapUrl: (url)
+            async{
+
+               await Const.launchURL(url);
+
+               return false;
+            }
           ),
         ),
       ),

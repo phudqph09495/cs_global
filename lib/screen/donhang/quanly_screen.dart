@@ -126,18 +126,9 @@ class _QuanLyScreenState extends State<QuanLyScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ChiTietScreen(
-                                              totalPrice: model.orders![index].totalPrice??'0',
-                                              name: model.orders![index].customerName??'',
+
                                               id: model.orders![index].id.toString(),
-                                              ship: model.orders![index].shipmentPrice??'0',
-                                              address: model.orders![index].customerAddress??'',
-                                              code: model.orders![index].code??'',
-                                              district: model.orders![index].district??'',
-                                              region: model.orders![index].region??'',
-                                              status: model.orders![index].status??'',
-                                              phone: model.orders![index].customerPhone??'',
-                                              couponPrice: model.orders![index].couponPrice??'0',
-                                              productPrice: model.orders![index].totalProductPrice??'0'
+
 
                                           )));
                                 },

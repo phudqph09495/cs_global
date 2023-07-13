@@ -41,9 +41,12 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
               image: DecorationImage(image: AssetImage("assets/images/bg.png"), fit: BoxFit.cover,),
             ),
           ),
-          Positioned(top: 30,left: 10,child: InkWell(onTap: (){
+          InkWell(onTap: (){
             Navigator.pop(context);
-          },child: Icon(Icons.arrow_back_ios_new))),
+          },child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 40,horizontal: 30),
+            child: Icon(Icons.arrow_back_ios_new),
+          )),
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Form(

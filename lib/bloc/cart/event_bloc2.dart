@@ -13,9 +13,13 @@ class Reduce extends EventBloc2{
 }
 class ClearAll extends EventBloc2{}
 class GetCart extends EventBloc2{
-
+String type;
+GetCart({this.type='ban_than'});
 }
 class CreateOrder extends EventBloc2 {
+  String? type;
+  String? receiver_name;
+  String? receiver_phone;
   String? district;
   String? region;
   String? address;
@@ -37,6 +41,7 @@ class CreateOrder extends EventBloc2 {
         this.shipmentCost,
         this.totalProductPrice,
         this.totalPrice,
+        this.type,this.receiver_name,this.receiver_phone
         // this.score
       });
 
@@ -61,6 +66,9 @@ class CreateOrder extends EventBloc2 {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['type']=this.type;
+    data['receiver_name']=this.receiver_name;
+    data['receiver_phone']=this.receiver_phone;
     data['district'] = this.district;
     data['region'] = this.region;
     data['address'] = this.address;

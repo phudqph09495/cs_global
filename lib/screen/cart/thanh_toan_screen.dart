@@ -13,6 +13,7 @@ import 'package:cs_global/widget/item/custom_toast.dart';
 import 'package:cs_global/widget/item/input/text_filed.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:group_button/group_button.dart';
 
 import '../../bloc/auth/bloc_profile.dart';
 import '../../bloc/cart/bloc_cart.dart';
@@ -45,11 +46,23 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
   BlocPhiShip blocPhiShip = BlocPhiShip();
   TextEditingController address = TextEditingController();
   BlocAddCoupon blocAddCoupon = BlocAddCoupon();
-  Coupon coupon=Coupon();
+  Coupon coupon = Coupon();
   int ship = 0;
   int voucherINT = 0;
+  String type = 'ban_than';
   BlocProfile blocProfile = BlocProfile()..add(GetData());
   BlocOrder blocOrder = BlocOrder();
+  final controller = GroupButtonController();
+
+  TextEditingController KHname = TextEditingController();
+  TextEditingController KHAdd = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.selectIndex(0);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BlocCartLocal, StateBloc>(
@@ -69,7 +82,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
           int sum = state.data2;
           List<ModelInfoPro> listInfo = state.data3;
           int discount = state.data4;
-
+          bool khach_hang = state.type;
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
@@ -102,12 +115,13 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => MyHomePage()));
+                                                builder: (context) =>
+                                                    MyHomePage()));
                                       },
                                       child: Container(
                                           width: double.infinity,
-                                          decoration:
-                                          BoxDecoration(color: Colors.green),
+                                          decoration: BoxDecoration(
+                                              color: Colors.green),
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
@@ -133,6 +147,55 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                     },
                     bloc: blocProfile,
                   ),
+                  GroupButton(
+                      controller: controller,
+                      isRadio: true,
+                      onSelected: (index, isSelected, bool) {
+                        if (isSelected == 1) {
+                          context.read<BlocCartLocal>().add(GetCart(type: ''));
+                          type = 'khach_hang';
+                        } else if (isSelected == 0) {
+                          context.read<BlocCartLocal>().add(GetCart());
+                          type = 'ban_than';
+                        }
+                      },
+                      buttons: ['Đặt cho bản thân', 'Đặt cho khách'],
+                      options: GroupButtonOptions(
+                          unselectedBorderColor: ColorApp.green00,
+                          selectedTextStyle:
+                              StyleApp.textStyle500(color: Colors.white),
+                          selectedColor: ColorApp.green00,
+                          unselectedTextStyle:
+                              StyleApp.textStyle500(color: ColorApp.green00),
+                          borderRadius: BorderRadius.circular(20),
+                          spacing: (MediaQuery.of(context).size.width) * 0.02,
+                          buttonWidth:
+                              (MediaQuery.of(context).size.width) * 0.42)),
+                  khach_hang == true
+                      ? Padding(
+                          padding: EdgeInsets.all(5),
+                          child: Column(
+                            children: [
+                              InputText1(
+                                  label: 'Họ tên KH',
+                                  radius: 5,
+                                  controller: KHname,
+                                  colorShadow: Colors.transparent,
+                                  colorLabel: ColorApp.dark500),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              InputText1(
+                                label: 'SĐT khách',
+                                radius: 5,
+                                controller: KHAdd,
+                                colorShadow: Colors.transparent,
+                                colorLabel: ColorApp.dark500,
+                              )
+                            ],
+                          ),
+                        )
+                      : SizedBox(),
                   Card(
                     child: Column(
                       children: [
@@ -561,7 +624,9 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                                     'Thanh toán qua VNPay',
                                                     style:
                                                         StyleApp.textStyle600(
-                                                          color: Colors.black.withOpacity(0.3),
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.3),
                                                             fontSize: 16),
                                                   ),
                                                   // Radio(
@@ -595,7 +660,10 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                                         'Thanh toán qua ví CS',
                                                         style: StyleApp
                                                             .textStyle600(
-                                                                fontSize: 16,  color: Colors.black.withOpacity(0.3),),
+                                                          fontSize: 16,
+                                                          color: Colors.black
+                                                              .withOpacity(0.3),
+                                                        ),
                                                       ),
                                                       Row(
                                                         children: [
@@ -603,8 +671,12 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                                             'Số dư ví(VNĐ): ',
                                                             style: StyleApp
                                                                 .textStyle600(
-                                                                    fontSize:
-                                                                        16 , color: Colors.black.withOpacity(0.3),),
+                                                              fontSize: 16,
+                                                              color: Colors
+                                                                  .black
+                                                                  .withOpacity(
+                                                                      0.3),
+                                                            ),
                                                           ),
                                                           BlocBuilder(
                                                             builder: (_,
@@ -618,11 +690,13 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                                                       : ModelProfile();
                                                               return Text(
                                                                 ' ${Const.convertPrice(model.profile!.balance)} đ',
-                                                                style: StyleApp
-                                                                    .textStyle600(
-                                                                  color: Colors.black.withOpacity(0.3),
-                                                                        fontSize:
-                                                                            16),
+                                                                style: StyleApp.textStyle600(
+                                                                    color: Colors
+                                                                        .black
+                                                                        .withOpacity(
+                                                                            0.3),
+                                                                    fontSize:
+                                                                        16),
                                                               );
                                                             },
                                                             bloc: blocProfile,
@@ -753,7 +827,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        '${Const.ConvertPrice.format(int.parse('${listInfo[index].product!.discountPrice}'))} đ x ${list[index].amount}',
+                                        '${Const.ConvertPrice.format(int.parse('${khach_hang==true?listInfo[index].product!.price:listInfo[index].product!.discountPrice}'))} đ x ${list[index].amount}',
                                         style: StyleApp.textStyle600(
                                             color: ColorApp.dark500,
                                             fontSize: 14),
@@ -761,7 +835,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                       Row(
                                         children: [
                                           Text(
-                                              '   ${Const.ConvertPrice.format(int.parse('${listInfo[index].product!.discountPrice}') * list[index].amount!)}  đ  '),
+                                              '   ${Const.ConvertPrice.format(int.parse('${khach_hang==true?listInfo[index].product!.price:listInfo[index].product!.discountPrice}') * list[index].amount!)}  đ  '),
                                         ],
                                       )
                                     ],
@@ -778,7 +852,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                     itemCount: listInfo.length,
                   ),
                   SizedBox(
-                    height: 155,
+                    height: 200,
                   )
                   // ...List.generate(list.length, (index) => Text(
                   //    '${list[index].id} - ${list[index].amount}',
@@ -889,17 +963,17 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                       listener: (_, StateBloc stateOrder) {
                         CheckLogState.check(context,
                             state: stateOrder,
-                            msg: 'Đặt hàng thành công',
-                            success: () {
-                              context
-                                  .read<BlocCartLocal>()
-                                  .add(ClearAll());
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyHomePage()));
-                            });
+                            msg: 'Đặt hàng thành công', success: () {
+                          context.read<BlocCartLocal>().add(ClearAll());
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyHomePage()));
+                        });
                       },
                       child: InkWell(
                         onTap: () {
-                          int gia=sum + ship - voucherINT;
+                          int gia = sum + ship - voucherINT;
                           List<Products> products = [];
                           if (tinhS == 'Chọn tỉnh/TP' ||
                               huyenS == 'Chọn quận/huyện' ||
@@ -912,11 +986,14 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                               products.add(Products(
                                   quanty: list[i].amount,
                                   price: int.parse(
-                                      listInfo[i].product!.discountPrice ??
-                                          '0'),
+                                     '${khach_hang==true?listInfo[i].product!.price:listInfo[i].product!.discountPrice}'
+                                          ),
                                   productInfo: listInfo[i].product));
                             }
                             blocOrder.add(CreateOrder(
+                              type: type,
+                                receiver_name: KHname.text,
+                                receiver_phone: KHAdd.text,
                                 region: tinhS,
                                 coupon: coupon,
                                 district: huyenS,
@@ -926,7 +1003,6 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                 totalProductPrice: sum,
                                 freeShip: 'false',
                                 totalPrice: gia));
-
                           }
                         },
                         child: Container(

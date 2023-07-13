@@ -14,6 +14,7 @@ String? token;
   bool hasMore;
   bool cuoi;
   bool checkLength;
+  bool type;
 
 
   LoadSuccess({
@@ -23,6 +24,7 @@ String? token;
     this.code,
     this.mess,
     this.data4,
+    this.type=false,
     this.data2,this.page,this.cuoi=false,
     this.checkLength = false,
     this.data3

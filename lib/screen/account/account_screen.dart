@@ -20,6 +20,8 @@ import 'package:image_picker/image_picker.dart';
 import '../../bloc/auth/bloc_deleteAcc.dart';
 import '../../bloc/auth/bloc_updateProfile.dart';
 import '../../bloc/choose_image_bloc.dart';
+import '../../bloc/news/bloc_listnews.dart';
+import '../../bloc/news/model_listNews.dart';
 import '../../bloc/state_bloc.dart';
 import '../../config/path/share_pref_path.dart';
 import '../../start.dart';
@@ -27,6 +29,8 @@ import '../../styles/init_style.dart';
 import '../../widget/item/load_image.dart';
 import '../../widget/loadPage/item_loadfaild.dart';
 import '../auth/auth_screen.dart';
+import '../home/detailNews_screen.dart';
+import '../home/list_new_screen.dart';
 import 'changPass_screen.dart';
 import 'package:flutter_exit_app/flutter_exit_app.dart';
 
@@ -48,7 +52,7 @@ class _AccountScreenState extends State<AccountScreen> {
   ChooseImageBloc chooseImageBloc = ChooseImageBloc();
   BlocUpdateProfile blocUpdateProfile = BlocUpdateProfile();
   BlocDeleteAcc blocDeleteAcc = BlocDeleteAcc();
-
+  BlocListNews blocListNews = BlocListNews()..add(GetData(param: '6'));
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,6 +63,7 @@ class _AccountScreenState extends State<AccountScreen> {
             return RefreshIndicator(
               onRefresh: () async {
                 blocProfile.add(GetData());
+                blocListNews.add(GetData(param: '6'));
               },
               child: SingleChildScrollView(
                 child: Column(
@@ -614,161 +619,238 @@ class _AccountScreenState extends State<AccountScreen> {
                           const SizedBox(
                             height: 10,
                           ),
-                          Container(
-                            width: double.infinity,
-                            height: 70,
-                            decoration: BoxDecoration(
-                                color: ColorApp.greyE6,
-                                borderRadius: BorderRadius.circular(40)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 2),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Image.asset(
-                                        'assets/images/quydinh.png',
-                                        height: 30,
-                                        width: 30,
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        'Quy Định App CS Global',
-                                        style:
-                                            StyleApp.textStyle700(fontSize: 16),
-                                      ),
-                                    ],
+                          BlocBuilder(builder: (_,StateBloc state1){
+                            if(state1 is LoadSuccess){
+                              ModelListNews model =
+                                  state1.data;
+                              return InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DetailNewsScreen(
+                                                title:
+                                                '${model.allNews![0].title}',
+                                                dess:
+                                                '${model.allNews![0].descript}',
+                                              )));
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 70,
+                                  decoration: BoxDecoration(
+                                      color: ColorApp.greyE6,
+                                      borderRadius: BorderRadius.circular(40)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 2),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Image.asset(
+                                              'assets/images/quydinh.png',
+                                              height: 30,
+                                              width: 30,
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              '${model.allNews![0].title}',
+                                              style:
+                                              StyleApp.textStyle700(fontSize: 16),
+                                            ),
+                                          ],
+                                        ),
+                                        const FaIcon(FontAwesomeIcons.longArrowRight)
+                                      ],
+                                    ),
                                   ),
-                                  const FaIcon(FontAwesomeIcons.longArrowRight)
-                                ],
+                                ),
+                              );
+                            }
+                            return SizedBox();
+                          },bloc: blocListNews,),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          BlocBuilder(builder: (_,StateBloc state1){
+                            if(state1 is LoadSuccess){
+                              ModelListNews model =
+                                  state1.data;
+                              return InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DetailNewsScreen(
+                                                title:
+                                                '${model.allNews![1].title}',
+                                                dess:
+                                                '${model.allNews![1].descript}',
+                                              )));
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 70,
+                                  decoration: BoxDecoration(
+                                      color: ColorApp.greyE6,
+                                      borderRadius: BorderRadius.circular(40)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 2),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Image.asset(
+                                              'assets/images/htkh.png',
+                                              height: 30,
+                                              width: 30,
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              '${model.allNews![1].title}',
+                                              style:
+                                              StyleApp.textStyle700(fontSize: 16),
+                                            ),
+                                          ],
+                                        ),
+                                        const FaIcon(FontAwesomeIcons.longArrowRight)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return SizedBox();
+                          },bloc: blocListNews,),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          InkWell(
+                            onTap: (){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ListNewsScreen(
+                                            title:'Tin Túc Về CS Global' ,
+                                            id:'6',
+                                          )));
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                  color: ColorApp.greyE6,
+                                  borderRadius: BorderRadius.circular(40)),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 2),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Image.asset(
+                                            'assets/images/LogoTrang.png'),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          'Tin Túc Về CS Global',
+                                          style:
+                                          StyleApp.textStyle700(fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                    const FaIcon(FontAwesomeIcons.longArrowRight)
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                           const SizedBox(
                             height: 10,
                           ),
-                          Container(
-                            width: double.infinity,
-                            height: 70,
-                            decoration: BoxDecoration(
-                                color: ColorApp.greyE6,
-                                borderRadius: BorderRadius.circular(40)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 2),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Image.asset(
-                                        'assets/images/htkh.png',
-                                        height: 30,
-                                        width: 30,
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        'Hỗ Trợ Khách Hàng',
-                                        style:
-                                            StyleApp.textStyle700(fontSize: 16),
-                                      ),
-                                    ],
+                          BlocBuilder(builder: (_,StateBloc state1){
+                            if(state1 is LoadSuccess){
+                              ModelListNews model =
+                                  state1.data;
+                              return InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DetailNewsScreen(
+                                                title:
+                                                '${model.allNews![2].title}',
+                                                dess:
+                                                '${model.allNews![2].descript}',
+                                              )));
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 70,
+                                  decoration: BoxDecoration(
+                                      color: ColorApp.greyE6,
+                                      borderRadius: BorderRadius.circular(40)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 2),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Image.asset(
+                                              'assets/images/LogoTrang.png',
+
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              '${model.allNews![2].title}',
+                                              style:
+                                              StyleApp.textStyle700(fontSize: 16),
+                                            ),
+                                          ],
+                                        ),
+                                        const FaIcon(FontAwesomeIcons.longArrowRight)
+                                      ],
+                                    ),
                                   ),
-                                  const FaIcon(FontAwesomeIcons.longArrowRight)
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            width: double.infinity,
-                            height: 70,
-                            decoration: BoxDecoration(
-                                color: ColorApp.greyE6,
-                                borderRadius: BorderRadius.circular(40)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 2),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Image.asset(
-                                          'assets/images/LogoTrang.png'),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        'Tin Túc Về CS Global',
-                                        style:
-                                        StyleApp.textStyle700(fontSize: 16),
-                                      ),
-                                    ],
-                                  ),
-                                  const FaIcon(FontAwesomeIcons.longArrowRight)
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            width: double.infinity,
-                            height: 70,
-                            decoration: BoxDecoration(
-                                color: ColorApp.greyE6,
-                                borderRadius: BorderRadius.circular(40)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 2),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Image.asset(
-                                          'assets/images/LogoTrang.png'),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        'Giới Thiệu CS Global',
-                                        style:
-                                            StyleApp.textStyle700(fontSize: 16),
-                                      ),
-                                    ],
-                                  ),
-                                  const FaIcon(FontAwesomeIcons.longArrowRight)
-                                ],
-                              ),
-                            ),
-                          ),
+                                ),
+                              );
+                            }
+                            return SizedBox();
+                          },bloc: blocListNews,),
                           const SizedBox(
                             height: 20,
                           ),

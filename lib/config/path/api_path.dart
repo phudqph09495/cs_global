@@ -57,6 +57,7 @@ static const newsList='/news/index?category_id=';
 ///bank
 static const updateBank="/customer/bank/update";
 static const profileWallet="/customer/wallet-profile";
-
+/// thong bao
+static const listNoti="/customer/notify/list";
 
   }

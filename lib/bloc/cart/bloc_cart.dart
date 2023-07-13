@@ -51,6 +51,7 @@ class BlocCartLocal extends Bloc<EventBloc2, StateBloc> {
     if (event is GetCart) {
       String jsonString = prefs.getString('cart') ?? '[]';
       print(jsonString);
+      bool khach_hang=false;
       int sum = 0;
       int discount = 0;
       List<ModelInfoPro> list = [];
@@ -65,11 +66,19 @@ class BlocCartLocal extends Bloc<EventBloc2, StateBloc> {
         if (res['status'] == 'success') {
           ModelInfoPro model = ModelInfoPro.fromJson(res['data']);
           list.add(model);
-          sum = sum + item.amount! * int.parse('${model.product!.discountPrice}');
+        if(event.type=='ban_than')  {
+          khach_hang=false;
+            sum = sum +
+                item.amount! * int.parse('${model.product!.discountPrice}');
+          }else{
+          khach_hang=true;
+          sum = sum +
+              item.amount! * int.parse('${model.product!.price}');
+        }
         }
       }
       yield LoadSuccess(
-          data: objects, data2: sum, data3: list, data4: discount);
+          data: objects, data2: sum, data3: list, data4: discount,type: khach_hang);
     }
     if (event is Reduce) {
       String jsonString = prefs.getString('cart') ?? '[]';
